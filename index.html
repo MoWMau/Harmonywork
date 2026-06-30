@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Berklee Harmony Workbook v2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f8f6f0;--surf:#fff;--brd:#d4c9b0;--txt:#2a2520;--mut:#7a7060;--acc:#2563eb;--acl:#dbeafe;--ok:#16a34a;--err:#dc2626;--ph:118px;--hh:52px;--sw:248px}
+body{font-family:Georgia,serif;background:var(--bg);color:var(--txt);font-size:18px}
+#hdr{position:fixed;top:0;left:0;right:0;height:var(--hh);background:#1e3a5f;color:#fff;display:flex;align-items:center;padding:0 14px;gap:10px;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+#hdr h1{font-size:1rem;flex:1;line-height:1.3}
+#hdr h1 small{font-size:.8rem;opacity:.65;font-weight:normal;display:block}
+.hbtn{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:.88rem}
+.hbtn:hover{background:rgba(255,255,255,.3)}
+#pgtx{font-size:.86rem;opacity:.8;white-space:nowrap}
+#lay{display:flex;margin-top:var(--hh);margin-bottom:var(--ph);min-height:calc(100vh - var(--hh) - var(--ph))}
+#sb{width:var(--sw);background:#f0ece0;border-right:1px solid var(--brd);overflow-y:auto;position:fixed;top:var(--hh);bottom:var(--ph);left:0;z-index:50}
+.cbtn{display:block;width:100%;padding:9px 13px;text-align:left;border:none;background:transparent;cursor:pointer;font-size:.92rem;border-bottom:1px solid var(--brd);line-height:1.3;font-family:Georgia,serif;color:var(--txt)}
+.cbtn:hover{background:#e5e0d0}
+.cbtn.act{background:var(--acl);border-left:3px solid var(--acc);color:#1e40af;font-weight:bold}
+.cbtn .pg{font-size:.78rem;color:var(--mut);display:block;margin-top:2px}
+.cbtn .cp{float:right;font-size:.78rem;color:var(--mut)}
+#mn{flex:1;margin-left:var(--sw);padding:16px 18px;max-width:860px}
+.chdr{padding:6px 0 10px;border-bottom:2px solid var(--brd);margin-bottom:14px}
+.chdr h2{font-size:1.3rem;color:#1e3a5f}
+.chdr p{font-size:.95rem;color:var(--mut);margin-top:3px}
+.pb{background:var(--surf);border:1px solid var(--brd);border-radius:7px;padding:18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.pnum{font-size:.8rem;color:var(--mut);font-family:monospace;margin-bottom:6px}
+.pq{font-size:1.08rem;margin-bottom:10px;line-height:1.6}
+.pq .ko{display:block}
+.pq .en{display:block;font-size:.95rem;color:var(--mut);margin-top:3px}
+.sw{overflow-x:auto;margin:6px 0;background:#fff;border-radius:4px;border:1px solid #e8e0d0}
+.ssv{display:block}
+.ssv.ck{cursor:crosshair}
+.pb.actv{border-color:var(--acc)!important;box-shadow:0 0 0 2.5px var(--acl);}
+#pia_lbl{position:absolute;top:3px;left:8px;color:#94a3b8;font-size:.72rem;pointer-events:none;white-space:nowrap}
+#pia{position:relative}
+.nti{font-size:.95rem;font-family:monospace;padding:5px 9px;border:1.5px solid var(--brd);border-radius:4px;background:#fff;width:260px}
+.nti:focus{outline:none;border-color:var(--acc)}
+.abar{display:flex;gap:5px;margin:5px 0;align-items:center;flex-wrap:wrap}
+.ab{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:4px;background:#fff;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;font-family:"FreeSerif",serif;transition:.1s}
+.ab:hover{background:var(--acl);border-color:var(--acc)}
+.ab.sl{background:var(--acc);color:#fff;border-color:var(--acc)}
+.ahl{font-size:.9rem;color:var(--mut)}
+.ar{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.btn{padding:7px 16px;border-radius:5px;border:none;cursor:pointer;font-size:.97rem;font-family:Georgia,serif;transition:.1s}
+.bp{background:var(--acc);color:#fff}.bp:hover{background:#1d4ed8}
+.bs{background:#f0ece0;border:1px solid var(--brd);color:var(--txt)}.bs:hover{background:#e5e0d0}
+.bpl{background:#7c3aed;color:#fff}.bpl:hover{background:#6d28d9}
+.bc{background:#fff;border:1px solid var(--brd);color:var(--mut)}.bc:hover{background:#f5f0e8}
+.fb{margin-top:8px;padding:10px 14px;border-radius:5px;font-size:1rem;display:none}
+.fok{background:#dcfce7;border:1px solid #86efac;color:#166534;display:block}
+.fno{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;display:block}
+.fin{background:var(--acl);border:1px solid #93c5fd;color:#1e40af;display:block}
+.ai{padding:7px 11px;border:1.5px solid var(--brd);border-radius:5px;font-size:1rem;font-family:Georgia,serif;background:#fff;width:190px}
+.ai:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 2px var(--acl)}
+.mco{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}
+.mo{padding:7px 16px;border:1.5px solid var(--brd);border-radius:14px;background:#fff;cursor:pointer;font-size:.97rem;transition:.1s;font-family:Georgia,serif}
+.mo:hover{background:var(--acl);border-color:var(--acc)}
+.mo.sl{background:var(--acc);color:#fff;border-color:var(--acc)}
+.mo.ok{background:#dcfce7;border-color:#16a34a;color:#166534}
+.mo.bad{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+.pnav{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--brd);margin-top:12px}
+#pia{position:fixed;bottom:0;left:0;right:0;height:var(--ph);background:#16213e;border-top:2px solid #2d3561;display:flex;align-items:center;justify-content:center;z-index:200;padding:6px 8px 4px;overflow:hidden}
+#psvg{overflow-x:auto;overflow-y:hidden;max-width:100%}
+#sb::-webkit-scrollbar{width:4px}
+#sb::-webkit-scrollbar-thumb{background:var(--brd);border-radius:2px}
+@media(max-width:680px){:root{--sw:0px}#sb{display:none}#mn{margin-left:0;padding:10px 12px}}
+</style>
+</head>
+<body>
+<div id="hdr">
+  <h1>Berklee Harmony Workbook <small>버클리 화성학 워크북 인터랙티브 v2</small></h1>
+  <span id="pgtx">0/0</span>
+  <button class="hbtn" onclick="A.lang()">한/EN</button>
+  <button class="hbtn" onclick="A.toggleSB()">☰</button>
+</div>
+<div id="lay">
+  <aside id="sb"><div id="chl"></div></aside>
+  <main id="mn">
+    <div class="chdr"><h2 id="cht"></h2><p id="chd"></p></div>
+    <div id="pbs"></div>
+    <div class="pnav">
+      <button class="btn bs" onclick="A.prev()">← 이전 챕터</button>
+      <span id="pct" style="color:var(--mut);font-size:.84rem"></span>
+      <button class="btn bs" onclick="A.next()">다음 챕터 →</button>
+    </div>
+  </main>
+</div>
+<div id="pia"><div id="pia_lbl">🎹 쓰기 문제의 오선을 클릭하면 건반 연동</div><div id="psvg"></div></div>
+<script>
+'use strict';
+/* ═══════════════════════════════════════════════
+   MUSIC THEORY ENGINE
+═══════════════════════════════════════════════ */
+const NL=['C','D','E','F','G','A','B'];
+const SC={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+function pn(s){const m=s.match(/^([A-G])([#b]*)(\d+)$/);if(!m)return null;return{n:m[1],a:m[2],o:+m[3]};}
+function midi(s){const v=pn(s);if(!v)return null;let sm=SC[v.n];for(const c of v.a)sm+=c==='#'?1:-1;return 12*(v.o+1)+sm;}
+function freq(s){const m=midi(s);return m?440*Math.pow(2,(m-69)/12):440;}
+function ds(s){const v=pn(s);if(!v)return 0;return NL.indexOf(v.n)+(v.o-4)*7;}
+function sy(step,cl){return cl==='bass'?50-5*step:110-5*step;}
+function ys(y,cl){return cl==='bass'?Math.round((50-y)/5):Math.round((110-y)/5);}
+function snn(step){const o=4+Math.floor(step>=0?Math.floor(step/7):(step-6)/7|0);const base=((step%7)+7)%7;return NL[base]+o;}
+function leg(step,cl){const[lo,hi]=cl==='bass'?[-10,-2]:[2,10];const r=[];
+  if(step<lo){for(let s=lo-2;s>=step-((step%2+2)%2);s-=2)r.push(s);}
+  else if(step>hi){for(let s=hi+2;s<=step+((step%2+2)%2);s+=2)r.push(s);}
+  return r;}
+const ACC={'#':'♯','b':'♭','n':'♮','##':'𝄪','bb':'𝄫','':''};
+
+/* ═══════════════════════════════════════════════
+   WEB AUDIO
+═══════════════════════════════════════════════ */
+let AX=null;
+function ax(){if(!AX)AX=new(window.AudioContext||window.webkitAudioContext)();if(AX.state==='suspended')AX.resume();return AX;}
+function pnote(f,when=0,dur=0.65,vol=0.38){
+  try{const c=ax(),t=c.currentTime+when;
+  const o=c.createOscillator(),g=c.createGain();
+  o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+0.022);
+  g.gain.exponentialRampToValueAtTime(vol*.45,t+.1);g.gain.exponentialRampToValueAtTime(.001,t+dur);
+  o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur);}catch(e){}
+}
+function play(ns,dl=0.18){ns.forEach((n,i)=>setTimeout(()=>pnote(freq(n),0,.6),i*dl*1000));}
+function playchord(ns){ns.forEach(n=>pnote(freq(n),0,.9,.28));}
+function flash(ns){ns.forEach((n,i)=>{setTimeout(()=>{
+  const m=midi(n);if(!m)return;
+  const el=document.querySelector(`[data-m="${m}"]`);
+  if(el){el.classList.add('pk');setTimeout(()=>el.classList.remove('pk'),480);}
+},i*160);});}
+
+/* ═══════════════════════════════════════════════
+   STAFF SVG
+═══════════════════════════════════════════════ */
+const KST=[10,7,11,8,5,9,6]; // treble sharp steps
+const KSB=[8,5,9,6,3,7,4];  // bass sharp steps
+const KFT=[6,9,5,8,4,7,3];  // treble flat steps
+const KFB=[4,7,3,6,2,5,1];  // bass flat steps
+
+function drawStaff(opt){
+  const{cl='treble',ns=[],w=520,inter=false,id='',ks=0,kf=0}=opt;
+  const H=200;let sx=54;
+  // width+height 명시 → 브라우저 크기0 버그 방지
+  let o=`<svg ${id?`id="${id}" `:''}width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" class="ssv${inter?' ck':''}" xmlns="http://www.w3.org/2000/svg"${inter?` data-cl="${cl}" data-i="1"`:''}>`;
+  o+=`<rect width="${w}" height="${H}" fill="white"/>`;
+  for(let i=0;i<5;i++){const y=60+i*10;o+=`<line x1="8" y1="${y}" x2="${w-8}" y2="${y}" stroke="#1a1a1a" stroke-width="1.4"/>`;}
+  if(cl==='treble'){
+    // 높은음자리표: G선(y=90) 기준, font-size 키워서 선명하게
+    o+=`<text x="5" y="120" font-size="110" font-family="Bravura,FreeSerif,Symbola,serif" fill="#1a1a1a">𝄞</text>`;
+    sx=54;
+  } else {
+    // 낮은음자리표: F선(y=70) 기준
+    o+=`<text x="7" y="84" font-size="62" font-family="Bravura,FreeSerif,Symbola,serif" fill="#1a1a1a">𝄢</text>`;
+    sx=48;
+  }
+  if(ks>0){const arr=cl==='bass'?KSB:KST;for(let i=0;i<ks;i++){const y=sy(arr[i],cl);o+=`<text x="${sx+i*13}" y="${y+6}" font-size="16" font-family="FreeSerif,serif">♯</text>`;}sx+=ks*13+5;}
+  if(kf>0){const arr=cl==='bass'?KFB:KFT;for(let i=0;i<kf;i++){const y=sy(arr[i],cl);o+=`<text x="${sx+i*13}" y="${y+5}" font-size="16" font-family="FreeSerif,serif">♭</text>`;}sx+=kf*13+5;}
+  o+=`<line x1="${sx}" y1="60" x2="${sx}" y2="100" stroke="#1a1a1a" stroke-width="1.6"/>`;
+  for(const n of ns)o+=drawNote(n,cl);
+  o+='</svg>';return o;
+}
+function drawNote(n,cl){
+  const{note,acc,color='#1a1a1a',style='whole',x=140}=typeof n==='object'?n:{note:n,acc:'',color:'#1a1a1a',style:'whole',x:140};
+  const step=ds(note);const y=sy(step,cl);let o='';
+  const ls=leg(step,cl);
+  for(const l of ls){const ly=sy(l,cl);o+=`<line x1="${x-13}"y1="${ly}"x2="${x+13}"y2="${ly}"stroke="#1a1a1a"stroke-width="1.2"/>`;}
+  const ra=acc||(pn(note)?.a||'');
+  if(ra){const ac=ACC[ra]||ra;o+=`<text x="${x-17}"y="${y+5}"font-size="14"fill="${color}"font-family="FreeSerif,serif"text-anchor="middle">${ac}</text>`;}
+  const mid=cl==='treble'?6:-4;const up=step<mid;
+  // 모든 음표: 검정 채움 타원 (온음표도 포함)
+  o+=`<ellipse cx="${x}"cy="${y}"rx="6.5"ry="4.5"fill="${color}"transform="rotate(-18,${x},${y})"/>`;
+  if(style!=='whole'){
+    const ex=up?x+6:x-6;o+=`<line x1="${ex}"y1="${y}"x2="${ex}"y2="${y+(up?-30:30)}"stroke="${color}"stroke-width="1.5"/>`;
+  }
+  return o;
+}
+function noteRow(ns,cl,opts={}){
+  const sp=opts.sp||40,sx=opts.sx||80,w=Math.max(480,sx+ns.length*sp+60);
+  return drawStaff({cl,ns:ns.map((n,i)=>({note:n,acc:'',color:opts.col||'#1a1a1a',style:opts.sty||'whole',x:sx+i*sp})),w,ks:opts.ks||0,kf:opts.kf||0});
+}
+
+/* ═══════════════════════════════════════════════
+   PIANO
+═══════════════════════════════════════════════ */
+function mkPiano(){
+  const WW=22,WH=80,BW=14,BH=48;
+  const OCTS=[3,4,5];
+  let whites=[],blacks=[],wi=0;
+  for(const oct of OCTS){
+    for(let d=0;d<7;d++){
+      const note=NL[d]+oct,m=midi(note),x=wi*WW;
+      whites.push(`<rect data-m="${m}"class="pkw"x="${x+1}"y="2"width="${WW-2}"height="${WH}"rx="2"fill="#fefefe"stroke="#888"stroke-width="1"style="cursor:pointer"onclick="A.pk('${note}')"/>`);
+      if(d===0)whites.push(`<text x="${x+WW/2}"y="${WH-4}"text-anchor="middle"font-size="7"fill="#888"pointer-events="none">C${oct}</text>`);
+      wi++;
+    }
+  }
+  wi=0;
+  for(const oct of OCTS){
+    const hb=[1,1,0,1,1,1,0],bn=['C#','D#','','F#','G#','A#',''];
+    for(let d=0;d<7;d++){
+      if(hb[d]){const note=bn[d]+oct,m=midi(note),x=wi*WW+WW*.62;blacks.push(`<rect data-m="${m}"class="pkb"x="${x}"y="2"width="${BW}"height="${BH}"rx="2"fill="#1a1a1a"stroke="#333"stroke-width="1"style="cursor:pointer"onclick="A.pk('${note}')"/>`);}
+      wi++;
+    }
+  }
+  const tot=OCTS.length*7*WW+4;
+  document.getElementById('psvg').innerHTML=`<svg width="${tot}"height="${WH+10}"xmlns="http://www.w3.org/2000/svg"style="display:block"><style>.pkw:hover{fill:#e8f4ff}.pk{fill:#93c5fd!important}.pkb:hover{fill:#334}.pkb.pk{fill:#1d4ed8!important}</style>${whites.join('')}${blacks.join('')}</svg>`;
+}
+
+/* ═══════════════════════════════════════════════
+   SCALES DATABASE
+═══════════════════════════════════════════════ */
+const SD={
+'C maj':['C4','D4','E4','F4','G4','A4','B4','C5'],
+'G maj':['G3','A3','B3','C4','D4','E4','F#4','G4'],
+'D maj':['D4','E4','F#4','G4','A4','B4','C#5','D5'],
+'A maj':['A3','B3','C#4','D4','E4','F#4','G#4','A4'],
+'E maj':['E4','F#4','G#4','A4','B4','C#5','D#5','E5'],
+'B maj':['B3','C#4','D#4','E4','F#4','G#4','A#4','B4'],
+'F# maj':['F#4','G#4','A#4','B4','C#5','D#5','E#5','F#5'],
+'Db maj':['Db4','Eb4','F4','Gb4','Ab4','Bb4','C5','Db5'],
+'Ab maj':['Ab3','Bb3','C4','Db4','Eb4','F4','G4','Ab4'],
+'Eb maj':['Eb4','F4','G4','Ab4','Bb4','C5','D5','Eb5'],
+'Bb maj':['Bb3','C4','D4','Eb4','F4','G4','A4','Bb4'],
+'F maj':['F3','G3','A3','Bb3','C4','D4','E4','F4'],
+'A nat min':['A3','B3','C4','D4','E4','F4','G4','A4'],
+'E nat min':['E4','F#4','G4','A4','B4','C5','D5','E5'],
+'B nat min':['B3','C#4','D4','E4','F#4','G4','A4','B4'],
+'D nat min':['D4','E4','F4','G4','A4','Bb4','C5','D5'],
+'G nat min':['G3','A3','Bb3','C4','D4','Eb4','F4','G4'],
+'C nat min':['C4','D4','Eb4','F4','G4','Ab4','Bb4','C5'],
+'F nat min':['F4','G4','Ab4','Bb4','C5','Db5','Eb5','F5'],
+'A harm min':['A3','B3','C4','D4','E4','F4','G#4','A4'],
+'E harm min':['E4','F#4','G4','A4','B4','C5','D#5','E5'],
+'D harm min':['D4','E4','F4','G4','A4','Bb4','C#5','D5'],
+'G harm min':['G3','A3','Bb3','C4','D4','Eb4','F#4','G4'],
+'C harm min':['C4','D4','Eb4','F4','G4','Ab4','B4','C5'],
+'F harm min':['F4','G4','Ab4','Bb4','C5','Db5','E5','F5'],
+'A mel min':['A3','B3','C4','D4','E4','F#4','G#4','A4'],
+'E mel min':['E4','F#4','G4','A4','B4','C#5','D#5','E5'],
+'D mel min':['D4','E4','F4','G4','A4','B4','C#5','D5'],
+'B mel min':['B3','C#4','D4','E4','F#4','G#4','A#4','B4'],
+'C mel min':['C4','D4','Eb4','F4','G4','A4','B4','C5'],
+'F mel min':['F4','G4','Ab4','Bb4','C5','D5','E5','F5'],
+'D maj pent':['D4','E4','F#4','A4','B4','D5'],
+'G maj pent':['G4','A4','B4','D5','E5','G5'],
+'E maj pent':['E4','F#4','G#4','B4','C#5','E5'],
+'Bb maj pent':['Bb3','C4','D4','F4','G4','Bb4'],
+'Db maj pent':['Db4','Eb4','F4','Ab4','Bb4','Db5'],
+'A min pent':['A3','C4','D4','E4','G4','A4'],
+'E min pent':['E4','G4','A4','B4','D5','E5'],
+'G min pent':['G3','Bb3','C4','D4','F4','G4'],
+'F min pent':['F4','Ab4','Bb4','C5','Eb5','F5'],
+'C ionian':['C4','D4','E4','F4','G4','A4','B4','C5'],
+'D dorian':['D4','E4','F4','G4','A4','B4','C5','D5'],
+'E phryg':['E4','F4','G4','A4','B4','C5','D5','E5'],
+'F lydian':['F4','G4','A4','B4','C5','D5','E5','F5'],
+'G mixo':['G4','A4','B4','C5','D5','E5','F5','G5'],
+'A aeol':['A3','B3','C4','D4','E4','F4','G4','A4'],
+'B locrian':['B3','C4','D4','E4','F4','G4','A4','B4'],
+'F ionian':['F4','G4','A4','Bb4','C5','D5','E5','F5'],
+'F dorian':['F4','G4','Ab4','Bb4','C5','D5','Eb5','F5'],
+'F phryg':['F4','Gb4','Ab4','Bb4','C5','Db5','Eb5','F5'],
+'F mixo':['F4','G4','A4','Bb4','C5','D5','Eb5','F5'],
+'F aeol':['F4','G4','Ab4','Bb4','C5','Db5','Eb5','F5'],
+'F locrian':['F4','Gb4','Ab4','Bb4','Cb5','Db5','Eb5','F5'],
+'E ionian':['E4','F#4','G#4','A4','B4','C#5','D#5','E5'],
+'E dorian':['E4','F#4','G4','A4','B4','C#5','D5','E5'],
+'E lydian':['E4','F#4','G#4','A#4','B4','C#5','D#5','E5'],
+'E mixo':['E4','F#4','G#4','A4','B4','C#5','D5','E5'],
+'E aeol':['E4','F#4','G4','A4','B4','C5','D5','E5'],
+'E locrian':['E4','F4','G4','A4','Bb4','C5','D5','E5'],
+'B dorian':['B3','C#4','D4','E4','F#4','G#4','A4','B4'],
+'A lydian':['A3','B3','C#4','D#4','E4','F#4','G#4','A4'],
+'D lydian':['D4','E4','F#4','G#4','A4','B4','C#5','D5'],
+'Bb mixo':['Bb3','C4','D4','Eb4','F4','G4','Ab4','Bb4'],
+'C aeol':['C4','D4','Eb4','F4','G4','Ab4','Bb4','C5'],
+'G phryg':['G4','Ab4','Bb4','C5','D5','Eb5','F5','G5'],
+'G locrian':['G4','Ab4','Bb4','C5','Db5','Eb5','F5','G5'],
+'A mixo':['A3','B3','C#4','D4','E4','F#4','G4','A4'],
+'D mixo':['D4','E4','F#4','G4','A4','B4','C5','D5'],
+'Bb lydian':['Bb3','C4','D4','E4','F4','G4','A4','Bb4'],
+'C blues':['C4','Eb4','F4','F#4','G4','Bb4','C5'],
+'G blues':['G3','Bb3','C4','C#4','D4','F4','G4'],
+'F blues':['F4','Ab4','Bb4','B4','C5','Eb5','F5'],
+'A blues':['A3','C4','D4','D#4','E4','G4','A4'],
+};
+
+/* ═══════════════════════════════════════════════
+   INTERACTIVE STAFF
+═══════════════════════════════════════════════ */
+const ST={};
+let APID=null;
+function setActive(pid){
+  APID=pid;
+  document.querySelectorAll('.pb.actv').forEach(e=>e.classList.remove('actv'));
+  const pb=document.getElementById('pb_'+pid);if(pb)pb.classList.add('actv');
+  const lbl=document.getElementById('pia_lbl');
+  if(lbl)lbl.textContent='🎹 '+pid+' 연동 중 — 건반 클릭하면 오선에 입력';
+}
+function initIS(pid,cl,given,gx){
+  if(!ST[pid])ST[pid]={pl:[],sa:'',cl};
+  const el=document.getElementById('is_'+pid);
+  if(!el)return;
+  el.onclick=function(e){
+    setActive(pid);
+    const s=ST[pid];
+    const r=el.getBoundingClientRect();
+    const lx=(e.clientX-r.left)/r.width*600;
+    const ly=(e.clientY-r.top)/r.height*200;
+    const step=ys(ly,s.cl);
+    const nn=snn(step);
+    const ei=s.pl.findIndex(n=>ds(n.note)===step&&Math.abs(n.x-lx)<22);
+    if(ei>=0){s.pl.splice(ei,1);}
+    else{
+      const px=Math.max(60,Math.round(lx/22)*22);
+      const full=nn.slice(0,-1)+(s.sa||'')+nn.slice(-1);
+      s.pl.push({note:nn,acc:s.sa||'',x:px,color:'#2563eb',style:'whole'});
+      try{pnote(freq(full),0,.4);}catch(x){}
+      const m=midi(full);if(m){const ke=document.querySelector('[data-m="'+m+'"]');if(ke){ke.classList.add('pk');setTimeout(()=>ke.classList.remove('pk'),460);}}
+    }
+    reIS(pid,cl,given,gx);
+  };
+}
+function initSL(pid,ns,cl){
+  if(!ST[pid])ST[pid]={sel:new Set(),cl,ns};
+  const el=document.getElementById('sl_'+pid);if(!el)return;
+  el.onclick=function(e){
+    setActive(pid);
+    const s=ST[pid];
+    const r=el.getBoundingClientRect();
+    const w=parseFloat(el.getAttribute('width'))||520;
+    const lx=(e.clientX-r.left)/r.width*w;
+    const sp=40,sx=78;
+    let ci=-1,md=28;
+    ns.forEach((n,i)=>{const nx=sx+i*sp;const d=Math.abs(lx-nx);if(d<md){md=d;ci=i;}});
+    if(ci<0)return;
+    if(s.sel.has(ci))s.sel.delete(ci);else s.sel.add(ci);
+    reSL(pid,ns,cl);
+    try{pnote(freq(ns[ci]),0,.4);}catch(x){}
+    const m=midi(ns[ci]);if(m){const ke=document.querySelector('[data-m="'+m+'"]');if(ke){ke.classList.add('pk');setTimeout(()=>ke.classList.remove('pk'),460);}}
+  };
+}
+function reSL(pid,ns,cl){
+  const s=ST[pid];if(!s)return;
+  const el=document.getElementById('sl_'+pid);if(!el)return;
+  const sp=40,sx=78,w=Math.max(520,sx+ns.length*sp+60);
+  const no=ns.map((n,i)=>({note:n,acc:'',color:s.sel.has(i)?'#16a34a':'#1a1a1a',style:'whole',x:sx+i*sp}));
+  const nsvg=drawStaff({cl,ns:no,w,inter:true,id:'sl_'+pid});
+  const tmp=document.createElement('div');tmp.innerHTML=nsvg;
+  el.replaceWith(tmp.firstChild);
+  initSL(pid,ns,cl);
+}
+function reIS(pid,cl,given,gx){
+  const s=ST[pid];if(!s)return;
+  const el=document.getElementById('is_'+pid);if(!el)return;
+  const gNs=(given||[]).map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:(gx||80)+i*40}));
+  const all=[...gNs,...s.pl];
+  const nsvg=drawStaff({cl,ns:all,w:600,inter:true,id:'is_'+pid});
+  const tmp=document.createElement('div');tmp.innerHTML=nsvg;
+  el.replaceWith(tmp.firstChild);
+  initIS(pid,cl,given,gx);
+}
+
+
+/* ═══════════════════════════════════════════════
+   PROBLEMS
+═══════════════════════════════════════════════ */
+function shuf(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+function oKs(ex,n=3){return shuf(['C major','G major','D major','A major','E major','F major','Bb major','Eb major','Ab major','Db major','F# major','A minor','E minor','B minor','D minor','G minor','C minor'].filter(k=>k!==ex)).slice(0,n);}
+function oIn(ex,n=4){return shuf([ex,'P5','M3','m3','M6','m6','P4','M7','m7','A4','d5','m2','M2','P8','A5','d7']).slice(0,n);}
+function oCh(ex,n=4){return shuf(['C major','D minor','E minor','F major','G major','A minor','B dim','C minor','D major','E major','F minor','G aug','D aug','C aug','Eb major','Bb major','Ab major'].filter(c=>c!==ex)).slice(0,n);}
+function oMo(ex,n=4){return shuf([ex,'D dorian','G mixolydian','E phrygian','A lydian','B locrian','C aeolian','F dorian','Bb mixolydian','A phrygian','D mixolydian','C ionian','F lydian'].filter(m=>m!==ex)).slice(0,n);}
+
+function mkProbs(){
+  const ps=[];let idx=0;
+  function add(o){ps.push({id:'p'+(++idx),...o});return ps[ps.length-1];}
+
+  /* ── CH 0: Pitch Recognition ── */
+  const trebleNotes=['E4','G4','B4','D5','F5','F4','A4','C5','C4','D4','B3','A3',
+                     'F#4','Bb4','C#5','Eb4','G#4','D#5','Ab3','Gb4','E5','Db4'];
+  trebleNotes.forEach(n=>{
+    const s=drawStaff({cl:'treble',ns:[{note:n,acc:'',color:'#1a1a1a',style:'whole',x:160}],w:300});
+    add({ch:0,type:'id',q:{ko:'이 음표의 이름은? (예: F#4)',en:'Name this note (e.g., F#4):'},staff:s,audio:[n],ans:n,check:a=>midi(a.trim())===midi(n)});
+  });
+  const bassNotes=['G2','B2','D3','F3','A3','A2','C3','E3','G3','F2','E2','C4',
+                   'F#3','Bb2','Eb3','C#3','Ab3','G#2','D#3','Db3'];
+  bassNotes.forEach(n=>{
+    const s=drawStaff({cl:'bass',ns:[{note:n,acc:'',color:'#1a1a1a',style:'whole',x:160}],w:300});
+    add({ch:0,type:'id',q:{ko:'이 음표의 이름은?',en:'Name this note:'},staff:s,audio:[n],ans:n,check:a=>midi(a.trim())===midi(n)});
+  });
+
+  /* ── CH 1: Accidentals & Enharmonics ── */
+  const enharPairs=[['F#4','Gb4'],['C#4','Db4'],['G#4','Ab4'],['D#4','Eb4'],['A#4','Bb4'],
+                    ['E#4','F4'],['B#4','C5'],['Cb4','B3'],['Fb4','E4'],['C##4','D4'],['Bbb3','A3'],['Ebb4','D4'],
+                    ['F##4','G4'],['G##4','A4'],['A##4','B4'],['Dbb4','C4'],['Abb3','G3'],['Gbb4','F4']];
+  enharPairs.forEach(([a,b])=>{
+    const s=drawStaff({cl:'treble',ns:[{note:a,acc:'',color:'#1a1a1a',style:'whole',x:160}],w:300});
+    add({ch:1,type:'id',q:{ko:'이명동음을 쓰세요.',en:'Write the enharmonic equivalent:'},staff:s,audio:[a],ans:b,check:v=>midi(v.trim())===midi(a)});
+  });
+
+  /* ── CH 2: Major Scales ── */
+  ['C maj','G maj','D maj','A maj','E maj','B maj','F# maj','Db maj','Ab maj','Eb maj','Bb maj','F maj'].forEach(k=>{
+    const ns=SD[k];if(!ns)return;
+    add({ch:2,type:'write',q:{ko:`${k} 장음계를 오선에 쓰세요.`,en:`Write the ${k} major scale:`},
+      clef:'treble',given:[ns[0]],givenX:80,ans:ns,audio:ns});
+  });
+
+  /* ── CH 3: Minor Scales ── */
+  [['A nat min','자연단조','natural minor'],['E nat min','자연단조','natural minor'],
+   ['D nat min','자연단조','natural minor'],['G nat min','자연단조','natural minor'],
+   ['C nat min','자연단조','natural minor'],['F nat min','자연단조','natural minor'],
+   ['A harm min','화성단조','harmonic minor'],['E harm min','화성단조','harmonic minor'],
+   ['D harm min','화성단조','harmonic minor'],['G harm min','화성단조','harmonic minor'],
+   ['C harm min','화성단조','harmonic minor'],['F harm min','화성단조','harmonic minor'],
+   ['A mel min','선율단조','melodic minor'],['E mel min','선율단조','melodic minor'],
+   ['D mel min','선율단조','melodic minor'],['B mel min','선율단조','melodic minor'],
+   ['C mel min','선율단조','melodic minor'],['F mel min','선율단조','melodic minor']].forEach(([k,kt,ke])=>{
+    const ns=SD[k];if(!ns)return;
+    add({ch:3,type:'write',q:{ko:`${k.split(' ')[0]} ${kt}을 쓰세요.`,en:`Write the ${k} (${ke}):`},
+      clef:'treble',given:[ns[0]],givenX:80,ans:ns,audio:ns});
+  });
+
+  /* ── CH 4: Pentatonic ── */
+  ['D maj pent','G maj pent','E maj pent','Bb maj pent','Db maj pent',
+   'A min pent','E min pent','G min pent','F min pent'].forEach(k=>{
+    const ns=SD[k];if(!ns)return;
+    const type=k.includes('min')?'단5음음계/minor pentatonic':'장5음음계/major pentatonic';
+    add({ch:4,type:'write',q:{ko:`${k} 5음음계를 쓰세요.`,en:`Write the ${k} pentatonic:`},
+      clef:'treble',given:[ns[0]],givenX:80,ans:ns,audio:ns});
+  });
+
+  /* ── CH 5: Key Signatures ── */
+  const ksSig=[
+    {key:'G major',ks:1,kf:0},{key:'D major',ks:2,kf:0},{key:'A major',ks:3,kf:0},
+    {key:'E major',ks:4,kf:0},{key:'B major',ks:5,kf:0},{key:'F# major',ks:6,kf:0},
+    {key:'F major',ks:0,kf:1},{key:'Bb major',ks:0,kf:2},{key:'Eb major',ks:0,kf:3},
+    {key:'Ab major',ks:0,kf:4},{key:'Db major',ks:0,kf:5},{key:'Gb major',ks:0,kf:6},
+    {key:'E minor',ks:1,kf:0},{key:'B minor',ks:2,kf:0},{key:'D minor',ks:0,kf:1},
+    {key:'G minor',ks:0,kf:2},{key:'C minor',ks:0,kf:3},{key:'F minor',ks:0,kf:4},
+  ];
+  ksSig.forEach(({key,ks,kf})=>{
+    const s=drawStaff({cl:'treble',ns:[],w:180,ks,kf});
+    add({ch:5,type:'mc',q:{ko:'이 조표는 어느 조?',en:'Identify this key signature:'},
+      staff:s,audio:[],ans:key,opts:shuf([key,...oKs(key,3)]).slice(0,4)});
+  });
+  // Write how many sharps/flats
+  [{key:'A major',val:'3 sharps'},{key:'Bb major',val:'2 flats'},{key:'E major',val:'4 sharps'},
+   {key:'Eb major',val:'3 flats'},{key:'B major',val:'5 sharps'},{key:'Ab major',val:'4 flats'},
+  ].forEach(({key,val})=>{
+    add({ch:5,type:'analyze',q:{ko:`${key}: 조표에 #/b 몇 개?`,en:`${key}: how many sharps/flats?`},ans:val,audio:[]});
+  });
+
+  /* ── CH 6: Intervals ── */
+  const intPairs=[
+    {ns:['C4','E4'],ans:'M3'},{ns:['C4','G4'],ans:'P5'},{ns:['C4','A4'],ans:'M6'},
+    {ns:['C4','B4'],ans:'M7'},{ns:['D4','F4'],ans:'m3'},{ns:['D4','Ab4'],ans:'d5'},
+    {ns:['F4','B4'],ans:'A4'},{ns:['G4','F5'],ans:'m7'},{ns:['C4','F4'],ans:'P4'},
+    {ns:['C4','Db4'],ans:'m2'},{ns:['C4','D4'],ans:'M2'},{ns:['C4','Ab4'],ans:'m6'},
+    {ns:['C4','Bb4'],ans:'m7'},{ns:['C4','C5'],ans:'P8'},{ns:['E4','G4'],ans:'m3'},
+    {ns:['A3','C4'],ans:'m3'},{ns:['B3','D4'],ans:'m3'},{ns:['C4','F#4'],ans:'A4'},
+    {ns:['E4','Bb4'],ans:'d5'},{ns:['A3','Eb4'],ans:'d5'},{ns:['G3','E4'],ans:'M6'},
+    {ns:['D4','C5'],ans:'m7'},{ns:['F4','E5'],ans:'M7'},{ns:['Bb3','A4'],ans:'M7'},
+  ];
+  intPairs.forEach(({ns,ans})=>{
+    const s=drawStaff({cl:'treble',ns:[{note:ns[0],acc:'',color:'#1a1a1a',style:'whole',x:110},{note:ns[1],acc:'',color:'#1a1a1a',style:'whole',x:170}],w:300});
+    add({ch:6,type:'mc',q:{ko:'이 음정의 이름은?',en:'Name this interval:'},staff:s,audio:ns,ans,opts:oIn(ans)});
+  });
+  // Write interval above
+  [{root:'C4',int:'M3',ans:'E4'},{root:'G3',int:'P5',ans:'D4'},{root:'F4',int:'M2',ans:'G4'},
+   {root:'A3',int:'m3',ans:'C4'},{root:'D4',int:'M6',ans:'B4'},{root:'E4',int:'P4',ans:'A4'},
+   {root:'B3',int:'m7',ans:'A4'},{root:'C4',int:'M7',ans:'B4'},{root:'F#4',int:'m3',ans:'A4'},
+   {root:'Bb3',int:'M3',ans:'D4'},{root:'G4',int:'m6',ans:'Eb5'},{root:'D4',int:'A4',ans:'G#4'},
+   {root:'C4',int:'m6',ans:'Ab4'},{root:'E4',int:'m2',ans:'F4'},{root:'A3',int:'M2',ans:'B3'},
+  ].forEach(({root,int,ans})=>{
+    add({ch:6,type:'write',q:{ko:`위로 ${int} 음정을 쓰세요.`,en:`Write a note ${int} above:`},
+      clef:'treble',given:[root],givenX:100,ans:[ans],audio:[root,ans]});
+  });
+  // Write interval below
+  [{root:'E4',int:'M3',ans:'C4'},{root:'A4',int:'P5',ans:'D4'},{root:'G4',int:'P4',ans:'D4'},
+   {root:'F4',int:'m3',ans:'D4'},{root:'B4',int:'M6',ans:'D4'},{root:'D5',int:'M7',ans:'Eb4'},
+   {root:'Bb4',int:'P5',ans:'Eb4'},{root:'G4',int:'m6',ans:'B3'},
+  ].forEach(({root,int,ans})=>{
+    add({ch:6,type:'write',q:{ko:`아래로 ${int} 음정을 쓰세요.`,en:`Write a note ${int} below:`},
+      clef:'treble',given:[root],givenX:160,ans:[ans],audio:[ans,root]});
+  });
+
+  /* ── CH 7: Triads ── */
+  const triadID=[
+    {ns:['C4','E4','G4'],ans:'C major'},{ns:['D4','F4','A4'],ans:'D minor'},
+    {ns:['E4','G4','B4'],ans:'E minor'},{ns:['F4','A4','C5'],ans:'F major'},
+    {ns:['G4','B4','D5'],ans:'G major'},{ns:['A3','C4','E4'],ans:'A minor'},
+    {ns:['B3','D4','F4'],ans:'B dim'},{ns:['C4','Eb4','G4'],ans:'C minor'},
+    {ns:['D4','F#4','A4'],ans:'D major'},{ns:['E4','G#4','B4'],ans:'E major'},
+    {ns:['F4','Ab4','C5'],ans:'F minor'},{ns:['C4','E4','G#4'],ans:'C aug'},
+    {ns:['D4','F4','Ab4'],ans:'D dim'},{ns:['G4','B4','D#5'],ans:'G aug'},
+    {ns:['A3','C4','Eb4'],ans:'A dim'},
+  ];
+  triadID.forEach(({ns,ans})=>{
+    const s=drawStaff({cl:'treble',ns:ns.map(n=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140})),w:280});
+    add({ch:7,type:'mc',q:{ko:'이 3화음은?',en:'Identify this triad:'},staff:s,audio:ns,ans,opts:shuf([ans,...oCh(ans,4)]).slice(0,5)});
+  });
+  [{sym:'F major',ns:['F4','A4','C5']},{sym:'D minor',ns:['D4','F4','A4']},
+   {sym:'G aug',ns:['G4','B4','D#5']},{sym:'C dim',ns:['C4','Eb4','Gb4']},
+   {sym:'Bb major',ns:['Bb3','D4','F4']},{sym:'F minor',ns:['F4','Ab4','C5']},
+   {sym:'E major',ns:['E4','G#4','B4']},{sym:'Ab major',ns:['Ab3','C4','Eb4']},
+   {sym:'B minor',ns:['B3','D4','F#4']},{sym:'Db major',ns:['Db4','F4','Ab4']},
+   {sym:'D aug',ns:['D4','F#4','A#4']},{sym:'A sus4',ns:['A3','D4','E4']},
+   {sym:'Eb major',ns:['Eb4','G4','Bb4']},{sym:'G minor',ns:['G4','Bb4','D5']},
+   {sym:'C sus4',ns:['C4','F4','G4']},
+  ].forEach(({sym,ns})=>{
+    add({ch:7,type:'write',q:{ko:`${sym} 3화음 — 루트음 주어짐, 나머지를 쓰세요.`,en:`${sym} triad — root given, write the rest:`},
+      clef:'treble',given:[ns[0]],givenX:90,ans:ns,audio:ns});
+  });
+
+  /* ── CH 8: Seventh Chords ── */
+  const s7ID=[
+    {ns:['C4','E4','G4','B4'],lbl:'Cmaj7'},{ns:['D4','F4','A4','C5'],lbl:'Dm7'},
+    {ns:['G3','B3','D4','F4'],lbl:'G7'},{ns:['B3','D4','F4','A4'],lbl:'Bm7b5'},
+    {ns:['C4','Eb4','Gb4','Bbb4'],lbl:'Cdim7'},{ns:['F4','A4','C5','E5'],lbl:'Fmaj7'},
+    {ns:['A3','C4','E4','G4'],lbl:'Am7'},{ns:['E4','G#4','B4','D5'],lbl:'E7'},
+    {ns:['D4','F#4','A4','C5'],lbl:'D7'},{ns:['Bb3','D4','F4','A4'],lbl:'Bbmaj7'},
+    {ns:['C4','Eb4','G4','Bb4'],lbl:'Cm7'},{ns:['G4','B4','D5','F5'],lbl:'G7'},
+  ];
+  s7ID.forEach(({ns,lbl})=>{
+    const s=drawStaff({cl:'treble',ns:ns.map(n=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140})),w:280});
+    add({ch:8,type:'mc',q:{ko:'이 7화음은?',en:'Identify this 7th chord:'},staff:s,audio:ns,ans:lbl,
+      opts:shuf([lbl,'Cmaj7','G7','Dm7','Bbmaj7','Fmaj7','Am7','E7','Bm7b5','Cdim7','Cm7']).slice(0,5)});
+  });
+  [{sym:'Bbmaj7',ns:['Bb3','D4','F4','A4']},{sym:'Adim7',ns:['A3','C4','Eb4','Gb4']},
+   {sym:'Gm7',ns:['G3','Bb3','D4','F4']},{sym:'Emaj7',ns:['E4','G#4','B4','D#5']},
+   {sym:'Ab7',ns:['Ab3','C4','Eb4','Gb4']},{sym:'F7',ns:['F4','A4','C5','Eb5']},
+   {sym:'Bdim7',ns:['B3','D4','F4','Ab4']},{sym:'Dm7b5',ns:['D4','F4','Ab4','C5']},
+   {sym:'C7sus4',ns:['C4','F4','G4','Bb4']},{sym:'F#7',ns:['F#4','A#4','C#5','E5']},
+   {sym:'CminMaj7',ns:['C4','Eb4','G4','B4']},{sym:'Ebmaj7',ns:['Eb4','G4','Bb4','D5']},
+  ].forEach(({sym,ns})=>{
+    add({ch:8,type:'write',q:{ko:`${sym} 7화음 — 루트음 주어짐, 나머지를 쓰세요.`,en:`${sym} 7th chord — root given, write the rest:`},
+      clef:'treble',given:[ns[0]],givenX:90,ans:ns,audio:ns});
+  });
+
+  /* ── CH 9: Inversions ── */
+  const invID=[
+    {ns:['E4','G4','C5'],lbl:'C major 1st inv'},{ns:['G3','C4','E4'],lbl:'C major 2nd inv'},
+    {ns:['F4','A4','D5'],lbl:'D minor 1st inv'},{ns:['A3','D4','F4'],lbl:'D minor 2nd inv'},
+    {ns:['B3','D4','G4'],lbl:'G major 1st inv'},{ns:['D4','G4','B4'],lbl:'G major 2nd inv'},
+    {ns:['C4','E4','G4','B4'],lbl:'Cmaj7 root'},{ns:['E4','G4','B4','C5'],lbl:'Cmaj7 1st inv'},
+    {ns:['G4','B4','C5','E5'],lbl:'Cmaj7 2nd inv'},{ns:['B3','C4','E4','G4'],lbl:'Cmaj7 3rd inv'},
+    {ns:['F#4','A4','C5','D5'],lbl:'D7 1st inv'},{ns:['A4','C5','D5','F#5'],lbl:'D7 2nd inv'},
+    {ns:['C5','D5','F#5','A5'],lbl:'D7 3rd inv'},
+  ];
+  invID.forEach(({ns,lbl})=>{
+    const root=lbl.split(' ')[0]+' '+lbl.split(' ')[1];
+    const opts=shuf([lbl,root+' root',root+' 1st inv',root+' 2nd inv',root+' 3rd inv'].filter((v,i,a)=>a.indexOf(v)===i)).slice(0,4);
+    const s=drawStaff({cl:'treble',ns:ns.map(n=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140})),w:280});
+    add({ch:9,type:'mc',q:{ko:'자리바꿈은?',en:'Identify the inversion:'},staff:s,audio:ns,ans:lbl,opts});
+  });
+  [{sym:'F major 2nd inv',ns:['C5','F5','A5']},{sym:'D minor 1st inv',ns:['F4','A4','D5']},
+   {sym:'G major 2nd inv',ns:['D4','G4','B4']},{sym:'Am7 root pos',ns:['A3','C4','E4','G4']},
+   {sym:'G7 1st inv',ns:['B3','D4','F4','G4']},
+  ].forEach(({sym,ns})=>{
+    add({ch:9,type:'write',q:{ko:`${sym} — 가장 낮은 음 주어짐, 나머지를 쓰세요.`,en:`${sym} — bottom note given, write the rest:`},
+      clef:'treble',given:[ns[0]],givenX:90,ans:ns,audio:ns});
+  });
+
+  /* ── CH 10: Modes ── */
+  ['C ionian','D dorian','E phryg','F lydian','G mixo','A aeol','B locrian',
+   'F ionian','F dorian','F phryg','F mixo','F aeol','F locrian',
+   'E ionian','E dorian','E lydian','E mixo','E aeol','E locrian',
+   'B dorian','A lydian','D lydian','Bb mixo','C aeol','G phryg','G locrian','A mixo','D mixo','Bb lydian',
+  ].forEach(k=>{
+    const ns=SD[k];if(!ns)return;
+    add({ch:10,type:'write',q:{ko:`${k} 선법을 쓰세요.`,en:`Write the ${k} mode:`},
+      clef:'treble',given:[ns[0]],givenX:80,ans:ns,audio:ns});
+  });
+  [{ns:['D4','E4','F4','G4','A4','B4','C5','D5'],ans:'D dorian'},
+   {ns:['G3','A3','B3','C4','D4','E4','F4','G4'],ans:'G mixolydian'},
+   {ns:['E4','F4','G4','A4','B4','C5','D5','E5'],ans:'E phrygian'},
+   {ns:['F4','G4','A4','B4','C5','D5','E5','F5'],ans:'F lydian'},
+   {ns:['B3','C4','D4','E4','F4','G4','A4','B4'],ans:'B locrian'},
+   {ns:['A3','Bb3','C4','D4','E4','F4','G4','A4'],ans:'A phrygian'},
+   {ns:['E4','F#4','G4','A4','B4','C#5','D5','E5'],ans:'E dorian'},
+   {ns:['Bb3','C4','D4','E4','F4','G4','A4','Bb4'],ans:'Bb lydian'},
+   {ns:['D4','E4','F#4','G4','A4','B4','C5','D5'],ans:'D mixolydian'},
+   {ns:['C4','D4','Eb4','F4','G4','Ab4','Bb4','C5'],ans:'C aeolian'},
+  ].forEach(({ns,ans})=>{
+    add({ch:10,type:'mc',q:{ko:'이 선법은?',en:'Identify this mode:'},
+      staff:noteRow(ns,'treble',{sp:38,sx:75}),audio:ns,ans,opts:oMo(ans)});
+  });
+
+  /* ── CH 11: Scale Tendencies ── */
+  // ch11: 음표 클릭으로 답 선택 (select 타입)
+  [
+    {q:{ko:'C ionian: 안정음(트라이어드) 3개를 클릭하세요.',en:'Click the 3 stable tones (tonic triad) in C ionian:'},
+     sk:'C ionian',ans:'C, E, G',am:['C4','E4','G4']},
+    {q:{ko:'G mixolydian: 특성음(b7)을 클릭하세요.',en:'Click the characteristic tone (b7) in G mixolydian:'},
+     sk:'G mixo',ans:'F5',am:['F5']},
+    {q:{ko:'D dorian: 특성음(장6음)을 클릭하세요.',en:'Click the characteristic tone (natural 6th) in D dorian:'},
+     sk:'D dorian',ans:'B4',am:['B4']},
+    {q:{ko:'F lydian: 특성음(#4)을 클릭하세요.',en:'Click the characteristic tone (#4) in F lydian:'},
+     sk:'F lydian',ans:'B4',am:['B4']},
+    {q:{ko:'E phrygian: 특성음(b2)을 클릭하세요.',en:'Click the characteristic tone (b2) in E phrygian:'},
+     sk:'E phryg',ans:'F4',am:['F4']},
+    {q:{ko:'A aeolian: 7번째 음을 클릭하세요.',en:'Click the 7th degree of A aeolian:'},
+     sk:'A aeol',ans:'G4',am:['G4']},
+    {q:{ko:'화성단조(A harm min): 이끔음을 클릭하세요.',en:'Click the leading tone in A harmonic minor:'},
+     sk:'A harm min',ans:'G#4',am:['G#4']},
+  ].forEach(p=>{
+    const ns=SD[p.sk];if(!ns)return;
+    add({ch:11,type:'select',q:p.q,ns,ans:p.ans,
+      ansMidi:p.am.map(n=>midi(n)).filter(Boolean),audio:ns,clef:'treble'});
+  });
+  // 마지막 반음 해결 문제: 텍스트 답
+  add({ch:11,type:'analyze',q:{ko:'반음(semitone)은 어느 방향으로 해결되나?',en:'Semitones resolve toward:'},
+    ans:'nearest stable tone',audio:[]});
+
+  /* ── CH 12: Diatonic Harmony ── */
+  [{key:'C major',sym:'Cmaj7',rn:'Imaj7'},{key:'C major',sym:'Dm7',rn:'IIm7'},
+   {key:'C major',sym:'Em7',rn:'IIIm7'},{key:'C major',sym:'Fmaj7',rn:'IVmaj7'},
+   {key:'C major',sym:'G7',rn:'V7'},{key:'C major',sym:'Am7',rn:'VIm7'},
+   {key:'C major',sym:'Bm7b5',rn:'VIIm7b5'},
+   {key:'G major',sym:'Gmaj7',rn:'Imaj7'},{key:'G major',sym:'Am7',rn:'IIm7'},
+   {key:'G major',sym:'D7',rn:'V7'},{key:'G major',sym:'Cmaj7',rn:'IVmaj7'},
+   {key:'F major',sym:'Fmaj7',rn:'Imaj7'},{key:'F major',sym:'C7',rn:'V7'},
+   {key:'Bb major',sym:'Bbmaj7',rn:'Imaj7'},{key:'Bb major',sym:'F7',rn:'V7'},
+   {key:'D major',sym:'Dmaj7',rn:'Imaj7'},{key:'D major',sym:'A7',rn:'V7'},
+   {key:'Eb major',sym:'Ebmaj7',rn:'Imaj7'},{key:'Eb major',sym:'Bb7',rn:'V7'},
+   {key:'A major',sym:'Amaj7',rn:'Imaj7'},
+  ].forEach(p=>{
+    add({ch:12,type:'mc',q:{ko:`${p.key}에서 ${p.sym}의 로마숫자?`,en:`In ${p.key}, Roman numeral for ${p.sym}?`},
+      ans:p.rn,audio:[],opts:shuf([p.rn,'Imaj7','IIm7','IIIm7','IVmaj7','V7','VIm7','VIIm7b5']).slice(0,5)});
+  });
+
+  /* ── CH 13: Secondary Dominants ── */
+  [{sym:'E7 (V7/VIm in C)',ns:['E4','G#4','B4','D5']},
+   {sym:'A7 (V7/IIm in C)',ns:['A3','C#4','E4','G4']},
+   {sym:'D7 (V7/V in C)',ns:['D4','F#4','A4','C5']},
+   {sym:'B7 (V7/IIIm in C)',ns:['B3','D#4','F#4','A4']},
+   {sym:'C7 (V7/IV in C)',ns:['C4','E4','G4','Bb4']},
+   {sym:'F7 (V7/IIm in Eb)',ns:['F4','A4','C5','Eb5']},
+   {sym:'G7 (V7/IIIm in Eb)',ns:['G4','B4','D5','F5']},
+   {sym:'Bb7 (V7/IV in F)',ns:['Bb3','D4','F4','Ab4']},
+  ].forEach(({sym,ns})=>{
+    add({ch:13,type:'write',q:{ko:`${sym} — 루트음 주어짐, 나머지를 쓰세요.`,en:`${sym} — root given, write the rest:`},
+      clef:'treble',given:[ns[0]],givenX:90,ans:ns,audio:ns});
+  });
+  [{key:'C major',sec:'A7',res:'Dm7',rn:'V7/IIm'},
+   {key:'C major',sec:'B7',res:'Em7',rn:'V7/IIIm'},
+   {key:'C major',sec:'C7',res:'F',rn:'V7/IV'},
+   {key:'C major',sec:'D7',res:'G7',rn:'V7/V'},
+   {key:'C major',sec:'E7',res:'Am7',rn:'V7/VIm'},
+   {key:'G major',sec:'A7',res:'Bm7',rn:'V7/IIIm'},
+   {key:'G major',sec:'E7',res:'Am7',rn:'V7/IIm'},
+   {key:'F major',sec:'A7',res:'Dm7',rn:'V7/VIm'},
+   {key:'Bb major',sec:'C7',res:'Fm7',rn:'V7/IIm'},
+   {key:'Eb major',sec:'F7',res:'Bbm7',rn:'V7/IIm'},
+  ].forEach(p=>{
+    add({ch:13,type:'analyze',q:{ko:`${p.key}에서 ${p.sec}의 기능?`,en:`In ${p.key}, ${p.sec} functions as:`},
+      ans:p.rn,audio:[]});
+  });
+
+  /* ── CH 14: Modal Interchange & Blues ── */
+  [{q:{ko:'C major에서 Cm7: 어느 모드에서?',en:'Cm7 in C major is borrowed from:'},ans:'C dorian / C aeolian'},
+   {q:{ko:'C major에서 AbΔ7는?',en:'AbΔ7 in C major is borrowed from:'},ans:'C aeolian (parallel minor)'},
+   {q:{ko:'C major에서 Fm7은?',en:'Fm7 in C major comes from:'},ans:'C aeolian (subdominant minor)'},
+   {q:{ko:'12마디 블루스 기본 패턴 (I/IV/V)?',en:'Basic 12-bar blues pattern:'},ans:'I7 I7 I7 I7 / IV7 IV7 I7 I7 / V7 IV7 I7 V7'},
+   {q:{ko:'블루스 I7의 scale: mixolydian이라 b7이 포함됨. C blues의 IV7는?',en:'IV7 in C blues:'},ans:'F7'},
+   {q:{ko:'G blues의 V7은?',en:'V7 in G blues:'},ans:'D7'},
+   {q:{ko:'가장 일반적인 modal interchange minor IV는?',en:'Most common modal interchange minor IV:'},ans:'IVm7 (e.g. Fm7 in C major)'},
+   {q:{ko:'Mixolydian b6 (5th mode melodic minor): 특성음은?',en:'Mixolydian b6 characteristic tone:'},ans:'b6 (e.g. Ab in C mixolydian b6)'},
+  ].forEach(p=>add({ch:14,type:'analyze',q:p.q,ans:p.ans,audio:[]}));
+  ['C blues','G blues','F blues','A blues'].forEach(k=>{
+    const ns=SD[k];if(!ns)return;
+    add({ch:14,type:'write',q:{ko:`${k} 스케일을 쓰세요.`,en:`Write the ${k} blues scale:`},
+      clef:'treble',given:[ns[0]],givenX:80,ans:ns,audio:ns});
+  });
+
+  return ps;
+}
+
+const ALL=mkProbs();
+
+/* ═══════════════════════════════════════════════
+   CHAPTERS
+═══════════════════════════════════════════════ */
+const CHS=[
+  {t:'음이름 식별/Pitch Recognition',d:'p.1-2 | 높은·낮은음자리표 음이름',de:'p.1-2 | Treble & bass clef note names'},
+  {t:'임시표 & 이명동음/Accidentals',d:'p.3-6 | 임시표, 이명동음',de:'p.3-6 | Accidentals & enharmonics'},
+  {t:'장음계/Major Scales',d:'p.7-10 | 12개 장음계',de:'p.7-10 | All 12 major scales'},
+  {t:'단음계/Minor Scales',d:'p.10-12 | 자연·화성·선율 단음계',de:'p.10-12 | Natural, harmonic, melodic minor'},
+  {t:'5음음계/Pentatonic',d:'p.13 | 장·단 5음음계',de:'p.13 | Major & minor pentatonic'},
+  {t:'조표/Key Signatures',d:'p.15-17 | 조표 식별 & 분석',de:'p.15-17 | Identify & analyze key signatures'},
+  {t:'음정/Intervals',d:'p.18-24 | 음정 식별 & 쓰기',de:'p.18-24 | Identify & write intervals'},
+  {t:'3화음/Triads',d:'p.27-30 | 3화음 식별 & 쓰기',de:'p.27-30 | Identify & write triads'},
+  {t:'7화음/7th Chords',d:'p.32-37 | 7화음 식별 & 쓰기',de:'p.32-37 | Identify & write 7th chords'},
+  {t:'자리바꿈/Inversions',d:'p.38-42 | 화음 자리바꿈',de:'p.38-42 | Chord inversions'},
+  {t:'선법/Modes',d:'p.46-54 | 교회선법',de:'p.46-54 | Church modes'},
+  {t:'음계 성향/Scale Tendencies',d:'p.55-56 | 성향 & 성부진행',de:'p.55-56 | Scale tendencies & voice leading'},
+  {t:'다이아토닉 화성/Diatonic Harmony',d:'p.57-65 | 다이아토닉 분석',de:'p.57-65 | Diatonic harmony'},
+  {t:'부속화음/Secondary Dominants',d:'p.69-84 | 부속화음',de:'p.69-84 | Secondary dominants'},
+  {t:'모달 인터체인지/Modal Interchange',d:'p.92-99 | 모달 인터체인지 & 블루스',de:'p.92-99 | Modal interchange & blues'},
+];
+
+/* ═══════════════════════════════════════════════
+   APP
+═══════════════════════════════════════════════ */
+let LG='ko',CH=0;
+const DONE={};
+
+function gps(ch){return ALL.filter(p=>p.ch===ch);}
+
+function rSB(){
+  let tot=0,dn=0;
+  ALL.forEach(p=>{tot++;if(DONE[p.id])dn++;});
+  document.getElementById('pgtx').textContent=`${dn}/${tot}`;
+  const list=document.getElementById('chl');
+  list.innerHTML=CHS.map((c,i)=>{
+    const ps=gps(i),done=ps.filter(p=>DONE[p.id]).length;
+    const ttl=LG==='ko'?c.t.split('/')[0]:c.t.split('/')[1]||c.t;
+    return `<button class="cbtn${i===CH?' act':''}"onclick="A.gc(${i})">${ttl}<span class="pg">${LG==='ko'?c.d:c.de}</span><span class="cp">${done}/${ps.length}</span></button>`;
+  }).join('');
+}
+
+function rProbs(){
+  const c=CHS[CH],ps=gps(CH);
+  document.getElementById('cht').textContent=LG==='ko'?c.t.split('/')[0]:c.t.split('/')[1]||c.t;
+  document.getElementById('chd').textContent=LG==='ko'?c.d:c.de;
+  const done=ps.filter(p=>DONE[p.id]).length;
+  document.getElementById('pct').textContent=`${done}/${ps.length} ${LG==='ko'?'완료':'done'}`;
+  if(!ps.length){document.getElementById('pbs').innerHTML='<div class="pb" style="color:var(--mut)">문제 없음</div>';return;}
+  document.getElementById('pbs').innerHTML=ps.map(p=>rOne(p)).join('');
+  // init write problems
+  const wps=ps.filter(p=>p.type==='write');
+  wps.forEach(p=>{
+    const cl=p.clef||'treble';
+    if(!ST[p.id])ST[p.id]={pl:[],sa:'',cl};
+    initIS(p.id,cl,p.given||[],p.givenX||80);
+  });
+  // init select problems
+  const sps=ps.filter(p=>p.type==='select');
+  sps.forEach(p=>{
+    const cl=p.clef||'treble';
+    initSL(p.id,p.ns||[],cl);
+  });
+  const ap=[...wps,...sps];
+  if(ap.length){setTimeout(()=>setActive(ap[0].id),80);}
+}
+
+function rOne(p){
+  const q=p.q||{};
+  const qh=`<div class="pq"><span class="ko">${q.ko||''}</span><span class="en">${q.en||''}</span></div>`;
+  const num=`<div class="pnum">${p.id} · ch${p.ch+1}</div>`;
+  const playBtn=(p.audio&&p.audio.length)?`<button class="btn bpl"onclick="A.pp('${p.id}')">▶ 듣기</button>`:'';
+  let body='';
+  if(p.type==='id')body=rID(p);
+  else if(p.type==='mc')body=rMC(p);
+  else if(p.type==='write')body=rWR(p);
+  else if(p.type==='select')body=rSL(p);
+  else if(p.type==='analyze')body=rAZ(p);
+  return `<div class="pb"id="pb_${p.id}">${num}${qh}${body}<div class="ar">${playBtn}</div><div class="fb"id="fb_${p.id}"></div></div>`;
+}
+
+function rID(p){
+  const sf=p.staff?`<div class="sw">${p.staff}</div>`:'';
+  return sf+`<div class="ar"style="margin-top:8px">
+    <input class="ai"id="ai_${p.id}"placeholder="${LG==='ko'?'답 입력...':'Answer...'}"onkeydown="if(event.key==='Enter')A.ck('${p.id}')"/>
+    <button class="btn bp"onclick="A.ck('${p.id}')">확인</button>
+    <button class="btn bs"onclick="A.sh('${p.id}')">힌트</button>
+  </div>`;
+}
+function rMC(p){
+  const sf=p.staff?`<div class="sw">${p.staff}</div>`:'';
+  const opts=(p.opts||[]).map(o=>`<button class="mo"onclick="A.cm('${p.id}','${o.replace(/'/g,"\\'").replace(/"/g,'&quot;')}',this)">${o}</button>`).join('');
+  return sf+`<div class="mco">${opts}</div>`;
+}
+function rWR(p){
+  const cl=p.clef||'treble',giv=p.given||[],gx=p.givenX||80;
+  if(!ST[p.id])ST[p.id]={pl:[],sa:'',cl};
+  const s=ST[p.id];
+  const gNs=giv.map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:gx+i*40}));
+  const svg=drawStaff({cl,ns:[...gNs,...s.pl],w:600,inter:true,id:'is_'+p.id});
+  const ab=['','#','b','##','bb','n'].map(a=>`<button class="ab${s.sa===a?' sl':''}"onclick="A.sa('${p.id}','${a}')"title="${a||'♮'}">${ACC[a]||'♮'}</button>`).join('');
+  const ph=LG==='ko'?'음표명 띄어쓰기로 입력이로... (C4 D4 E4)':'note names space-separated (C4 D4 E4)';
+  const lbni=LG==='ko'?'✏️ 직접 입력':'✏️ Type notes';
+  const lbset=LG==='ko'?'오선에 입력':'Set on staff';
+  return `<div class="sw">${svg}</div>
+    <div class="abar"><span class="ahl">${LG==='ko'?'임시표:':'Acc:'}</span>${ab}
+    <button class="btn bc"style="margin-left:6px"onclick="A.cl('${p.id}')">지우기</button>
+    <button class="btn bp"onclick="A.cw('${p.id}')">확인/Check</button></div>
+    <div class="abar"style="margin-top:4px;gap:6px">
+      <span class="ahl">${lbni}:</span>
+      <input class="nti"id="ni_${p.id}"placeholder="${ph}"onkeydown="if(event.key==='Enter'){A.nt('${p.id}');event.preventDefault();}"/>
+      <button class="btn bs"onclick="A.nt('${p.id}')">${lbset}</button>
+    </div>`;
+}
+function rSL(p){
+  const ns=p.ns||[];const cl=p.clef||'treble';
+  if(!ST[p.id])ST[p.id]={sel:new Set(),cl,ns};
+  const s=ST[p.id];
+  const sp=40,sx=78,w=Math.max(520,sx+ns.length*sp+60);
+  const no=ns.map((n,i)=>({note:n,acc:'',color:s.sel.has(i)?'#16a34a':'#1a1a1a',style:'whole',x:sx+i*sp}));
+  const svg=drawStaff({cl,ns:no,w,inter:true,id:'sl_'+p.id});
+  const hint=LG==='ko'?'음표를 클릭하거나 건반으로 선택 (초록=선택됨)':'Click notes or use keyboard (green=selected)';
+  return `<div class="sw">${svg}</div>`
+    +`<div class="abar" style="margin-top:4px;gap:6px">`
+    +`<span class="ahl">${hint}</span>`
+    +`<button class="btn bc" onclick="A.clsl('${p.id}')">지우기</button>`
+    +`<button class="btn bp" onclick="A.csl('${p.id}')">확인/Check</button>`
+    +`</div>`;
+}
+function rAZ(p){
+  const sf=p.staff?`<div class="sw">${p.staff}</div>`:'';
+  if(p.opts&&p.opts.length){
+    const opts=p.opts.map(o=>`<button class="mo"onclick="A.cm('${p.id}','${o.replace(/'/g,"\\'")}',this)">${o}</button>`).join('');
+    return sf+`<div class="mco">${opts}</div>`;
+  }
+  return sf+`<div class="ar"style="margin-top:8px">
+    <input class="ai"id="ai_${p.id}"placeholder="${LG==='ko'?'답 입력...':'Answer...'}"onkeydown="if(event.key==='Enter')A.ck('${p.id}')"/>
+    <button class="btn bp"onclick="A.ck('${p.id}')">확인</button>
+    <button class="btn bs"onclick="A.sh('${p.id}')">정답 보기</button>
+  </div>`;
+}
+
+const A={
+  init(){mkPiano();rSB();rProbs();this.lp();},
+  gc(i){CH=i;rSB();rProbs();window.scrollTo(0,0);},
+  prev(){if(CH>0){CH--;rSB();rProbs();window.scrollTo(0,0);}},
+  next(){if(CH<CHS.length-1){CH++;rSB();rProbs();window.scrollTo(0,0);}},
+  lang(){LG=LG==='ko'?'en':'ko';rSB();rProbs();},
+  toggleSB(){const sb=document.getElementById('sb');sb.style.display=sb.style.display==='none'?'block':'none';},
+  pk(note){
+    pnote(freq(note));
+    const m=midi(note);
+    if(m){const el=document.querySelector(`[data-m="${m}"]`);if(el){el.classList.add('pk');setTimeout(()=>el.classList.remove('pk'),460);}}
+    if(APID&&ST[APID]){
+      const s=ST[APID];const p=ALL.find(x=>x.id===APID);if(!p)return;
+      if(p.type==='select'){
+        const ns=p.ns||s.ns||[];
+        const em=midi(note);
+        const ci=ns.findIndex(n=>midi(n)===em);
+        if(ci>=0){if(s.sel.has(ci))s.sel.delete(ci);else s.sel.add(ci);
+          reSL(APID,ns,s.cl||'treble');}
+        return;
+      }
+      const cl=s.cl||'treble';
+      const em=midi(note);
+      const ei=s.pl.findIndex(n=>{
+        const full=n.note.slice(0,-1)+(n.acc||'')+n.note.slice(-1);
+        return midi(full)===em;
+      });
+      if(ei>=0){s.pl.splice(ei,1);}
+      else{
+        const gx=(p.givenX||80),gc=(p.given||[]).length;
+        const nx=gx+gc*40+s.pl.length*40;
+        s.pl.push({note,acc:'',x:nx,color:'#2563eb',style:'whole'});
+      }
+      reIS(APID,cl,p.given||[],p.givenX||80);
+    }
+  },
+  pp(pid){
+    const p=ALL.find(x=>x.id===pid);if(!p||!p.audio)return;
+    if(p.type==='write'&&ST[pid]){
+      const placed=ST[pid].pl.map(n=>{const full=n.note.slice(0,-1)+(n.acc||'')+n.note.slice(-1);return full;});
+      const all=[...(p.given||[]),...placed];
+      // 루트(given) 먼저 → 전체 순차
+      if(p.given&&p.given.length){pnote(freq(p.given[0]),0,.7);setTimeout(()=>{play(all);flash(all);},500);}
+      else{play(all);flash(all);}
+    }else if((p.ch===7||p.ch===8||p.ch===9)&&p.type==='mc'&&p.audio.length>1){
+      // 루트음 먼저 → 화음 전체
+      pnote(freq(p.audio[0]),0,.7);
+      setTimeout(()=>{playchord(p.audio);flash(p.audio);},600);
+    }else if(p.type==='write'&&p.given&&p.given.length&&p.audio.length>1){
+      pnote(freq(p.given[0]),0,.7);
+      setTimeout(()=>{play(p.audio);flash(p.audio);},500);
+    }else{play(p.audio);flash(p.audio);}
+  },
+  sa(pid,acc){if(ST[pid])ST[pid].sa=acc;rProbs();},
+  nt(pid){
+    const inp=document.getElementById('ni_'+pid);if(!inp)return;
+    const p=ALL.find(x=>x.id===pid);if(!p)return;
+    const s=ST[pid];if(!s)return;
+    const parts=inp.value.trim().split(/[\s,]+/).filter(Boolean);
+    if(!parts.length)return;
+    s.pl=[];
+    const gx=(p.givenX||80),gc=(p.given||[]).length;
+    let vi=0;
+    parts.forEach(nn=>{
+      if(!pn(nn.trim()))return;
+      s.pl.push({note:nn.trim(),acc:'',x:gx+gc*40+vi*40,color:'#2563eb',style:'whole'});
+      vi++;
+    });
+    reIS(pid,s.cl,p.given||[],p.givenX||80);
+    setActive(pid);inp.value='';
+  },
+  cl(pid){if(ST[pid])ST[pid].pl=[];rProbs();},
+  ck(pid){
+    const p=ALL.find(x=>x.id===pid);if(!p)return;
+    const el=document.getElementById('ai_'+pid);
+    const fb=document.getElementById('fb_'+pid);
+    const ans=(el?el.value:'').trim();
+    let ok=false;
+    if(p.check)ok=p.check(ans);
+    else{const a=ans.toLowerCase(),b=(p.ans||'').toLowerCase();ok=a===b||a.includes(b)||b.includes(a);}
+    if(ok){
+      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?'정답!':'Correct!');
+      DONE[pid]=true;this.sp();rSB();setTimeout(()=>this.next(),700);
+    }else{
+      fb.className='fb fno';fb.textContent=(LG==='ko'?'✗ 정답: ':'✗ Answer: ')+(p.showAns||p.ans||'');
+    }
+  },
+  cm(pid,ans,btn){
+    const p=ALL.find(x=>x.id===pid);if(!p)return;
+    const a1=ans.toLowerCase().trim(),a2=(p.ans||p.lbl||'').toLowerCase().trim();
+    const ok=a1===a2||a1.includes(a2)||a2.includes(a1);
+    btn.className='mo '+(ok?'ok':'bad');
+    const fb=document.getElementById('fb_'+pid);
+    if(ok){
+      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?'정답!':'Correct!');
+      DONE[pid]=true;this.sp();rSB();setTimeout(()=>this.next(),600);
+    }else{
+      fb.className='fb fno';fb.textContent=(LG==='ko'?'✗ 정답: ':'✗ Answer: ')+(p.lbl||p.ans||'');
+    }
+  },
+  cw(pid){
+    const s=ST[pid],p=ALL.find(x=>x.id===pid);if(!p||!s)return;
+    const fb=document.getElementById('fb_'+pid);
+    if(!s.pl.length){fb.className='fb fin';fb.textContent=LG==='ko'?'오선을 클릭해서 음표를 배치하세요.':'Click the staff to place notes.';return;}
+    const pMid=s.pl.map(n=>{const full=n.note.slice(0,-1)+(n.acc||'')+n.note.slice(-1);return midi(full)||midi(n.note);}).filter(Boolean);
+    const aMid=(p.ans||[]).map(n=>midi(n)).filter(Boolean);
+    const gMid=(p.given||[]).map(n=>midi(n)).filter(Boolean);
+    const need=aMid.filter(m=>!gMid.includes(m));
+    const ok=need.length>0&&need.every(m=>pMid.includes(m));
+    if(ok){
+      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?'정답!':'Correct!');
+      s.pl=s.pl.map(n=>({...n,color:'#16a34a'}));
+      reIS(pid,s.cl,p.given,p.givenX);
+      DONE[pid]=true;this.sp();rSB();
+      play(p.ans||[]);flash(p.ans||[]);
+      setTimeout(()=>this.next(),1800);
+    }else{
+      fb.className='fb fno';fb.textContent=(LG==='ko'?'✗ 정답: ':'✗ Answer: ')+(p.ans||[]).join(', ');
+      s.pl=s.pl.map(n=>({...n,color:'#dc2626'}));
+      reIS(pid,s.cl,p.given,p.givenX);
+    }
+  },
+  sh(pid){
+    const p=ALL.find(x=>x.id===pid);if(!p)return;
+    const fb=document.getElementById('fb_'+pid);
+    fb.className='fb fin';fb.textContent=(LG==='ko'?'💡 정답: ':'💡 Answer: ')+(Array.isArray(p.ans)?p.ans.join(', '):p.ans||'');
+  },
+  csl(pid){
+    const p=ALL.find(x=>x.id===pid);if(!p)return;
+    const s=ST[pid];if(!s)return;
+    const fb=document.getElementById('fb_'+pid);
+    if(!s.sel||s.sel.size===0){fb.className='fb fin';fb.textContent=LG==='ko'?'음표를 클릭해서 선택하세요.':'Click notes to select.';return;}
+    const ns=p.ns||s.ns||[];
+    const selMidi=[...s.sel].map(i=>ns[i]).map(n=>midi(n)).filter(Boolean).sort((a,b)=>a-b);
+    const ansMidi=(p.ansMidi||[]).slice().sort((a,b)=>a-b);
+    const ok=selMidi.length===ansMidi.length&&selMidi.every((m,i)=>m===ansMidi[i]);
+    if(ok){
+      fb.className='fb fok';fb.textContent='\u2713 '+(LG==='ko'?'정답!':'Correct!');
+      DONE[pid]=true;this.sp();rSB();
+      play(p.audio||[]);flash(p.audio||[]);
+    }else{
+      fb.className='fb fno';fb.textContent=(LG==='ko'?'\u2717 정답: ':'\u2717 Answer: ')+(p.ans||'');
+    }
+  },
+  clsl(pid){
+    if(ST[pid])ST[pid].sel=new Set();
+    const p=ALL.find(x=>x.id===pid);
+    if(p)reSL(pid,p.ns||ST[pid].ns||[],(ST[pid]&&ST[pid].cl)||'treble');
+  },
+  sp(){try{localStorage.setItem('bhw2',JSON.stringify(DONE));}catch(e){}},
+  lp(){try{const d=JSON.parse(localStorage.getItem('bhw2')||'{}');Object.assign(DONE,d);rSB();}catch(e){}},
+};
+
+document.addEventListener('DOMContentLoaded',()=>A.init());
+</script>
+</body>
+</html>
