@@ -3,83 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Berklee Harmony Workbook v2</title>
+<title>Berklee Harmony Workbook v3</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#f8f6f0;--surf:#fff;--brd:#d4c9b0;--txt:#2a2520;--mut:#7a7060;--acc:#2563eb;--acl:#dbeafe;--ok:#16a34a;--err:#dc2626;--ph:118px;--hh:52px;--sw:248px}
-body{font-family:Georgia,serif;background:var(--bg);color:var(--txt);font-size:18px}
-#hdr{position:fixed;top:0;left:0;right:0;height:var(--hh);background:#1e3a5f;color:#fff;display:flex;align-items:center;padding:0 14px;gap:10px;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-#hdr h1{font-size:1rem;flex:1;line-height:1.3}
-#hdr h1 small{font-size:.8rem;opacity:.65;font-weight:normal;display:block}
-.hbtn{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:.88rem}
-.hbtn:hover{background:rgba(255,255,255,.3)}
-#pgtx{font-size:.86rem;opacity:.8;white-space:nowrap}
-#lay{display:flex;margin-top:var(--hh);margin-bottom:var(--ph);min-height:calc(100vh - var(--hh) - var(--ph))}
-#sb{width:var(--sw);background:#f0ece0;border-right:1px solid var(--brd);overflow-y:auto;position:fixed;top:var(--hh);bottom:var(--ph);left:0;z-index:50}
-.cbtn{display:block;width:100%;padding:9px 13px;text-align:left;border:none;background:transparent;cursor:pointer;font-size:.92rem;border-bottom:1px solid var(--brd);line-height:1.3;font-family:Georgia,serif;color:var(--txt)}
-.cbtn:hover{background:#e5e0d0}
-.cbtn.act{background:var(--acl);border-left:3px solid var(--acc);color:#1e40af;font-weight:bold}
-.cbtn .pg{font-size:.78rem;color:var(--mut);display:block;margin-top:2px}
-.cbtn .cp{float:right;font-size:.78rem;color:var(--mut)}
-#mn{flex:1;margin-left:var(--sw);padding:16px 18px;max-width:860px}
-.chdr{padding:6px 0 10px;border-bottom:2px solid var(--brd);margin-bottom:14px}
-.chdr h2{font-size:1.3rem;color:#1e3a5f}
-.chdr p{font-size:.95rem;color:var(--mut);margin-top:3px}
-.pb{background:var(--surf);border:1px solid var(--brd);border-radius:7px;padding:18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.pnum{font-size:.8rem;color:var(--mut);font-family:monospace;margin-bottom:6px}
-.pq{font-size:1.08rem;margin-bottom:10px;line-height:1.6}
-.pq .ko{display:block}
-.pq .en{display:block;font-size:.95rem;color:var(--mut);margin-top:3px}
-.sw{overflow-x:auto;margin:6px 0;background:#fff;border-radius:4px;border:1px solid #e8e0d0}
-.ssv{display:block}
-.ssv.ck{cursor:crosshair}
-.pb.actv{border-color:var(--acc)!important;box-shadow:0 0 0 2.5px var(--acl);}
-#pia_lbl{position:absolute;top:3px;left:8px;color:#94a3b8;font-size:.72rem;pointer-events:none;white-space:nowrap}
-#pia{position:relative}
-.nti{font-size:.95rem;font-family:monospace;padding:5px 9px;border:1.5px solid var(--brd);border-radius:4px;background:#fff;width:260px}
-.nti:focus{outline:none;border-color:var(--acc)}
-.abar{display:flex;gap:5px;margin:5px 0;align-items:center;flex-wrap:wrap}
-.ab{width:36px;height:36px;border:1.5px solid var(--brd);border-radius:4px;background:#fff;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;font-family:"FreeSerif",serif;transition:.1s}
-.ab:hover{background:var(--acl);border-color:var(--acc)}
-.ab.sl{background:var(--acc);color:#fff;border-color:var(--acc)}
-.ahl{font-size:.9rem;color:var(--mut)}
-.ar{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap;align-items:center}
-.btn{padding:7px 16px;border-radius:5px;border:none;cursor:pointer;font-size:.97rem;font-family:Georgia,serif;transition:.1s}
-.bp{background:var(--acc);color:#fff}.bp:hover{background:#1d4ed8}
-.bs{background:#f0ece0;border:1px solid var(--brd);color:var(--txt)}.bs:hover{background:#e5e0d0}
-.bpl{background:#7c3aed;color:#fff}.bpl:hover{background:#6d28d9}
-.bc{background:#fff;border:1px solid var(--brd);color:var(--mut)}.bc:hover{background:#f5f0e8}
-.fb{margin-top:8px;padding:10px 14px;border-radius:5px;font-size:1rem;display:none}
-.fok{background:#dcfce7;border:1px solid #86efac;color:#166534;display:block}
-.fno{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;display:block}
-.fin{background:var(--acl);border:1px solid #93c5fd;color:#1e40af;display:block}
-.ai{padding:7px 11px;border:1.5px solid var(--brd);border-radius:5px;font-size:1rem;font-family:Georgia,serif;background:#fff;width:190px}
-.ai:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 2px var(--acl)}
-.mco{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}
-.mo{padding:7px 16px;border:1.5px solid var(--brd);border-radius:14px;background:#fff;cursor:pointer;font-size:.97rem;transition:.1s;font-family:Georgia,serif}
-.mo:hover{background:var(--acl);border-color:var(--acc)}
-.mo.sl{background:var(--acc);color:#fff;border-color:var(--acc)}
-.mo.ok{background:#dcfce7;border-color:#16a34a;color:#166534}
-.mo.bad{background:#fee2e2;border-color:#dc2626;color:#991b1b}
-.pnav{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--brd);margin-top:12px}
-#pia{position:fixed;bottom:0;left:0;right:0;height:var(--ph);background:#16213e;border-top:2px solid #2d3561;display:flex;align-items:center;justify-content:center;z-index:200;padding:6px 8px 4px;overflow:hidden}
-#psvg{overflow-x:auto;overflow-y:hidden;max-width:100%}
-#sb::-webkit-scrollbar{width:4px}
-#sb::-webkit-scrollbar-thumb{background:var(--brd);border-radius:2px}
-@media(max-width:680px){:root{--sw:0px}#sb{display:none}#mn{margin-left:0;padding:10px 12px}}
+:root{
+  --bg:#fff9ef;--surf:#ffffff;--surf2:#fffaf2;--brd:#f0dfc0;--txt:#332a1f;--mut:#8a7a63;
+  --acc:#2563eb;--acl:#dbeafe;         /* H1&2 blue */
+  --h3:#059669;--h3l:#d1fae5;          /* H3 green */
+  --h4:#7c3aed;--h4l:#ede9fe;          /* H4 violet */
+  --ok:#16a34a;--okl:#dcfce7;--err:#e11d48;--errl:#ffe4e6;
+  --gold:#f59e0b;--flame:#f97316;
+  --ph:126px;--hh:56px;--sw:260px;--rad:16px;
+}
+body{font-family:'Pretendard','Noto Sans KR',Georgia,serif;background:
+  radial-gradient(circle at 10% 0%,#fff3d6 0%,transparent 45%),
+  radial-gradient(circle at 90% 10%,#e0f2ea 0%,transparent 40%),
+  var(--bg);color:var(--txt);font-size:17px;-webkit-font-smoothing:antialiased}
+#hdr{position:fixed;top:0;left:0;right:0;height:var(--hh);
+  background:linear-gradient(120deg,#1e3a5f 0%,#274870 55%,#1e3a5f 100%);
+  color:#fff;display:flex;align-items:center;padding:0 12px;gap:8px;z-index:200;
+  box-shadow:0 4px 14px rgba(0,0,0,.25)}
+#hdr h1{font-size:.98rem;flex:1;line-height:1.25;min-width:0}
+#hdr h1 small{font-size:.74rem;opacity:.65;font-weight:normal;display:block}
+.hbtn{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);color:#fff;
+  padding:6px 10px;border-radius:10px;cursor:pointer;font-size:.82rem;white-space:nowrap;
+  transition:transform .12s,background .12s}
+.hbtn:hover{background:rgba(255,255,255,.3);transform:translateY(-1px)}
+.hbtn.ext{background:linear-gradient(135deg,#fbbf24,#f97316);border:none;font-weight:700;color:#3a2600}
+.xpwrap{display:flex;align-items:center;gap:6px;font-size:.78rem;white-space:nowrap;
+  background:rgba(0,0,0,.18);padding:4px 9px;border-radius:20px}
+.xpwrap b{color:#ffd873}
+#pbarwrap{position:fixed;top:var(--hh);left:0;right:0;height:5px;background:rgba(0,0,0,.06);z-index:190}
+#pbar{height:100%;width:0%;background:linear-gradient(90deg,var(--acc),var(--h3),var(--h4));
+  transition:width .4s ease;border-radius:0 4px 4px 0}
+#lay{display:flex;margin-top:calc(var(--hh) + 5px);margin-bottom:var(--ph);min-height:calc(100vh - var(--hh) - var(--ph) - 5px)}
+#sb{width:var(--sw);background:var(--surf2);border-right:1px solid var(--brd);overflow-y:auto;
+  position:fixed;top:calc(var(--hh) + 5px);bottom:var(--ph);left:0;z-index:150;padding:8px 0}
+.sbgrp{font-size:.72rem;font-weight:800;letter-spacing:.06em;color:var(--mut);
+  padding:12px 14px 4px;text-transform:uppercase}
+.sbgrp.h3{color:var(--h3)} .sbgrp.h4{color:var(--h4)}
+.cbtn{display:block;width:calc(100% - 12px);margin:2px 6px;padding:9px 11px;text-align:left;
+  border:none;border-radius:11px;background:transparent;cursor:pointer;font-size:.9rem;
+  line-height:1.3;font-family:inherit;color:var(--txt);transition:background .12s}
+.cbtn:hover{background:#f2e8d4}
+.cbtn.act{background:var(--acl);color:#1e40af;font-weight:700}
+.cbtn.act.h3{background:var(--h3l);color:#065f46}
+.cbtn.act.h4{background:var(--h4l);color:#5b21b6}
+.cbtn .pg{font-size:.74rem;color:var(--mut);display:block;margin-top:1px;font-weight:400}
+.cbtn .cp{float:right;font-size:.74rem;color:var(--mut)}
+.cbtn .badge100{color:var(--gold)}
+#mn{flex:1;margin-left:var(--sw);padding:18px 18px 30px;max-width:900px}
+.chdr{padding:10px 16px;border-radius:var(--rad);margin-bottom:16px;
+  background:linear-gradient(135deg,var(--acl),#fff);border:1px solid var(--brd)}
+.chdr.h3{background:linear-gradient(135deg,var(--h3l),#fff)}
+.chdr.h4{background:linear-gradient(135deg,var(--h4l),#fff)}
+.chdr h2{font-size:1.28rem;color:#1e3a5f;margin-bottom:2px}
+.chdr.h3 h2{color:#065f46} .chdr.h4 h2{color:#5b21b6}
+.chdr p{font-size:.86rem;color:var(--mut)}
+.chdr .links{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:.76rem;padding:4px 10px;
+  border-radius:20px;text-decoration:none;font-weight:600;border:1px solid transparent;
+  transition:transform .1s}
+.chip:hover{transform:translateY(-1px)}
+.chip.term{background:var(--h3l);color:#065f46;border-color:#a7e8cf}
+.chip.week{background:var(--h4l);color:#5b21b6;border-color:#d3bdf7}
+.pb{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rad);
+  padding:14px 16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(80,60,20,.05)}
+.pnum{font-size:.72rem;color:var(--mut);margin-bottom:4px;font-weight:600}
+.pq{display:block;font-size:1.02rem;margin-bottom:10px;line-height:1.5}
+.pq .en{display:block;font-size:.84rem;color:var(--mut);margin-top:2px}
+.sw{overflow-x:auto;margin:6px 0}
+.mco{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.mo{padding:9px 15px;border-radius:12px;border:2px solid var(--brd);background:var(--surf2);
+  cursor:pointer;font-size:.92rem;font-family:inherit;transition:all .12s;color:var(--txt)}
+.mo:hover{border-color:var(--acc);transform:translateY(-1px)}
+.mo.ok{background:var(--okl);border-color:var(--ok);color:#065f46;font-weight:700}
+.mo.bad{background:var(--errl);border-color:var(--err);color:#881337}
+.ar{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.ai{flex:1;min-width:140px;padding:9px 12px;border:2px solid var(--brd);border-radius:11px;
+  font-size:.95rem;font-family:inherit;background:var(--surf2)}
+.ai:focus{outline:none;border-color:var(--acc)}
+.btn{padding:9px 15px;border-radius:11px;border:none;cursor:pointer;font-size:.88rem;
+  font-family:inherit;font-weight:700;transition:transform .1s}
+.btn:hover{transform:translateY(-1px)}
+.bp{background:var(--acc);color:#fff}
+.bs{background:#efe6d0;color:#4a3b26}
+.bc{background:#f1dede;color:#7a2020}
+.bpl{background:var(--gold);color:#3a2600}
+.fb{margin-top:10px;padding:9px 13px;border-radius:11px;font-size:.9rem;font-weight:600;display:none}
+.fb.fok{display:block;background:var(--okl);color:#065f46;animation:pop .35s ease}
+.fb.fno{display:block;background:var(--errl);color:#881337}
+.fb.fin{display:block;background:#fef3c7;color:#78350f}
+.why{margin-top:8px;padding:9px 13px;border-radius:11px;background:#fff7e6;
+  border:1px dashed #f0cf8a;font-size:.85rem;color:#5c4322;line-height:1.5}
+@keyframes pop{0%{transform:scale(.9)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+.abar{display:flex;align-items:center;gap:5px;margin-top:8px;flex-wrap:wrap}
+.ahl{font-size:.8rem;color:var(--mut);margin-right:2px}
+.ab{width:30px;height:30px;border-radius:8px;border:2px solid var(--brd);background:var(--surf2);
+  cursor:pointer;font-size:1rem}
+.ab.sl{background:var(--acl);border-color:var(--acc)}
+.nti{flex:1;min-width:120px;padding:7px 10px;border:2px solid var(--brd);border-radius:9px;font-size:.86rem;background:var(--surf2)}
+.pnav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:8px}
+#pia{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,#fffdf7,#fff3dc);
+  border-top:2px solid var(--brd);z-index:180;padding:6px 0 4px;text-align:center}
+#pia_lbl{font-size:.74rem;color:var(--mut);margin-bottom:2px}
+#psvg{overflow-x:auto}
+#streaktoast{position:fixed;top:70px;left:50%;transform:translateX(-50%) scale(.8);
+  background:linear-gradient(135deg,#fbbf24,#f97316);color:#3a1e00;padding:8px 18px;
+  border-radius:30px;font-weight:800;font-size:.95rem;box-shadow:0 6px 18px rgba(0,0,0,.25);
+  z-index:400;opacity:0;pointer-events:none;transition:all .35s}
+#streaktoast.show{opacity:1;transform:translateX(-50%) scale(1)}
+#sbovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:140}
+@media(max-width:820px){
+  :root{--sw:78vw}
+  #sb{transform:translateX(-100%);transition:transform .22s;box-shadow:4px 0 24px rgba(0,0,0,.2)}
+  #sb.open{transform:translateX(0)}
+  #sbovl.open{display:block}
+  #mn{margin-left:0;padding:14px 12px 26px}
+  #hdr h1{font-size:.86rem}
+  #hdr h1 small{font-size:.66rem}
+  .hbtn{padding:5px 8px;font-size:.74rem}
+  .xpwrap{font-size:.7rem;padding:3px 7px}
+  .chdr h2{font-size:1.08rem}
+  .mo{padding:8px 12px;font-size:.86rem}
+  .pq{font-size:.96rem}
+}
 </style>
 </head>
 <body>
 <div id="hdr">
-  <h1>Berklee Harmony Workbook <small>버클리 화성학 워크북 인터랙티브 v2</small></h1>
-  <span id="pgtx">0/0</span>
+  <h1>Berklee Harmony Workbook <small>버클리 화성학 워크북 인터랙티브 v3</small></h1>
+  <span class="xpwrap">⭐<b id="xpv">0</b> XP · 🔥<b id="streakv">0</b></span>
+  <a class="hbtn ext" href="https://mowmau.github.io/harmony/#glossary" target="_blank" rel="noopener">📖 용어사전</a>
+  <a class="hbtn ext" href="https://mowmau.github.io/harmony/#home" target="_blank" rel="noopener">🎓 강좌</a>
   <button class="hbtn" onclick="A.lang()">한/EN</button>
   <button class="hbtn" onclick="A.toggleSB()">☰</button>
 </div>
+<div id="pbarwrap"><div id="pbar"></div></div>
+<div id="sbovl" onclick="A.toggleSB()"></div>
 <div id="lay">
   <aside id="sb"><div id="chl"></div></aside>
   <main id="mn">
-    <div class="chdr"><h2 id="cht"></h2><p id="chd"></p></div>
+    <div class="chdr" id="chdr">
+      <h2 id="cht"></h2><p id="chd"></p>
+      <div class="links" id="chlinks"></div>
+    </div>
     <div id="pbs"></div>
     <div class="pnav">
       <button class="btn bs" onclick="A.prev()">← 이전 챕터</button>
@@ -88,8 +156,10 @@ body{font-family:Georgia,serif;background:var(--bg);color:var(--txt);font-size:1
     </div>
   </main>
 </div>
+<div id="streaktoast"></div>
 <div id="pia"><div id="pia_lbl">🎹 쓰기 문제의 오선을 클릭하면 건반 연동</div><div id="psvg"></div></div>
 <script>
+'use strict';
 'use strict';
 /* ═══════════════════════════════════════════════
    MUSIC THEORY ENGINE
@@ -417,6 +487,33 @@ function oIn(ex,n=4){return shuf([ex,'P5','M3','m3','M6','m6','P4','M7','m7','A4
 function oCh(ex,n=4){return shuf(['C major','D minor','E minor','F major','G major','A minor','B dim','C minor','D major','E major','F minor','G aug','D aug','C aug','Eb major','Bb major','Ab major'].filter(c=>c!==ex)).slice(0,n);}
 function oMo(ex,n=4){return shuf([ex,'D dorian','G mixolydian','E phrygian','A lydian','B locrian','C aeolian','F dorian','Bb mixolydian','A phrygian','D mixolydian','C ionian','F lydian'].filter(m=>m!==ex)).slice(0,n);}
 
+
+const CHS=[
+  {t:'음이름 식별/Pitch Recognition',d:'p.1-2 | 높은·낮은음자리표 음이름',de:'p.1-2 | Treble & bass clef note names',grp:'h12'},
+  {t:'임시표 & 이명동음/Accidentals',d:'p.3-6 | 임시표, 이명동음',de:'p.3-6 | Accidentals & enharmonics',grp:'h12'},
+  {t:'장음계/Major Scales',d:'p.7-10 | 12개 장음계',de:'p.7-10 | All 12 major scales',grp:'h12'},
+  {t:'단음계/Minor Scales',d:'p.10-12 | 자연·화성·선율 단음계',de:'p.10-12 | Natural, harmonic, melodic minor',grp:'h12'},
+  {t:'5음음계/Pentatonic',d:'p.13 | 장·단 5음음계',de:'p.13 | Major & minor pentatonic',grp:'h12'},
+  {t:'조표/Key Signatures',d:'p.15-17 | 조표 식별 & 분석',de:'p.15-17 | Identify & analyze key signatures',grp:'h12'},
+  {t:'음정/Intervals',d:'p.18-24 | 음정 식별 & 쓰기',de:'p.18-24 | Identify & write intervals',grp:'h12'},
+  {t:'3화음/Triads',d:'p.27-30 | 3화음 식별 & 쓰기',de:'p.27-30 | Identify & write triads',grp:'h12'},
+  {t:'7화음/7th Chords',d:'p.32-37 | 7화음 식별 & 쓰기',de:'p.32-37 | Identify & write 7th chords',grp:'h12'},
+  {t:'자리바꿈/Inversions',d:'p.38-42 | 화음 자리바꿈',de:'p.38-42 | Chord inversions',grp:'h12'},
+  {t:'선법/Modes',d:'p.46-54 | 교회선법',de:'p.46-54 | Church modes',grp:'h12'},
+  {t:'음계 성향/Scale Tendencies',d:'p.55-56 | 성향 & 성부진행',de:'p.55-56 | Scale tendencies & voice leading',grp:'h12'},
+  {t:'다이아토닉 화성/Diatonic Harmony',d:'p.57-65 | 다이아토닉 분석',de:'p.57-65 | Diatonic harmony',grp:'h12'},
+  {t:'부속화음/Secondary Dominants',d:'p.69-84 | 부속화음',de:'p.69-84 | Secondary dominants',grp:'h12'},
+  {t:'모달 인터체인지/Modal Interchange',d:'p.92-99 | 모달 인터체인지 & 블루스',de:'p.92-99 | Modal interchange & blues',grp:'h12'},
+  {t:'다이아토닉 코드 스케일/Diatonic Chord Scales',d:'Harmony 3 · p.7-11 | 로마숫자별 코드 스케일',de:'Harmony 3 · p.7-11 | Chord scale per Roman numeral',grp:'h3'},
+  {t:'세컨더리 도미넌트 스케일/Secondary Dom. Scales',d:'Harmony 3 · p.13-14 | 세컨더리 도미넌트의 코드 스케일',de:'Harmony 3 · p.13-14 | Chord scales for secondary dominants',grp:'h3'},
+  {t:'확장 도미넌트/Extended Dominants',d:'Harmony 3 · p.29-31 | 5도권 사슬',de:'Harmony 3 · p.29-31 | Dominant chains around the cycle of 5ths',grp:'h3'},
+  {t:'대리도미넌트/Substitute Dominants',d:'Harmony 3 · p.24-31 | 트라이톤 대체 & 리디안♭7',de:'Harmony 3 · p.24-31 | Tritone sub & Lydian b7',grp:'h3'},
+  {t:'관련 II-7/Related II-7 Chords',d:'Harmony 3 · p.28 | ii-V 펼치기',de:'Harmony 3 · p.28 | Unfolding dominants into ii-V',grp:'h3'},
+  {t:'감7화음/Diminished 7th Chords',d:'Harmony 3 · p.37-42 | 감7화음 스펠링 & 코드 스케일',de:'Harmony 3 · p.37-42 | Spelling & chord scales',grp:'h3'},
+  {t:'전조/Modulation',d:'Harmony 3 · p.44-46 | 전조의 4가지 유형',de:'Harmony 3 · p.44-46 | Four types of modulation',grp:'h3'},
+  {t:'비도미넌트 딸림화음/Non-Dominant-Function 7ths',d:'Harmony 3 · p.63-68 | 이어지는 도미넌트',de:'Harmony 3 · p.63-68 | Contiguous dominants',grp:'h3'},
+];
+
 function mkProbs(){
   const ps=[];let idx=0;
   function add(o){ps.push({id:'p'+(++idx),...o});return ps[ps.length-1];}
@@ -719,68 +816,287 @@ function mkProbs(){
       clef:'treble',given:[ns[0]],givenX:80,ans:ns,audio:ns});
   });
 
+  /* ── CH 15: Diatonic Chord Scales (Harmony 3) ── */
+  add({ch:15,type:'mc',q:{ko:'C 장조에서 IIm7 화음의 코드 스케일은?',en:'In C major, the chord scale for IIm7 is:'},staff:noteRow(["D4","E4","F4","G4","A4","B4","C5","D5"],'treble',{sp:36,sx:70}),audio:["D4","E4","F4","G4","A4","B4","C5","D5"],ans:'D dorian',opts:["D locrian","D phrygian","D dorian","D mixolydian"],terms:['chord_scale','mode'],why:{ko:'C 장조의 IIm7는 도리안(D dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in C major takes D dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'C 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In C major, the chord scale for IVmaj7 is:'},staff:noteRow(["F4","G4","A4","B4","C5","D5","E5","F5"],'treble',{sp:36,sx:70}),audio:["F4","G4","A4","B4","C5","D5","E5","F5"],ans:'F lydian',opts:["F lydian","F locrian","F dorian","F phrygian"],terms:['chord_scale','mode'],why:{ko:'C 장조의 IVmaj7는 리디안(F lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in C major takes F lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'C 장조에서 V7 화음의 코드 스케일은?',en:'In C major, the chord scale for V7 is:'},staff:noteRow(["G4","A4","B4","C5","D5","E5","F5","G5"],'treble',{sp:36,sx:70}),audio:["G4","A4","B4","C5","D5","E5","F5","G5"],ans:'G mixolydian',opts:["G mixolydian","G lydian","G aeolian","G dorian"],terms:['chord_scale','mode'],why:{ko:'C 장조의 V7는 믹소리디안(G mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in C major takes G mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'C 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In C major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["B4","C5","D5","E5","F5","G5","A5","B5"],'treble',{sp:36,sx:70}),audio:["B4","C5","D5","E5","F5","G5","A5","B5"],ans:'B locrian',opts:["B dorian","B locrian","B phrygian","B lydian"],terms:['chord_scale','mode'],why:{ko:'C 장조의 VIIm7(b5)는 로크리안(B locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in C major takes B locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'G 장조에서 IIm7 화음의 코드 스케일은?',en:'In G major, the chord scale for IIm7 is:'},staff:noteRow(["A3","B3","C4","D4","E4","F#4","G4","A4"],'treble',{sp:36,sx:70}),audio:["A3","B3","C4","D4","E4","F#4","G4","A4"],ans:'A dorian',opts:["A mixolydian","A ionian","A locrian","A dorian"],terms:['chord_scale','mode'],why:{ko:'G 장조의 IIm7는 도리안(A dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in G major takes A dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'G 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In G major, the chord scale for IVmaj7 is:'},staff:noteRow(["C4","D4","E4","F#4","G4","A4","B4","C5"],'treble',{sp:36,sx:70}),audio:["C4","D4","E4","F#4","G4","A4","B4","C5"],ans:'C lydian',opts:["C lydian","C ionian","C mixolydian","C locrian"],terms:['chord_scale','mode'],why:{ko:'G 장조의 IVmaj7는 리디안(C lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in G major takes C lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'G 장조에서 V7 화음의 코드 스케일은?',en:'In G major, the chord scale for V7 is:'},staff:noteRow(["D4","E4","F#4","G4","A4","B4","C5","D5"],'treble',{sp:36,sx:70}),audio:["D4","E4","F#4","G4","A4","B4","C5","D5"],ans:'D mixolydian',opts:["D ionian","D aeolian","D locrian","D mixolydian"],terms:['chord_scale','mode'],why:{ko:'G 장조의 V7는 믹소리디안(D mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in G major takes D mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'G 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In G major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["F#4","G4","A4","B4","C5","D5","E5","F#5"],'treble',{sp:36,sx:70}),audio:["F#4","G4","A4","B4","C5","D5","E5","F#5"],ans:'F# locrian',opts:["F# locrian","F# phrygian","F# mixolydian","F# dorian"],terms:['chord_scale','mode'],why:{ko:'G 장조의 VIIm7(b5)는 로크리안(F# locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in G major takes F# locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'D 장조에서 IIm7 화음의 코드 스케일은?',en:'In D major, the chord scale for IIm7 is:'},staff:noteRow(["E4","F#4","G4","A4","B4","C#5","D5","E5"],'treble',{sp:36,sx:70}),audio:["E4","F#4","G4","A4","B4","C#5","D5","E5"],ans:'E dorian',opts:["E lydian","E dorian","E ionian","E aeolian"],terms:['chord_scale','mode'],why:{ko:'D 장조의 IIm7는 도리안(E dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in D major takes E dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'D 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In D major, the chord scale for IVmaj7 is:'},staff:noteRow(["G4","A4","B4","C#5","D5","E5","F#5","G5"],'treble',{sp:36,sx:70}),audio:["G4","A4","B4","C#5","D5","E5","F#5","G5"],ans:'G lydian',opts:["G phrygian","G mixolydian","G lydian","G dorian"],terms:['chord_scale','mode'],why:{ko:'D 장조의 IVmaj7는 리디안(G lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in D major takes G lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'D 장조에서 V7 화음의 코드 스케일은?',en:'In D major, the chord scale for V7 is:'},staff:noteRow(["A4","B4","C#5","D5","E5","F#5","G5","A5"],'treble',{sp:36,sx:70}),audio:["A4","B4","C#5","D5","E5","F#5","G5","A5"],ans:'A mixolydian',opts:["A ionian","A mixolydian","A lydian","A dorian"],terms:['chord_scale','mode'],why:{ko:'D 장조의 V7는 믹소리디안(A mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in D major takes A mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'D 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In D major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["C#5","D5","E5","F#5","G5","A5","B5","C#6"],'treble',{sp:36,sx:70}),audio:["C#5","D5","E5","F#5","G5","A5","B5","C#6"],ans:'C# locrian',opts:["C# ionian","C# locrian","C# dorian","C# lydian"],terms:['chord_scale','mode'],why:{ko:'D 장조의 VIIm7(b5)는 로크리안(C# locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in D major takes C# locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'A 장조에서 IIm7 화음의 코드 스케일은?',en:'In A major, the chord scale for IIm7 is:'},staff:noteRow(["B3","C#4","D4","E4","F#4","G#4","A4","B4"],'treble',{sp:36,sx:70}),audio:["B3","C#4","D4","E4","F#4","G#4","A4","B4"],ans:'B dorian',opts:["B phrygian","B dorian","B mixolydian","B aeolian"],terms:['chord_scale','mode'],why:{ko:'A 장조의 IIm7는 도리안(B dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in A major takes B dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'A 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In A major, the chord scale for IVmaj7 is:'},staff:noteRow(["D4","E4","F#4","G#4","A4","B4","C#5","D5"],'treble',{sp:36,sx:70}),audio:["D4","E4","F#4","G#4","A4","B4","C#5","D5"],ans:'D lydian',opts:["D lydian","D phrygian","D mixolydian","D locrian"],terms:['chord_scale','mode'],why:{ko:'A 장조의 IVmaj7는 리디안(D lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in A major takes D lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'A 장조에서 V7 화음의 코드 스케일은?',en:'In A major, the chord scale for V7 is:'},staff:noteRow(["E4","F#4","G#4","A4","B4","C#5","D5","E5"],'treble',{sp:36,sx:70}),audio:["E4","F#4","G#4","A4","B4","C#5","D5","E5"],ans:'E mixolydian',opts:["E mixolydian","E dorian","E locrian","E aeolian"],terms:['chord_scale','mode'],why:{ko:'A 장조의 V7는 믹소리디안(E mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in A major takes E mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'A 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In A major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["G#4","A4","B4","C#5","D5","E5","F#5","G#5"],'treble',{sp:36,sx:70}),audio:["G#4","A4","B4","C#5","D5","E5","F#5","G#5"],ans:'G# locrian',opts:["G# aeolian","G# ionian","G# dorian","G# locrian"],terms:['chord_scale','mode'],why:{ko:'A 장조의 VIIm7(b5)는 로크리안(G# locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in A major takes G# locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'E 장조에서 IIm7 화음의 코드 스케일은?',en:'In E major, the chord scale for IIm7 is:'},staff:noteRow(["F#4","G#4","A4","B4","C#5","D#5","E5","F#5"],'treble',{sp:36,sx:70}),audio:["F#4","G#4","A4","B4","C#5","D#5","E5","F#5"],ans:'F# dorian',opts:["F# aeolian","F# locrian","F# dorian","F# mixolydian"],terms:['chord_scale','mode'],why:{ko:'E 장조의 IIm7는 도리안(F# dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in E major takes F# dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'E 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In E major, the chord scale for IVmaj7 is:'},staff:noteRow(["A4","B4","C#5","D#5","E5","F#5","G#5","A5"],'treble',{sp:36,sx:70}),audio:["A4","B4","C#5","D#5","E5","F#5","G#5","A5"],ans:'A lydian',opts:["A dorian","A lydian","A phrygian","A mixolydian"],terms:['chord_scale','mode'],why:{ko:'E 장조의 IVmaj7는 리디안(A lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in E major takes A lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'E 장조에서 V7 화음의 코드 스케일은?',en:'In E major, the chord scale for V7 is:'},staff:noteRow(["B4","C#5","D#5","E5","F#5","G#5","A5","B5"],'treble',{sp:36,sx:70}),audio:["B4","C#5","D#5","E5","F#5","G#5","A5","B5"],ans:'B mixolydian',opts:["B phrygian","B mixolydian","B lydian","B ionian"],terms:['chord_scale','mode'],why:{ko:'E 장조의 V7는 믹소리디안(B mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in E major takes B mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'E 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In E major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["D#5","E5","F#5","G#5","A5","B5","C#6","D#6"],'treble',{sp:36,sx:70}),audio:["D#5","E5","F#5","G#5","A5","B5","C#6","D#6"],ans:'D# locrian',opts:["D# mixolydian","D# locrian","D# lydian","D# phrygian"],terms:['chord_scale','mode'],why:{ko:'E 장조의 VIIm7(b5)는 로크리안(D# locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in E major takes D# locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'B 장조에서 IIm7 화음의 코드 스케일은?',en:'In B major, the chord scale for IIm7 is:'},staff:noteRow(["C#4","D#4","E4","F#4","G#4","A#4","B4","C#5"],'treble',{sp:36,sx:70}),audio:["C#4","D#4","E4","F#4","G#4","A#4","B4","C#5"],ans:'C# dorian',opts:["C# dorian","C# aeolian","C# phrygian","C# mixolydian"],terms:['chord_scale','mode'],why:{ko:'B 장조의 IIm7는 도리안(C# dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in B major takes C# dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'B 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In B major, the chord scale for IVmaj7 is:'},staff:noteRow(["E4","F#4","G#4","A#4","B4","C#5","D#5","E5"],'treble',{sp:36,sx:70}),audio:["E4","F#4","G#4","A#4","B4","C#5","D#5","E5"],ans:'E lydian',opts:["E aeolian","E lydian","E dorian","E phrygian"],terms:['chord_scale','mode'],why:{ko:'B 장조의 IVmaj7는 리디안(E lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in B major takes E lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'B 장조에서 V7 화음의 코드 스케일은?',en:'In B major, the chord scale for V7 is:'},staff:noteRow(["F#4","G#4","A#4","B4","C#5","D#5","E5","F#5"],'treble',{sp:36,sx:70}),audio:["F#4","G#4","A#4","B4","C#5","D#5","E5","F#5"],ans:'F# mixolydian',opts:["F# phrygian","F# mixolydian","F# ionian","F# aeolian"],terms:['chord_scale','mode'],why:{ko:'B 장조의 V7는 믹소리디안(F# mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in B major takes F# mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'B 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In B major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["A#4","B4","C#5","D#5","E5","F#5","G#5","A#5"],'treble',{sp:36,sx:70}),audio:["A#4","B4","C#5","D#5","E5","F#5","G#5","A#5"],ans:'A# locrian',opts:["A# locrian","A# mixolydian","A# ionian","A# aeolian"],terms:['chord_scale','mode'],why:{ko:'B 장조의 VIIm7(b5)는 로크리안(A# locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in B major takes A# locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'F# 장조에서 IIm7 화음의 코드 스케일은?',en:'In F# major, the chord scale for IIm7 is:'},staff:noteRow(["G#4","A#4","B4","C#5","D#5","E#5","F#5","G#5"],'treble',{sp:36,sx:70}),audio:["G#4","A#4","B4","C#5","D#5","E#5","F#5","G#5"],ans:'G# dorian',opts:["G# phrygian","G# aeolian","G# ionian","G# dorian"],terms:['chord_scale','mode'],why:{ko:'F# 장조의 IIm7는 도리안(G# dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in F# major takes G# dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'F# 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In F# major, the chord scale for IVmaj7 is:'},staff:noteRow(["B4","C#5","D#5","E#5","F#5","G#5","A#5","B5"],'treble',{sp:36,sx:70}),audio:["B4","C#5","D#5","E#5","F#5","G#5","A#5","B5"],ans:'B lydian',opts:["B ionian","B locrian","B mixolydian","B lydian"],terms:['chord_scale','mode'],why:{ko:'F# 장조의 IVmaj7는 리디안(B lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in F# major takes B lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'F# 장조에서 V7 화음의 코드 스케일은?',en:'In F# major, the chord scale for V7 is:'},staff:noteRow(["C#5","D#5","E#5","F#5","G#5","A#5","B5","C#6"],'treble',{sp:36,sx:70}),audio:["C#5","D#5","E#5","F#5","G#5","A#5","B5","C#6"],ans:'C# mixolydian',opts:["C# phrygian","C# locrian","C# mixolydian","C# lydian"],terms:['chord_scale','mode'],why:{ko:'F# 장조의 V7는 믹소리디안(C# mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in F# major takes C# mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'F# 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In F# major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["E#5","F#5","G#5","A#5","B5","C#6","D#6","E#6"],'treble',{sp:36,sx:70}),audio:["E#5","F#5","G#5","A#5","B5","C#6","D#6","E#6"],ans:'E# locrian',opts:["E# lydian","E# phrygian","E# ionian","E# locrian"],terms:['chord_scale','mode'],why:{ko:'F# 장조의 VIIm7(b5)는 로크리안(E# locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in F# major takes E# locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Db 장조에서 IIm7 화음의 코드 스케일은?',en:'In Db major, the chord scale for IIm7 is:'},staff:noteRow(["Eb4","F4","Gb4","Ab4","Bb4","C5","Db5","Eb5"],'treble',{sp:36,sx:70}),audio:["Eb4","F4","Gb4","Ab4","Bb4","C5","Db5","Eb5"],ans:'Eb dorian',opts:["Eb phrygian","Eb locrian","Eb dorian","Eb ionian"],terms:['chord_scale','mode'],why:{ko:'Db 장조의 IIm7는 도리안(Eb dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in Db major takes Eb dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Db 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In Db major, the chord scale for IVmaj7 is:'},staff:noteRow(["Gb4","Ab4","Bb4","C5","Db5","Eb5","F5","Gb5"],'treble',{sp:36,sx:70}),audio:["Gb4","Ab4","Bb4","C5","Db5","Eb5","F5","Gb5"],ans:'Gb lydian',opts:["Gb mixolydian","Gb lydian","Gb ionian","Gb phrygian"],terms:['chord_scale','mode'],why:{ko:'Db 장조의 IVmaj7는 리디안(Gb lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in Db major takes Gb lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Db 장조에서 V7 화음의 코드 스케일은?',en:'In Db major, the chord scale for V7 is:'},staff:noteRow(["Ab4","Bb4","C5","Db5","Eb5","F5","Gb5","Ab5"],'treble',{sp:36,sx:70}),audio:["Ab4","Bb4","C5","Db5","Eb5","F5","Gb5","Ab5"],ans:'Ab mixolydian',opts:["Ab dorian","Ab phrygian","Ab lydian","Ab mixolydian"],terms:['chord_scale','mode'],why:{ko:'Db 장조의 V7는 믹소리디안(Ab mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in Db major takes Ab mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Db 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In Db major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["C5","Db5","Eb5","F5","Gb5","Ab5","Bb5","C6"],'treble',{sp:36,sx:70}),audio:["C5","Db5","Eb5","F5","Gb5","Ab5","Bb5","C6"],ans:'C locrian',opts:["C phrygian","C locrian","C mixolydian","C dorian"],terms:['chord_scale','mode'],why:{ko:'Db 장조의 VIIm7(b5)는 로크리안(C locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in Db major takes C locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Ab 장조에서 IIm7 화음의 코드 스케일은?',en:'In Ab major, the chord scale for IIm7 is:'},staff:noteRow(["Bb3","C4","Db4","Eb4","F4","G4","Ab4","Bb4"],'treble',{sp:36,sx:70}),audio:["Bb3","C4","Db4","Eb4","F4","G4","Ab4","Bb4"],ans:'Bb dorian',opts:["Bb locrian","Bb phrygian","Bb aeolian","Bb dorian"],terms:['chord_scale','mode'],why:{ko:'Ab 장조의 IIm7는 도리안(Bb dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in Ab major takes Bb dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Ab 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In Ab major, the chord scale for IVmaj7 is:'},staff:noteRow(["Db4","Eb4","F4","G4","Ab4","Bb4","C5","Db5"],'treble',{sp:36,sx:70}),audio:["Db4","Eb4","F4","G4","Ab4","Bb4","C5","Db5"],ans:'Db lydian',opts:["Db dorian","Db lydian","Db ionian","Db phrygian"],terms:['chord_scale','mode'],why:{ko:'Ab 장조의 IVmaj7는 리디안(Db lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in Ab major takes Db lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Ab 장조에서 V7 화음의 코드 스케일은?',en:'In Ab major, the chord scale for V7 is:'},staff:noteRow(["Eb4","F4","G4","Ab4","Bb4","C5","Db5","Eb5"],'treble',{sp:36,sx:70}),audio:["Eb4","F4","G4","Ab4","Bb4","C5","Db5","Eb5"],ans:'Eb mixolydian',opts:["Eb locrian","Eb mixolydian","Eb dorian","Eb ionian"],terms:['chord_scale','mode'],why:{ko:'Ab 장조의 V7는 믹소리디안(Eb mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in Ab major takes Eb mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Ab 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In Ab major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["G4","Ab4","Bb4","C5","Db5","Eb5","F5","G5"],'treble',{sp:36,sx:70}),audio:["G4","Ab4","Bb4","C5","Db5","Eb5","F5","G5"],ans:'G locrian',opts:["G locrian","G dorian","G lydian","G aeolian"],terms:['chord_scale','mode'],why:{ko:'Ab 장조의 VIIm7(b5)는 로크리안(G locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in Ab major takes G locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Eb 장조에서 IIm7 화음의 코드 스케일은?',en:'In Eb major, the chord scale for IIm7 is:'},staff:noteRow(["F4","G4","Ab4","Bb4","C5","D5","Eb5","F5"],'treble',{sp:36,sx:70}),audio:["F4","G4","Ab4","Bb4","C5","D5","Eb5","F5"],ans:'F dorian',opts:["F ionian","F dorian","F phrygian","F aeolian"],terms:['chord_scale','mode'],why:{ko:'Eb 장조의 IIm7는 도리안(F dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in Eb major takes F dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Eb 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In Eb major, the chord scale for IVmaj7 is:'},staff:noteRow(["Ab4","Bb4","C5","D5","Eb5","F5","G5","Ab5"],'treble',{sp:36,sx:70}),audio:["Ab4","Bb4","C5","D5","Eb5","F5","G5","Ab5"],ans:'Ab lydian',opts:["Ab ionian","Ab locrian","Ab lydian","Ab phrygian"],terms:['chord_scale','mode'],why:{ko:'Eb 장조의 IVmaj7는 리디안(Ab lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in Eb major takes Ab lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Eb 장조에서 V7 화음의 코드 스케일은?',en:'In Eb major, the chord scale for V7 is:'},staff:noteRow(["Bb4","C5","D5","Eb5","F5","G5","Ab5","Bb5"],'treble',{sp:36,sx:70}),audio:["Bb4","C5","D5","Eb5","F5","G5","Ab5","Bb5"],ans:'Bb mixolydian',opts:["Bb mixolydian","Bb aeolian","Bb ionian","Bb dorian"],terms:['chord_scale','mode'],why:{ko:'Eb 장조의 V7는 믹소리디안(Bb mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in Eb major takes Bb mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Eb 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In Eb major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["D5","Eb5","F5","G5","Ab5","Bb5","C6","D6"],'treble',{sp:36,sx:70}),audio:["D5","Eb5","F5","G5","Ab5","Bb5","C6","D6"],ans:'D locrian',opts:["D dorian","D ionian","D lydian","D locrian"],terms:['chord_scale','mode'],why:{ko:'Eb 장조의 VIIm7(b5)는 로크리안(D locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in Eb major takes D locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Bb 장조에서 IIm7 화음의 코드 스케일은?',en:'In Bb major, the chord scale for IIm7 is:'},staff:noteRow(["C4","D4","Eb4","F4","G4","A4","Bb4","C5"],'treble',{sp:36,sx:70}),audio:["C4","D4","Eb4","F4","G4","A4","Bb4","C5"],ans:'C dorian',opts:["C mixolydian","C phrygian","C dorian","C lydian"],terms:['chord_scale','mode'],why:{ko:'Bb 장조의 IIm7는 도리안(C dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in Bb major takes C dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Bb 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In Bb major, the chord scale for IVmaj7 is:'},staff:noteRow(["Eb4","F4","G4","A4","Bb4","C5","D5","Eb5"],'treble',{sp:36,sx:70}),audio:["Eb4","F4","G4","A4","Bb4","C5","D5","Eb5"],ans:'Eb lydian',opts:["Eb locrian","Eb aeolian","Eb lydian","Eb ionian"],terms:['chord_scale','mode'],why:{ko:'Bb 장조의 IVmaj7는 리디안(Eb lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in Bb major takes Eb lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Bb 장조에서 V7 화음의 코드 스케일은?',en:'In Bb major, the chord scale for V7 is:'},staff:noteRow(["F4","G4","A4","Bb4","C5","D5","Eb5","F5"],'treble',{sp:36,sx:70}),audio:["F4","G4","A4","Bb4","C5","D5","Eb5","F5"],ans:'F mixolydian',opts:["F lydian","F dorian","F phrygian","F mixolydian"],terms:['chord_scale','mode'],why:{ko:'Bb 장조의 V7는 믹소리디안(F mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in Bb major takes F mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'Bb 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In Bb major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["A4","Bb4","C5","D5","Eb5","F5","G5","A5"],'treble',{sp:36,sx:70}),audio:["A4","Bb4","C5","D5","Eb5","F5","G5","A5"],ans:'A locrian',opts:["A locrian","A ionian","A mixolydian","A lydian"],terms:['chord_scale','mode'],why:{ko:'Bb 장조의 VIIm7(b5)는 로크리안(A locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in Bb major takes A locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'F 장조에서 IIm7 화음의 코드 스케일은?',en:'In F major, the chord scale for IIm7 is:'},staff:noteRow(["G3","A3","Bb3","C4","D4","E4","F4","G4"],'treble',{sp:36,sx:70}),audio:["G3","A3","Bb3","C4","D4","E4","F4","G4"],ans:'G dorian',opts:["G dorian","G ionian","G phrygian","G locrian"],terms:['chord_scale','mode'],why:{ko:'F 장조의 IIm7는 도리안(G dorian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IIm7 in F major takes G dorian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'F 장조에서 IVmaj7 화음의 코드 스케일은?',en:'In F major, the chord scale for IVmaj7 is:'},staff:noteRow(["Bb3","C4","D4","E4","F4","G4","A4","Bb4"],'treble',{sp:36,sx:70}),audio:["Bb3","C4","D4","E4","F4","G4","A4","Bb4"],ans:'Bb lydian',opts:["Bb mixolydian","Bb phrygian","Bb locrian","Bb lydian"],terms:['chord_scale','mode'],why:{ko:'F 장조의 IVmaj7는 리디안(Bb lydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'IVmaj7 in F major takes Bb lydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'F 장조에서 V7 화음의 코드 스케일은?',en:'In F major, the chord scale for V7 is:'},staff:noteRow(["C4","D4","E4","F4","G4","A4","Bb4","C5"],'treble',{sp:36,sx:70}),audio:["C4","D4","E4","F4","G4","A4","Bb4","C5"],ans:'C mixolydian',opts:["C locrian","C mixolydian","C dorian","C lydian"],terms:['chord_scale','mode'],why:{ko:'F 장조의 V7는 믹소리디안(C mixolydian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'V7 in F major takes C mixolydian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+  add({ch:15,type:'mc',q:{ko:'F 장조에서 VIIm7(b5) 화음의 코드 스케일은?',en:'In F major, the chord scale for VIIm7(b5) is:'},staff:noteRow(["E4","F4","G4","A4","Bb4","C5","D5","E5"],'treble',{sp:36,sx:70}),audio:["E4","F4","G4","A4","Bb4","C5","D5","E5"],ans:'E locrian',opts:["E mixolydian","E dorian","E aeolian","E locrian"],terms:['chord_scale','mode'],why:{ko:'F 장조의 VIIm7(b5)는 로크리안(E locrian)을 코드 스케일로 씁니다 — 으뜸음에서 시작하지 않고 화음의 근음에서 시작해 같은 조표를 그대로 씁니다.',en:'VIIm7(b5) in F major takes E locrian as its chord scale — same key signature, just starting from the chord\'s own root instead of the tonic.'}});
+
+  /* ── CH 16: Secondary Dominant Chord Scales (Harmony 3) ── */
+  add({ch:16,type:'mc',q:{ko:'C 장조에서 ii(IIm7) 앞에 붙는 세컨더리 도미넌트는 A7입니다. 이 화음의 코드 스케일은?',en:'In C major, the secondary dominant before ii (IIm7) is A7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Altered","Mixolydian","Whole tone","Lydian b7"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'C 장조에서 iii(IIIm7) 앞에 붙는 세컨더리 도미넌트는 B7입니다. 이 화음의 코드 스케일은?',en:'In C major, the secondary dominant before iii (IIIm7) is B7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Lydian b7","Altered","Whole tone"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'C 장조에서 IV(IVmaj7) 앞에 붙는 세컨더리 도미넌트는 C7입니다. 이 화음의 코드 스케일은?',en:'In C major, the secondary dominant before IV (IVmaj7) is C7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Lydian b7","Whole tone","Altered","Mixolydian"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'C 장조에서 vi(VIm7) 앞에 붙는 세컨더리 도미넌트는 E7입니다. 이 화음의 코드 스케일은?',en:'In C major, the secondary dominant before vi (VIm7) is E7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Lydian b7","Altered","Whole tone"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'G 장조에서 ii(IIm7) 앞에 붙는 세컨더리 도미넌트는 E7입니다. 이 화음의 코드 스케일은?',en:'In G major, the secondary dominant before ii (IIm7) is E7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Lydian b7","Whole tone","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'G 장조에서 iii(IIIm7) 앞에 붙는 세컨더리 도미넌트는 F#7입니다. 이 화음의 코드 스케일은?',en:'In G major, the secondary dominant before iii (IIIm7) is F#7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Altered","Lydian b7","Whole tone"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'G 장조에서 IV(IVmaj7) 앞에 붙는 세컨더리 도미넌트는 G7입니다. 이 화음의 코드 스케일은?',en:'In G major, the secondary dominant before IV (IVmaj7) is G7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Lydian b7","Whole tone","Mixolydian","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'G 장조에서 vi(VIm7) 앞에 붙는 세컨더리 도미넌트는 B7입니다. 이 화음의 코드 스케일은?',en:'In G major, the secondary dominant before vi (VIm7) is B7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Lydian b7","Altered","Whole tone"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'F 장조에서 ii(IIm7) 앞에 붙는 세컨더리 도미넌트는 D7입니다. 이 화음의 코드 스케일은?',en:'In F major, the secondary dominant before ii (IIm7) is D7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Whole tone","Lydian b7","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'F 장조에서 iii(IIIm7) 앞에 붙는 세컨더리 도미넌트는 E7입니다. 이 화음의 코드 스케일은?',en:'In F major, the secondary dominant before iii (IIIm7) is E7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Altered","Lydian b7","Whole tone"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'F 장조에서 IV(IVmaj7) 앞에 붙는 세컨더리 도미넌트는 F7입니다. 이 화음의 코드 스케일은?',en:'In F major, the secondary dominant before IV (IVmaj7) is F7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Lydian b7","Mixolydian","Whole tone","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'F 장조에서 vi(VIm7) 앞에 붙는 세컨더리 도미넌트는 A7입니다. 이 화음의 코드 스케일은?',en:'In F major, the secondary dominant before vi (VIm7) is A7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Altered","Lydian b7","Whole tone"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'Bb 장조에서 ii(IIm7) 앞에 붙는 세컨더리 도미넌트는 G7입니다. 이 화음의 코드 스케일은?',en:'In Bb major, the secondary dominant before ii (IIm7) is G7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Lydian b7","Whole tone","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'Bb 장조에서 iii(IIIm7) 앞에 붙는 세컨더리 도미넌트는 A7입니다. 이 화음의 코드 스케일은?',en:'In Bb major, the secondary dominant before iii (IIIm7) is A7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Altered","Mixolydian","Whole tone","Lydian b7"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'Bb 장조에서 IV(IVmaj7) 앞에 붙는 세컨더리 도미넌트는 Bb7입니다. 이 화음의 코드 스케일은?',en:'In Bb major, the secondary dominant before IV (IVmaj7) is Bb7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Whole tone","Lydian b7","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'Bb 장조에서 vi(VIm7) 앞에 붙는 세컨더리 도미넌트는 D7입니다. 이 화음의 코드 스케일은?',en:'In Bb major, the secondary dominant before vi (VIm7) is D7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Whole tone","Altered","Lydian b7"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'D 장조에서 ii(IIm7) 앞에 붙는 세컨더리 도미넌트는 B7입니다. 이 화음의 코드 스케일은?',en:'In D major, the secondary dominant before ii (IIm7) is B7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Lydian b7","Altered","Mixolydian","Whole tone"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'D 장조에서 iii(IIIm7) 앞에 붙는 세컨더리 도미넌트는 C#7입니다. 이 화음의 코드 스케일은?',en:'In D major, the secondary dominant before iii (IIIm7) is C#7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Whole tone","Altered","Lydian b7"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'D 장조에서 IV(IVmaj7) 앞에 붙는 세컨더리 도미넌트는 D7입니다. 이 화음의 코드 스케일은?',en:'In D major, the secondary dominant before IV (IVmaj7) is D7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Lydian b7","Whole tone","Altered","Mixolydian"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'D 장조에서 vi(VIm7) 앞에 붙는 세컨더리 도미넌트는 F#7입니다. 이 화음의 코드 스케일은?',en:'In D major, the secondary dominant before vi (VIm7) is F#7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Whole tone","Lydian b7","Altered","Mixolydian"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'Eb 장조에서 ii(IIm7) 앞에 붙는 세컨더리 도미넌트는 C7입니다. 이 화음의 코드 스케일은?',en:'In Eb major, the secondary dominant before ii (IIm7) is C7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Whole tone","Lydian b7","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'Eb 장조에서 iii(IIIm7) 앞에 붙는 세컨더리 도미넌트는 D7입니다. 이 화음의 코드 스케일은?',en:'In Eb major, the secondary dominant before iii (IIIm7) is D7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Mixolydian","Altered","Lydian b7","Whole tone"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'Eb 장조에서 IV(IVmaj7) 앞에 붙는 세컨더리 도미넌트는 Eb7입니다. 이 화음의 코드 스케일은?',en:'In Eb major, the secondary dominant before IV (IVmaj7) is Eb7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Lydian b7","Altered","Mixolydian","Whole tone"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'Eb 장조에서 vi(VIm7) 앞에 붙는 세컨더리 도미넌트는 G7입니다. 이 화음의 코드 스케일은?',en:'In Eb major, the secondary dominant before vi (VIm7) is G7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Lydian b7","Whole tone","Mixolydian","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'A 장조에서 ii(IIm7) 앞에 붙는 세컨더리 도미넌트는 F#7입니다. 이 화음의 코드 스케일은?',en:'In A major, the secondary dominant before ii (IIm7) is F#7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Whole tone","Mixolydian","Altered","Lydian b7"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'A 장조에서 iii(IIIm7) 앞에 붙는 세컨더리 도미넌트는 G#7입니다. 이 화음의 코드 스케일은?',en:'In A major, the secondary dominant before iii (IIIm7) is G#7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Altered","Whole tone","Lydian b7","Mixolydian"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'A 장조에서 IV(IVmaj7) 앞에 붙는 세컨더리 도미넌트는 A7입니다. 이 화음의 코드 스케일은?',en:'In A major, the secondary dominant before IV (IVmaj7) is A7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Lydian b7","Whole tone","Mixolydian","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'A 장조에서 vi(VIm7) 앞에 붙는 세컨더리 도미넌트는 C#7입니다. 이 화음의 코드 스케일은?',en:'In A major, the secondary dominant before vi (VIm7) is C#7. Its chord scale is:'},audio:[],ans:'Mixolydian',opts:["Whole tone","Mixolydian","Lydian b7","Altered"],terms:['secondary_dominant','chord_scale'],why:{ko:'세컨더리 도미넌트는 조성 안에 남아있는 화음이라, 다이아토닉 텐션을 쓰는 믹소리디안이 기본 코드 스케일입니다. (대리도미넌트처럼 조성 밖으로 나가는 화음과 다릅니다.)',en:'A secondary dominant stays diatonic to the key, so its default chord scale is Mixolydian using the key\'s own tensions — unlike a substitute dominant, which steps outside the key.'}});
+  add({ch:16,type:'mc',q:{ko:'C 장조에서 A7의 로마숫자 기능은?',en:'In C major, the Roman-numeral function of A7 is:'},audio:[],ans:'V7/ii',opts:["V7/vi","V7/iii","V7/ii","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'C 장조에서 B7의 로마숫자 기능은?',en:'In C major, the Roman-numeral function of B7 is:'},audio:[],ans:'V7/iii',opts:["V7/ii","V7/iii","V7/V","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'C 장조에서 C7의 로마숫자 기능은?',en:'In C major, the Roman-numeral function of C7 is:'},audio:[],ans:'V7/IV',opts:["V7/iii","V7/IV","V7/V","V7/vi"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'C 장조에서 D7의 로마숫자 기능은?',en:'In C major, the Roman-numeral function of D7 is:'},audio:[],ans:'V7/V',opts:["V7/ii","V7/IV","V7/V","V7/iii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'C 장조에서 E7의 로마숫자 기능은?',en:'In C major, the Roman-numeral function of E7 is:'},audio:[],ans:'V7/vi',opts:["V7/vi","V7/ii","V7/iii","V7/V"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'G 장조에서 E7의 로마숫자 기능은?',en:'In G major, the Roman-numeral function of E7 is:'},audio:[],ans:'V7/ii',opts:["V7/ii","V7/V","V7/iii","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'G 장조에서 F#7의 로마숫자 기능은?',en:'In G major, the Roman-numeral function of F#7 is:'},audio:[],ans:'V7/iii',opts:["V7/IV","V7/V","V7/iii","V7/vi"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'G 장조에서 G7의 로마숫자 기능은?',en:'In G major, the Roman-numeral function of G7 is:'},audio:[],ans:'V7/IV',opts:["V7/IV","V7/ii","V7/iii","V7/V"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'G 장조에서 A7의 로마숫자 기능은?',en:'In G major, the Roman-numeral function of A7 is:'},audio:[],ans:'V7/V',opts:["V7/ii","V7/V","V7/iii","V7/vi"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'G 장조에서 B7의 로마숫자 기능은?',en:'In G major, the Roman-numeral function of B7 is:'},audio:[],ans:'V7/vi',opts:["V7/iii","V7/V","V7/vi","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'F 장조에서 D7의 로마숫자 기능은?',en:'In F major, the Roman-numeral function of D7 is:'},audio:[],ans:'V7/ii',opts:["V7/V","V7/vi","V7/ii","V7/iii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'F 장조에서 E7의 로마숫자 기능은?',en:'In F major, the Roman-numeral function of E7 is:'},audio:[],ans:'V7/iii',opts:["V7/vi","V7/V","V7/iii","V7/ii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'F 장조에서 F7의 로마숫자 기능은?',en:'In F major, the Roman-numeral function of F7 is:'},audio:[],ans:'V7/IV',opts:["V7/V","V7/vi","V7/ii","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'F 장조에서 G7의 로마숫자 기능은?',en:'In F major, the Roman-numeral function of G7 is:'},audio:[],ans:'V7/V',opts:["V7/IV","V7/ii","V7/V","V7/iii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'F 장조에서 A7의 로마숫자 기능은?',en:'In F major, the Roman-numeral function of A7 is:'},audio:[],ans:'V7/vi',opts:["V7/IV","V7/V","V7/vi","V7/ii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Bb 장조에서 G7의 로마숫자 기능은?',en:'In Bb major, the Roman-numeral function of G7 is:'},audio:[],ans:'V7/ii',opts:["V7/ii","V7/vi","V7/iii","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Bb 장조에서 A7의 로마숫자 기능은?',en:'In Bb major, the Roman-numeral function of A7 is:'},audio:[],ans:'V7/iii',opts:["V7/iii","V7/IV","V7/vi","V7/V"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Bb 장조에서 Bb7의 로마숫자 기능은?',en:'In Bb major, the Roman-numeral function of Bb7 is:'},audio:[],ans:'V7/IV',opts:["V7/IV","V7/vi","V7/iii","V7/V"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Bb 장조에서 C7의 로마숫자 기능은?',en:'In Bb major, the Roman-numeral function of C7 is:'},audio:[],ans:'V7/V',opts:["V7/V","V7/vi","V7/ii","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Bb 장조에서 D7의 로마숫자 기능은?',en:'In Bb major, the Roman-numeral function of D7 is:'},audio:[],ans:'V7/vi',opts:["V7/vi","V7/iii","V7/ii","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'D 장조에서 B7의 로마숫자 기능은?',en:'In D major, the Roman-numeral function of B7 is:'},audio:[],ans:'V7/ii',opts:["V7/V","V7/IV","V7/ii","V7/iii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'D 장조에서 C#7의 로마숫자 기능은?',en:'In D major, the Roman-numeral function of C#7 is:'},audio:[],ans:'V7/iii',opts:["V7/iii","V7/ii","V7/V","V7/vi"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'D 장조에서 D7의 로마숫자 기능은?',en:'In D major, the Roman-numeral function of D7 is:'},audio:[],ans:'V7/IV',opts:["V7/V","V7/iii","V7/IV","V7/vi"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'D 장조에서 E7의 로마숫자 기능은?',en:'In D major, the Roman-numeral function of E7 is:'},audio:[],ans:'V7/V',opts:["V7/vi","V7/iii","V7/V","V7/ii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'D 장조에서 F#7의 로마숫자 기능은?',en:'In D major, the Roman-numeral function of F#7 is:'},audio:[],ans:'V7/vi',opts:["V7/ii","V7/vi","V7/iii","V7/V"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Eb 장조에서 C7의 로마숫자 기능은?',en:'In Eb major, the Roman-numeral function of C7 is:'},audio:[],ans:'V7/ii',opts:["V7/vi","V7/V","V7/iii","V7/ii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Eb 장조에서 D7의 로마숫자 기능은?',en:'In Eb major, the Roman-numeral function of D7 is:'},audio:[],ans:'V7/iii',opts:["V7/ii","V7/iii","V7/vi","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Eb 장조에서 Eb7의 로마숫자 기능은?',en:'In Eb major, the Roman-numeral function of Eb7 is:'},audio:[],ans:'V7/IV',opts:["V7/vi","V7/ii","V7/iii","V7/IV"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Eb 장조에서 F7의 로마숫자 기능은?',en:'In Eb major, the Roman-numeral function of F7 is:'},audio:[],ans:'V7/V',opts:["V7/V","V7/IV","V7/iii","V7/ii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'Eb 장조에서 G7의 로마숫자 기능은?',en:'In Eb major, the Roman-numeral function of G7 is:'},audio:[],ans:'V7/vi',opts:["V7/vi","V7/V","V7/IV","V7/iii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'A 장조에서 F#7의 로마숫자 기능은?',en:'In A major, the Roman-numeral function of F#7 is:'},audio:[],ans:'V7/ii',opts:["V7/V","V7/iii","V7/ii","V7/vi"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'A 장조에서 G#7의 로마숫자 기능은?',en:'In A major, the Roman-numeral function of G#7 is:'},audio:[],ans:'V7/iii',opts:["V7/ii","V7/vi","V7/V","V7/iii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'A 장조에서 A7의 로마숫자 기능은?',en:'In A major, the Roman-numeral function of A7 is:'},audio:[],ans:'V7/IV',opts:["V7/IV","V7/V","V7/ii","V7/vi"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'A 장조에서 B7의 로마숫자 기능은?',en:'In A major, the Roman-numeral function of B7 is:'},audio:[],ans:'V7/V',opts:["V7/V","V7/iii","V7/IV","V7/ii"],terms:['secondary_dominant']});
+  add({ch:16,type:'mc',q:{ko:'A 장조에서 C#7의 로마숫자 기능은?',en:'In A major, the Roman-numeral function of C#7 is:'},audio:[],ans:'V7/vi',opts:["V7/V","V7/iii","V7/vi","V7/ii"],terms:['secondary_dominant']});  /* ── CH 17: Extended Dominants (Harmony 3) ── */
+  add({ch:17,type:'mc',q:{ko:'다음 확장 도미넌트 사슬: E7 – A7 – D7 – G7 – C. A7의 로마숫자 기능은?',en:'In this extended dominant chain: E7 – A7 – D7 – G7 – C. What is the Roman-numeral function of A7?'},audio:[],ans:'V7/V/V',opts:["V7/V/V","V7/V","V7","V7/V/V/V"],terms:['extended_dominant'],why:{ko:'확장 도미넌트는 완전5도씩 사슬처럼 이어지는 도미넌트들입니다. 사슬을 목표(으뜸음)에서부터 거꾸로 세면 몇 단계 떨어져 있는지로 기능을 표시합니다.',en:'Extended dominants chain together in descending perfect 5ths. Count backward from the final target to see how many links away each chord is.'}});
+  add({ch:17,type:'mc',q:{ko:'다음 확장 도미넌트 사슬: A7 – D7 – G7 – C7 – F. G7의 로마숫자 기능은?',en:'In this extended dominant chain: A7 – D7 – G7 – C7 – F. What is the Roman-numeral function of G7?'},audio:[],ans:'V7/V',opts:["V7/V/V","V7","V7/V","V7/V/V/V"],terms:['extended_dominant'],why:{ko:'확장 도미넌트는 완전5도씩 사슬처럼 이어지는 도미넌트들입니다. 사슬을 목표(으뜸음)에서부터 거꾸로 세면 몇 단계 떨어져 있는지로 기능을 표시합니다.',en:'Extended dominants chain together in descending perfect 5ths. Count backward from the final target to see how many links away each chord is.'}});
+  add({ch:17,type:'mc',q:{ko:'다음 확장 도미넌트 사슬: B7 – E7 – A7 – D7 – G. E7의 로마숫자 기능은?',en:'In this extended dominant chain: B7 – E7 – A7 – D7 – G. What is the Roman-numeral function of E7?'},audio:[],ans:'V7/V/V',opts:["V7/V/V/V","V7/V/V","V7/V","V7"],terms:['extended_dominant'],why:{ko:'확장 도미넌트는 완전5도씩 사슬처럼 이어지는 도미넌트들입니다. 사슬을 목표(으뜸음)에서부터 거꾸로 세면 몇 단계 떨어져 있는지로 기능을 표시합니다.',en:'Extended dominants chain together in descending perfect 5ths. Count backward from the final target to see how many links away each chord is.'}});
+  add({ch:17,type:'mc',q:{ko:'다음 확장 도미넌트 사슬: D7 – G7 – C7 – F7 – Bb. F7의 로마숫자 기능은?',en:'In this extended dominant chain: D7 – G7 – C7 – F7 – Bb. What is the Roman-numeral function of F7?'},audio:[],ans:'V7',opts:["V7/V","V7/V/V","V7","V7/V/V/V"],terms:['extended_dominant'],why:{ko:'확장 도미넌트는 완전5도씩 사슬처럼 이어지는 도미넌트들입니다. 사슬을 목표(으뜸음)에서부터 거꾸로 세면 몇 단계 떨어져 있는지로 기능을 표시합니다.',en:'Extended dominants chain together in descending perfect 5ths. Count backward from the final target to see how many links away each chord is.'}});
+  add({ch:17,type:'mc',q:{ko:'다음 확장 도미넌트 사슬: F#7 – B7 – E7 – A7 – D. B7의 로마숫자 기능은?',en:'In this extended dominant chain: F#7 – B7 – E7 – A7 – D. What is the Roman-numeral function of B7?'},audio:[],ans:'V7/V/V',opts:["V7","V7/V/V/V","V7/V/V","V7/V"],terms:['extended_dominant'],why:{ko:'확장 도미넌트는 완전5도씩 사슬처럼 이어지는 도미넌트들입니다. 사슬을 목표(으뜸음)에서부터 거꾸로 세면 몇 단계 떨어져 있는지로 기능을 표시합니다.',en:'Extended dominants chain together in descending perfect 5ths. Count backward from the final target to see how many links away each chord is.'}});
+
+  /* ── CH 18: Substitute Dominants / Tritone Sub (Harmony 3) ── */
+  add({ch:18,type:'mc',q:{ko:'C7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of C7 is:'},audio:[],ans:'Gb7',opts:["C#7","C7","Gb7","F7"],terms:['substitute_dominant','tritone'],why:{ko:'C7와 Gb7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'C7 and Gb7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'Db7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of Db7 is:'},audio:[],ans:'G7',opts:["Gb7","G7","D7","Db7"],terms:['substitute_dominant','tritone'],why:{ko:'Db7와 G7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'Db7 and G7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'D7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of D7 is:'},audio:[],ans:'Ab7',opts:["D#7","Ab7","G7","D7"],terms:['substitute_dominant','tritone'],why:{ko:'D7와 Ab7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'D7 and Ab7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'Eb7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of Eb7 is:'},audio:[],ans:'A7',opts:["A7","Eb7","Ab7","E7"],terms:['substitute_dominant','tritone'],why:{ko:'Eb7와 A7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'Eb7 and A7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'E7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of E7 is:'},audio:[],ans:'Bb7',opts:["A7","F7","Bb7","E7"],terms:['substitute_dominant','tritone'],why:{ko:'E7와 Bb7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'E7 and Bb7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'F7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of F7 is:'},audio:[],ans:'B7',opts:["A#7","B7","F#7","F7"],terms:['substitute_dominant','tritone'],why:{ko:'F7와 B7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'F7 and B7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'F#7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of F#7 is:'},audio:[],ans:'C7',opts:["C7","F#7","B7","G7"],terms:['substitute_dominant','tritone'],why:{ko:'F#7와 C7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'F#7 and C7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'G7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of G7 is:'},audio:[],ans:'Db7',opts:["G7","Db7","C7","G#7"],terms:['substitute_dominant','tritone'],why:{ko:'G7와 Db7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'G7 and Db7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'Ab7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of Ab7 is:'},audio:[],ans:'D7',opts:["Db7","Ab7","A7","D7"],terms:['substitute_dominant','tritone'],why:{ko:'Ab7와 D7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'Ab7 and D7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'A7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of A7 is:'},audio:[],ans:'Eb7',opts:["D7","Eb7","A7","A#7"],terms:['substitute_dominant','tritone'],why:{ko:'A7와 Eb7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'A7 and Eb7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'Bb7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of Bb7 is:'},audio:[],ans:'E7',opts:["B7","E7","Eb7","Bb7"],terms:['substitute_dominant','tritone'],why:{ko:'Bb7와 E7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'Bb7 and E7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'B7의 대리도미넌트(subV7)는?',en:'The substitute dominant (subV7) of B7 is:'},audio:[],ans:'F7',opts:["C7","E7","B7","F7"],terms:['substitute_dominant','tritone'],why:{ko:'B7와 F7는 트라이톤(3온음)을 공유합니다. 그래서 서로의 대리 역할을 할 수 있고, 완전5도 대신 반음 아래로 해결합니다.',en:'B7 and F7 share the same tritone, so each can substitute for the other — resolving down a half step instead of a perfect 5th.'}});
+  add({ch:18,type:'mc',q:{ko:'대리도미넌트 Db7의 코드 스케일은?',en:'The chord scale for the substitute dominant Db7 is:'},audio:[],ans:'Lydian b7',opts:["Lydian b7","Whole tone","Mixolydian","Altered"],terms:['substitute_dominant','lydian_b7'],why:{ko:'대리도미넌트는 항상 자기 근음 위 리디안♭7(Lydian dominant)을 코드 스케일로 씁니다 — 어느 화음으로 해결하든 늘 같습니다.',en:'A substitute dominant always uses Lydian ♭7 (Lydian dominant) built on its own root as its chord scale, regardless of what it resolves to.'}});
+  add({ch:18,type:'mc',q:{ko:'대리도미넌트 Gb7의 코드 스케일은?',en:'The chord scale for the substitute dominant Gb7 is:'},audio:[],ans:'Lydian b7',opts:["Lydian b7","Whole tone","Mixolydian","Altered"],terms:['substitute_dominant','lydian_b7'],why:{ko:'대리도미넌트는 항상 자기 근음 위 리디안♭7(Lydian dominant)을 코드 스케일로 씁니다 — 어느 화음으로 해결하든 늘 같습니다.',en:'A substitute dominant always uses Lydian ♭7 (Lydian dominant) built on its own root as its chord scale, regardless of what it resolves to.'}});
+  add({ch:18,type:'mc',q:{ko:'대리도미넌트 B7의 코드 스케일은?',en:'The chord scale for the substitute dominant B7 is:'},audio:[],ans:'Lydian b7',opts:["Whole tone","Lydian b7","Mixolydian","Altered"],terms:['substitute_dominant','lydian_b7'],why:{ko:'대리도미넌트는 항상 자기 근음 위 리디안♭7(Lydian dominant)을 코드 스케일로 씁니다 — 어느 화음으로 해결하든 늘 같습니다.',en:'A substitute dominant always uses Lydian ♭7 (Lydian dominant) built on its own root as its chord scale, regardless of what it resolves to.'}});
+  add({ch:18,type:'mc',q:{ko:'대리도미넌트 E7의 코드 스케일은?',en:'The chord scale for the substitute dominant E7 is:'},audio:[],ans:'Lydian b7',opts:["Altered","Mixolydian","Whole tone","Lydian b7"],terms:['substitute_dominant','lydian_b7'],why:{ko:'대리도미넌트는 항상 자기 근음 위 리디안♭7(Lydian dominant)을 코드 스케일로 씁니다 — 어느 화음으로 해결하든 늘 같습니다.',en:'A substitute dominant always uses Lydian ♭7 (Lydian dominant) built on its own root as its chord scale, regardless of what it resolves to.'}});
+  add({ch:18,type:'mc',q:{ko:'대리도미넌트 A7의 코드 스케일은?',en:'The chord scale for the substitute dominant A7 is:'},audio:[],ans:'Lydian b7',opts:["Whole tone","Lydian b7","Altered","Mixolydian"],terms:['substitute_dominant','lydian_b7'],why:{ko:'대리도미넌트는 항상 자기 근음 위 리디안♭7(Lydian dominant)을 코드 스케일로 씁니다 — 어느 화음으로 해결하든 늘 같습니다.',en:'A substitute dominant always uses Lydian ♭7 (Lydian dominant) built on its own root as its chord scale, regardless of what it resolves to.'}});
+  add({ch:18,type:'mc',q:{ko:'대리도미넌트 Ab7의 코드 스케일은?',en:'The chord scale for the substitute dominant Ab7 is:'},audio:[],ans:'Lydian b7',opts:["Lydian b7","Mixolydian","Whole tone","Altered"],terms:['substitute_dominant','lydian_b7'],why:{ko:'대리도미넌트는 항상 자기 근음 위 리디안♭7(Lydian dominant)을 코드 스케일로 씁니다 — 어느 화음으로 해결하든 늘 같습니다.',en:'A substitute dominant always uses Lydian ♭7 (Lydian dominant) built on its own root as its chord scale, regardless of what it resolves to.'}});
+  add({ch:18,type:'mc',q:{ko:'대리도미넌트(subV7)에서 늘 사용 가능한 텐션은?',en:'The tensions always available on a substitute dominant (subV7) are:'},audio:[],ans:'9, #11, 13',opts:["b9 only","9, #11, 13","#9, b13 only","b9, #9, b13"],terms:['substitute_dominant'],why:{ko:'대리도미넌트는 코드 스케일이 늘 리디안♭7이라, 어떤 화음으로 해결하든 텐션이 항상 9, #11, 13으로 고정됩니다. 몇 안 되는 \'맥락과 무관하게 텐션이 고정된\' 화음 중 하나입니다.',en:'Because its chord scale is always Lydian ♭7, a subV7\'s available tensions are always 9, #11, and 13 — one of the few chords whose tensions never change with context.'}});
+  add({ch:18,type:'mc',q:{ko:'교재의 참고사항: subV7/III과 subV7/VI는 이론상 존재하지만, 실제로는 어떻게 더 많이 들릴까요?',en:'Per the textbook note: subV7/III and subV7/VI exist in theory, but in practice they are more often heard as:'},audio:[],ans:'IV7 and bVII7',opts:["I7 and II7","IV7 and bVII7","no difference, always heard as subV7","V7/II and V7/V"],terms:['substitute_dominant'],why:{ko:'Berklee 교재는 분명히 밝힙니다: subV7/III는 IV7로, subV7/VI는 ♭VII7로 들리는 경우가 더 흔하다고요. 즉 로마숫자 이론은 맞지만, 귀로 들을 때는 다른 기능으로 해석되는 경우가 많다는 뜻입니다 — 이런 예외를 아는 것이 실제 분석력을 키웁니다.',en:'The textbook itself flags this: subV7/III is more commonly heard as IV7, and subV7/VI as bVII7. The Roman-numeral theory is correct, but real listening often favors a different functional reading — worth knowing so your analysis matches your ears.'}});
+
+  /* ── CH 19: Related II-7 Chords (Harmony 3) ── */
+  add({ch:19,type:'mc',q:{ko:'C7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes C7 is:'},audio:[],ans:'Gm7',opts:["Cm7","Am7","Dm7","Gm7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'Db7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes Db7 is:'},audio:[],ans:'Abm7',opts:["Bbm7","Dbm7","Abm7","Ebm7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'D7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes D7 is:'},audio:[],ans:'Am7',opts:["Bm7","Em7","Dm7","Am7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'Eb7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes Eb7 is:'},audio:[],ans:'Bbm7',opts:["Cm7","Ebm7","Fm7","Bbm7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'E7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes E7 is:'},audio:[],ans:'Bm7',opts:["F#m7","Bm7","C#m7","Em7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'F7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes F7 is:'},audio:[],ans:'Cm7',opts:["Dm7","Fm7","Gm7","Cm7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'F#7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes F#7 is:'},audio:[],ans:'C#m7',opts:["G#m7","D#m7","C#m7","F#m7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'G7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes G7 is:'},audio:[],ans:'Dm7',opts:["Am7","Em7","Dm7","Gm7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'Ab7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes Ab7 is:'},audio:[],ans:'Ebm7',opts:["Abm7","Bbm7","Fm7","Ebm7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'A7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes A7 is:'},audio:[],ans:'Em7',opts:["Em7","Am7","F#m7","Bm7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'Bb7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes Bb7 is:'},audio:[],ans:'Fm7',opts:["Bbm7","Gm7","Fm7","Cm7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'B7 앞에 붙는 관련 II−7는?',en:'The related II-7 that precedes B7 is:'},audio:[],ans:'F#m7',opts:["Bm7","C#m7","F#m7","G#m7"],terms:['related_ii7'],why:{ko:'관련 II−7는 도미넌트의 완전5도 위, 즉 도미넌트가 원래 혼자 서 있던 자리를 ii−V로 \'펼치는\' 마이너7 화음입니다.',en:'The related II-7 sits a perfect 5th above the dominant, \'unfolding\' a single dominant into a ii–V pair.'}});
+  add({ch:19,type:'mc',q:{ko:'대리도미넌트 Db7에도 자기만의 관련 II−7가 있습니다. 그 화음은?',en:'The substitute dominant Db7 has its own related II-7 too. It is:'},audio:[],ans:'Abm7',opts:["Fm7","Abm7","Ebm7","Bbm7"],terms:['related_ii7','substitute_dominant']});
+  add({ch:19,type:'mc',q:{ko:'대리도미넌트 Gb7에도 자기만의 관련 II−7가 있습니다. 그 화음은?',en:'The substitute dominant Gb7 has its own related II-7 too. It is:'},audio:[],ans:'Dbm7',opts:["Bbm7","Dbm7","Abm7","Ebm7"],terms:['related_ii7','substitute_dominant']});
+  add({ch:19,type:'mc',q:{ko:'대리도미넌트 B7에도 자기만의 관련 II−7가 있습니다. 그 화음은?',en:'The substitute dominant B7 has its own related II-7 too. It is:'},audio:[],ans:'F#m7',opts:["D#m7","F#m7","C#m7","G#m7"],terms:['related_ii7','substitute_dominant']});
+  add({ch:19,type:'mc',q:{ko:'대리도미넌트 Ab7에도 자기만의 관련 II−7가 있습니다. 그 화음은?',en:'The substitute dominant Ab7 has its own related II-7 too. It is:'},audio:[],ans:'Ebm7',opts:["Ebm7","Fm7","Bbm7","Cm7"],terms:['related_ii7','substitute_dominant']});  /* ── CH 20: Diminished 7th Chords & Chord Scales (Harmony 3) ── */
+  add({ch:20,type:'write',q:{ko:'C°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'C°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['C4'],givenX:90,ans:["C4","Eb4","Gb4","Bbb4"],audio:["C4","Eb4","Gb4","Bbb4"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'D°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'D°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['D4'],givenX:90,ans:["D4","F4","Ab4","Cb5"],audio:["D4","F4","Ab4","Cb5"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'E°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'E°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['E4'],givenX:90,ans:["E4","G4","Bb4","Db5"],audio:["E4","G4","Bb4","Db5"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'F°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'F°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['F4'],givenX:90,ans:["F4","Ab4","Cb5","Ebb5"],audio:["F4","Ab4","Cb5","Ebb5"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'G°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'G°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['G4'],givenX:90,ans:["G4","Bb4","Db5","Fb5"],audio:["G4","Bb4","Db5","Fb5"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'A°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'A°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['A4'],givenX:90,ans:["A4","C5","Eb5","Gb5"],audio:["A4","C5","Eb5","Gb5"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'B°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'B°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['B3'],givenX:90,ans:["B3","D4","F4","Ab4"],audio:["B3","D4","F4","Ab4"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'F#°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'F#°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['F#4'],givenX:90,ans:["F#4","A4","C5","Eb5"],audio:["F#4","A4","C5","Eb5"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'Bb°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'Bb°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['Bb3'],givenX:90,ans:["Bb3","Db4","Fb4","Abb4"],audio:["Bb3","Db4","Fb4","Abb4"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'Eb°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'Eb°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['Eb4'],givenX:90,ans:["Eb4","Gb4","Bbb4","Dbb5"],audio:["Eb4","Gb4","Bbb4","Dbb5"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'Ab°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'Ab°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['Ab3'],givenX:90,ans:["Ab3","Cb4","Ebb4","Gbb4"],audio:["Ab3","Cb4","Ebb4","Gbb4"],terms:['diminished_7th_chord']});
+  add({ch:20,type:'write',q:{ko:'Db°7 (감7화음) — 루트음 주어짐, 나머지를 단3도씩 쌓아 쓰세요.',en:'Db°7 (diminished 7th) — root given, stack minor 3rds to write the rest:'},clef:'treble',given:['Db4'],givenX:90,ans:["Db4","Fb4","Abb4","Cbb5"],audio:["Db4","Fb4","Abb4","Cbb5"],terms:['diminished_7th_chord']});  add({ch:20,type:'mc',q:{ko:'다이아토닉 상황(경과·보조 감화음)에서 감화음의 코드 스케일을 만드는 방법은?',en:'In diatonic situations (passing/auxiliary diminished chords), how do you build the chord scale?'},audio:[],ans:'화음음 사이사이에 그 조성의 다이아토닉 음을 채운다',opts:["화음음 사이사이에 그 조성의 다이아토닉 음을 채운다","항상 온음-반음 대칭 스케일을 쓴다","반음계를 그대로 쓴다","5음음계를 쓴다"],terms:['diminished_chord','passing_diminished'],why:{ko:'다이아토닉 감화음은 대부분 경과·보조 기능이라, 화음음(1,♭3,♭5,6) 사이에 \'그 순간의 조성\'에 맞는 다이아토닉 음을 채워 코드 스케일을 만듭니다. (구조적으로 독립된 감7화음은 다른 대칭 스케일을 씁니다 — 4학기에서 더 다룹니다.)',en:'Most diatonic diminished chords are passing or auxiliary, so their chord scale fills the gaps between the chord tones (1, b3, b5, 6) with notes diatonic to the key of the moment. (Structurally independent diminished 7ths use a different symmetric scale — covered in Harmony 4.)'}});
+  add({ch:20,type:'mc',q:{ko:'I°7이나 V°7처럼 다이아토닉 옵션이 두 개(예: 7음 또는 으뜸음) 있을 때, 교재는 어느 쪽을 추천할까요?',en:'When there are two diatonic options for I°7 or V°7 (e.g., scale-degree 7 or 1), which does the textbook recommend?'},audio:[],ans:'더 강한 스케일 도수(예: 으뜸음) 쪽',opts:["더 강한 스케일 도수(예: 으뜸음) 쪽","항상 낮은 음","항상 반음 위","무작위로 선택"],terms:['diminished_chord'],why:{ko:'Berklee 교재는 명확히 말합니다: 두 다이아토닉 옵션이 있을 때는 더 안정적인(강한) 스케일 도수 쪽을 선택하는 걸 권장하되, 어느 쪽이든 이론적으로는 허용된다고요. 정답이 하나로 딱 떨어지지 않는, 맥락에 따라 유연한 규칙입니다.',en:'The textbook is explicit: when two diatonic options exist, it recommends the stronger (more stable) scale degree — while noting either pitch is theoretically acceptable. A flexible rule, not a rigid one.'}});
+  /* ── CH 21: Modulation (Harmony 3) ── */
+  add({ch:21,type:'mc',q:{ko:'전조 직후, 새 조성에서 화성이 몇 마디 이상 확실히 자리 잡아야 \'전조가 일어났다\'고 볼 수 있나요?',en:'After a modulation, how firmly must the new key be established before we call it a true modulation (vs. a brief tonicization)?'},audio:[],ans:'적어도 몇 마디 동안 새 조성이 다이아토닉하게 확인되어야 함',opts:["적어도 몇 마디 동안 새 조성이 다이아토닉하게 확인되어야 함","화음 하나만 바뀌면 충분함","꼭 종지가 있어야만 함","항상 곡 전체가 새 조로 끝나야 함"],terms:['modulation','primary_key','secondary_key'],why:{ko:'짧게 스쳐 지나가는 임시 이조(토니시제이션)와 달리, 진짜 전조는 새 조성(secondary key)이 다이아토닉하게 최소 몇 마디 이상 자리를 잡아야 인정됩니다.',en:'Unlike a brief tonicization, a true modulation requires the new (secondary) key to be established diatonically for at least a few measures.'}});
+  add({ch:21,type:'mc',q:{ko:'직접 전조(direct modulation)의 특징은?',en:'Direct modulation is characterized by:'},audio:[],ans:'공통 화음 없이 갑자기 새 조성으로 넘어감',opts:["공통 화음 없이 갑자기 새 조성으로 넘어감","두 조성에 공통되는 화음을 경첩처럼 사용함","새로운 조표로 가기 전 임시 전조 구간을 거침","도미넌트 화음 하나로만 전조함"],terms:['direct_modulation'],why:{ko:'직접 전조는 원조와 새 조 사이를 이어주는 공통 화음(피벗 코드) 없이, 갑작스럽게 새 조성으로 건너뜁니다.',en:'Direct modulation moves to the new key abruptly, without a shared pivot chord bridging the two keys.'}});
+  add({ch:21,type:'mc',q:{ko:'피벗 코드(pivot chord) 전조의 핵심은?',en:'The key idea behind pivot-chord modulation is:'},audio:[],ans:'원조와 새 조 양쪽에 다이아토닉하게 속하는 화음을 경첩처럼 사용',opts:["원조와 새 조 양쪽에 다이아토닉하게 속하는 화음을 경첩처럼 사용","항상 반음계적 화음만 사용","전조 직후 원조로 즉시 복귀","새 조의 딸림화음만 사용"],terms:['pivot_chord'],why:{ko:'피벗 코드는 원조에서도, 새 조에서도 자연스럽게 다이아토닉한 화음이라 두 조성을 부드럽게 이어주는 \'경첩\' 역할을 합니다.',en:'A pivot chord is diatonic to both the old and new keys, acting as a hinge that connects them smoothly.'}});
+  add({ch:21,type:'mc',q:{ko:'전이적 전조(transitional modulation)에서 새 조성으로 가는 다리 역할을 하는 것은?',en:'In transitional modulation, what bridges the way into the new key?'},audio:[],ans:'새 조성 자체에 속하지 않는 화음(들)이 잠시 다리처럼 쓰임',opts:["새 조성 자체에 속하지 않는 화음(들)이 잠시 다리처럼 쓰임","항상 셋잇단음표 리듬","완전히 무조성 구간","박자 변화"],terms:['modulation'],why:{ko:'전이적 전조는 원조에도 새 조에도 다이아토닉하지 않는 화음을 짧게 다리처럼 거쳐서 새 조성에 도달합니다.',en:'Transitional modulation briefly passes through chord(s) diatonic to neither key, using them as a bridge into the new key.'}});
+  add({ch:21,type:'mc',q:{ko:'기만적 도미넌트 전조(deceptive dominant modulation)의 특징은?',en:'Deceptive dominant modulation is characterized by:'},audio:[],ans:'도미넌트가 예상된 화음 대신 새 조성의 화음으로 기만적으로 해결됨',opts:["도미넌트가 예상된 화음 대신 새 조성의 화음으로 기만적으로 해결됨","도미넌트가 완전5도 하행으로만 해결됨","딸림화음을 아예 쓰지 않음","항상 단조로만 전조함"],terms:['dominant_chord_modulation','deceptive_resolution'],why:{ko:'원래 조성에서 기대되는 화음 대신, 그 도미넌트를 새 조성의 화음으로 \'기만적으로\' 해결시켜 전조를 이끌어냅니다.',en:'The dominant resolves deceptively — not to the expected chord in the original key, but to a chord that launches the new key.'}});
+  add({ch:21,type:'mc',q:{ko:'원조(primary key)와 새 조(secondary key)라는 용어는 어떤 관계를 나타내나요?',en:'The terms primary key and secondary key describe:'},audio:[],ans:'곡이 시작한 조성(원조)과 전조로 도달한 조성(새 조)',opts:["곡이 시작한 조성(원조)과 전조로 도달한 조성(새 조)","장조와 단조의 구분","빠른 곡과 느린 곡의 구분","다이아토닉과 반음계적 조성의 구분"],terms:['primary_key','secondary_key'],why:{ko:'원조는 곡(혹은 섹션)이 출발한 조성, 새 조는 전조를 통해 도달한 조성을 가리키는 상대적인 용어입니다.',en:'Primary key is where the piece (or section) started; secondary key is where a modulation has taken it.'}});
+  add({ch:21,type:'mc',q:{ko:'전조 지점을 분석할 때, 원조와 새 조 사이의 관계를 표시하는 일반적인 방법은?',en:'When analyzing a modulation point, how is the relationship between the two keys typically notated?'},audio:[],ans:'두 으뜸음 사이의 음정(예: 완전5도 위, 단3도 위)으로 표시',opts:["두 으뜸음 사이의 음정(예: 완전5도 위, 단3도 위)으로 표시","항상 로마숫자 I로만 표시","박자표로 표시","빠르기말로 표시"],terms:['modulation'],why:{ko:'전조는 흔히 화살표와 함께, 원래 으뜸음에서 새 으뜸음까지의 음정(예: ↗5도, ↘3도)으로 표시해 새 조성이 어디서 왔는지 한눈에 보여줍니다.',en:'Modulations are often marked with an arrow and the interval between the old and new tonic (e.g., up a 5th, down a 3rd), showing at a glance where the new key came from.'}});
+  add({ch:21,type:'mc',q:{ko:'암시적 전조(implied modulation)란?',en:'An implied modulation is:'},audio:[],ans:'새 조성이 뚜렷이 확립되지 못한 채, 잠깐 암시만 되는 전조',opts:["새 조성이 뚜렷이 확립되지 못한 채, 잠깐 암시만 되는 전조","가장 확실하고 긴 전조","항상 셈여림표로 표시되는 전조","보컬 없이 일어나는 전조"],terms:['implied_modulation'],why:{ko:'암시적 전조는 새 조성이 완전히 자리 잡지 못하고 짧게 스쳐가듯 암시만 되는 경우를 가리킵니다 — 토니시제이션에 가까운 약한 전조입니다.',en:'An implied modulation only briefly suggests a new key without fully establishing it — closer to a tonicization than a firm modulation.'}});
+  /* ── CH 22: Dominants Without Dominant Function & Contiguous Dominants (Harmony 3) ── */
+  add({ch:22,type:'mc',q:{ko:'I7, II7, III7, IV7, VI7, ♭VI7, VII7, ♭VII7처럼 딸림7화음 구조를 가진 화음이 늘 완전5도나 반음 아래로 해결되는 건 아닙니다. 이런 경우를 뭐라 부르나요?',en:'Chords built like dominant 7ths (I7, II7, III7, IV7, VI7, bVI7, VII7, bVII7...) don\'t always resolve down a 5th or half step. What do we call this?'},audio:[],ans:'도미넌트 기능이 없는 딸림7화음',opts:["도미넌트 기능이 없는 딸림7화음","세컨더리 도미넌트","대리도미넌트","확장 도미넌트"],terms:['nondominant_dominant'],why:{ko:'구조는 딸림7화음(장3도+단3도+단3도)이지만, 청자가 굳이 완전5도·반음 아래로의 해결을 기대하지 않는 화음들입니다. 블루스의 IV7가 대표적인 예입니다.',en:'These have the dominant-7th structure (major 3rd + minor 3rd + minor 3rd) but the listener doesn\'t necessarily expect a perfect-5th or half-step resolution. The IV7 in a blues is a classic example.'}});
+  add({ch:22,type:'mc',q:{ko:'블루스에서 IV7가 도미넌트처럼 해결되길 기대하지 않는 이유는?',en:'Why don\'t we expect the IV7 in a blues to resolve like a true dominant?'},audio:[],ans:'블루스 특유의 관용구(스타일)로 굳어져 다른 기능으로 들림',opts:["블루스 특유의 관용구(스타일)로 굳어져 다른 기능으로 들림","IV7는 애초에 딸림7화음 구조가 아니라서","블루스에는 아예 딸림화음이 없어서","IV7는 항상 I로 해결되기 때문에"],terms:['blue_note_dominant','nondominant_dominant'],why:{ko:'블루스 스타일 자체가 이 화음 어휘를 관용구로 굳혀 놓았기 때문에, 구조상 도미넌트라도 실제로는 다른 색채(블루노트적 성격)로 들립니다.',en:'The blues idiom itself has fixed this chord vocabulary as a stylistic convention, so even though it\'s structurally a dominant, it functions and sounds differently.'}});
+  add({ch:22,type:'mc',q:{ko:'딸림7화음 구조의 화음이 조성 안에서 두 가지 역할(예: 도미넌트 기능과 비-도미넌트 기능)을 오갈 수 있는 것을 뭐라 하나요?',en:'When a dominant-7th-structured chord can serve two different roles depending on context, this is called:'},audio:[],ans:'이중 기능(dual function)',opts:["이중 기능(dual function)","확장 도미넌트","경과 화음","보조 화음"],terms:['dual_function'],why:{ko:'같은 화음이라도 앞뒤 맥락에 따라 도미넌트 기능으로 들릴 수도, 다른 기능(예: 블루스 관용구)으로 들릴 수도 있는 경우를 이중 기능이라 합니다.',en:'The same chord can be heard as functioning one way in one context and another way elsewhere — this flexibility is called dual function.'}});
+  add({ch:22,type:'mc',q:{ko:'이어지는 도미넌트(contiguous dominants)란 무엇을 말하나요?',en:'What are contiguous dominants?'},audio:[],ans:'관련 II−7 화음들이 끊이지 않고 연속으로 이어지는 ii−V 사슬',opts:["관련 II−7 화음들이 끊이지 않고 연속으로 이어지는 ii−V 사슬","서로 다른 조성의 도미넌트가 동시에 울리는 것","딸림화음이 하나도 없는 진행","항상 반음계로만 이어지는 진행"],terms:['contiguous_dominant'],why:{ko:'여러 개의 ii−V(관련 II−7 + 도미넌트) 쌍이 끊임없이 이어져 사슬처럼 진행하는 것을 이어지는 도미넌트라 부릅니다.',en:'When several ii-V pairs (related II-7 plus dominant) chain together back-to-back without interruption, that\'s called contiguous dominants.'}});
+  add({ch:22,type:'mc',q:{ko:'"Tricycles" 같은 곡에서 자주 보이는, 짧은 ii-V가 여러 조성을 빠르게 스치듯 지나가는 패턴을 무엇으로 분석하나요?',en:'Tunes with rapid, short ii-V pairs briefly touching several keys are best analyzed as:'},audio:[],ans:'이어지는 II−7 V7들 (각기 다른 임시 목표를 향한 세컨더리/대리 도미넌트 사슬)',opts:["이어지는 II−7 V7들 (각기 다른 임시 목표를 향한 세컨더리/대리 도미넌트 사슬)","단일 조성의 다이아토닉 진행","완전히 무조성적인 진행","페달 포인트 위의 화성"],terms:['contiguous_dominant','related_ii7'],why:{ko:'이런 곡은 여러 개의 짧은 ii-V가 각자 다른 임시 목표를 향해 연달아 이어지는 것으로 분석하는 것이 가장 자연스럽습니다.',en:'These tunes are most naturally analyzed as a chain of short ii-V pairs, each briefly targeting a different chord.'}});
+  add({ch:22,type:'mc',q:{ko:'딸림7화음 구조지만 도미넌트 기능이 없는 화음들(I7, II7, III7, IV7, VI7, ♭VI7, VII7, ♭VII7)을 진행에 채워 넣을 때 무엇을 고려해야 하나요?',en:'When inserting non-dominant-function dominant-structured chords (I7, II7, III7, IV7, VI7, bVI7, VII7, bVII7) into a progression, what should guide the choice?'},audio:[],ans:'화성 리듬과 앞뒤에 오는 화음(맥락)',opts:["화성 리듬과 앞뒤에 오는 화음(맥락)","항상 알파벳 순서","가장 낮은 음부터 순서대로","무작위로 아무거나"],terms:['nondominant_dominant'],why:{ko:'이런 화음들은 정해진 하나의 정답이 없습니다 — 화성 리듬(코드가 바뀌는 속도)과 앞뒤 맥락을 고려해 선택해야 자연스럽게 어울립니다.',en:'There\'s no single correct answer here — the choice depends on harmonic rhythm and the surrounding context to sound natural.'}});
+
   return ps;
 }
 
 const ALL=mkProbs();
 
 /* ═══════════════════════════════════════════════
-   CHAPTERS
+   GLOSSARY / COURSE LINKING (Harmony course cross-reference)
 ═══════════════════════════════════════════════ */
-const CHS=[
-  {t:'음이름 식별/Pitch Recognition',d:'p.1-2 | 높은·낮은음자리표 음이름',de:'p.1-2 | Treble & bass clef note names'},
-  {t:'임시표 & 이명동음/Accidentals',d:'p.3-6 | 임시표, 이명동음',de:'p.3-6 | Accidentals & enharmonics'},
-  {t:'장음계/Major Scales',d:'p.7-10 | 12개 장음계',de:'p.7-10 | All 12 major scales'},
-  {t:'단음계/Minor Scales',d:'p.10-12 | 자연·화성·선율 단음계',de:'p.10-12 | Natural, harmonic, melodic minor'},
-  {t:'5음음계/Pentatonic',d:'p.13 | 장·단 5음음계',de:'p.13 | Major & minor pentatonic'},
-  {t:'조표/Key Signatures',d:'p.15-17 | 조표 식별 & 분석',de:'p.15-17 | Identify & analyze key signatures'},
-  {t:'음정/Intervals',d:'p.18-24 | 음정 식별 & 쓰기',de:'p.18-24 | Identify & write intervals'},
-  {t:'3화음/Triads',d:'p.27-30 | 3화음 식별 & 쓰기',de:'p.27-30 | Identify & write triads'},
-  {t:'7화음/7th Chords',d:'p.32-37 | 7화음 식별 & 쓰기',de:'p.32-37 | Identify & write 7th chords'},
-  {t:'자리바꿈/Inversions',d:'p.38-42 | 화음 자리바꿈',de:'p.38-42 | Chord inversions'},
-  {t:'선법/Modes',d:'p.46-54 | 교회선법',de:'p.46-54 | Church modes'},
-  {t:'음계 성향/Scale Tendencies',d:'p.55-56 | 성향 & 성부진행',de:'p.55-56 | Scale tendencies & voice leading'},
-  {t:'다이아토닉 화성/Diatonic Harmony',d:'p.57-65 | 다이아토닉 분석',de:'p.57-65 | Diatonic harmony'},
-  {t:'부속화음/Secondary Dominants',d:'p.69-84 | 부속화음',de:'p.69-84 | Secondary dominants'},
-  {t:'모달 인터체인지/Modal Interchange',d:'p.92-99 | 모달 인터체인지 & 블루스',de:'p.92-99 | Modal interchange & blues'},
+const HCOURSE='https://mowmau.github.io/harmony';
+const TERM_MAP={"chord_scale":{"ko":"코드 스케일","week":41},"mode":{"ko":"선법","week":17},"secondary_dominant":{"ko":"부속화음","week":23},"extended_dominant":{"ko":"확장 도미넌트","week":31},"substitute_dominant":{"ko":"대리도미넌트","week":55},"tritone":{"ko":"트라이톤","week":7},"lydian_b7":{"ko":"리디안 ♭7","week":64},"related_ii7":{"ko":"관련 II−7","week":32},"diminished_7th_chord":{"ko":"감7화음","week":35},"diminished_chord":{"ko":"디미니시드 화음","week":34},"passing_diminished":{"ko":"경과 감화음","week":35},"modulation":{"ko":"전조","week":25},"pivot_chord":{"ko":"피벗 화음","week":25},"direct_modulation":{"ko":"직접 전조","week":73},"dominant_chord_modulation":{"ko":"딸림7화음 전조","week":75},"implied_modulation":{"ko":"암시된 전조","week":73},"primary_key":{"ko":"원래 조","week":73},"secondary_key":{"ko":"새 조","week":73},"nondominant_dominant":{"ko":"비도미넌트 기능 화음","week":79},"blue_note_dominant":{"ko":"블루노트 도미넌트","week":80},"dual_function":{"ko":"이중 기능","week":78},"contiguous_dominant":{"ko":"연속 도미넌트","week":81}};
+function glossLink(id){return `${HCOURSE}/#glossary:${id}`;}
+function lessonLink(wk){return `${HCOURSE}/#lesson:${wk}`;}
+function termChips(ids){
+  if(!ids||!ids.length)return '';
+  const seen=new Set();
+  return ids.filter(id=>{if(seen.has(id))return false;seen.add(id);return true;})
+    .filter(id=>TERM_MAP[id]).map(id=>{
+    const t=TERM_MAP[id];
+    return `<a class="chip term" href="${glossLink(id)}" target="_blank" rel="noopener">📖 ${t.ko}</a>`
+      + `<a class="chip week" href="${lessonLink(t.week)}" target="_blank" rel="noopener">🎓 ${t.week}주차 강의</a>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════
+   FEEDBACK MESSAGE VARIETY (warmer, encouraging tone)
+═══════════════════════════════════════════════ */
+const CORRECT_MSGS=[
+  {ko:'정답이에요! 잘하셨어요 🎉',en:'Correct! Nicely done 🎉'},
+  {ko:'맞았습니다! 정확해요 ✨',en:'That\'s right! Spot on ✨'},
+  {ko:'좋아요, 정확히 맞히셨네요 👍',en:'Great — exactly right 👍'},
+  {ko:'딱 맞아요! 계속 이 흐름으로 가봐요 🔥',en:'Right on the money! Keep this streak going 🔥'},
+  {ko:'훌륭해요! 개념을 잘 잡고 계세요 🌟',en:'Excellent! You\'ve got the concept down 🌟'},
 ];
+const INCORRECT_MSGS=[
+  {ko:'아직이에요, 다시 한 번 볼까요?',en:'Not quite yet — let\'s look again.'},
+  {ko:'괜찮아요, 정답은 이거예요:',en:'No worries, here\'s the answer:'},
+  {ko:'조금 아쉬워요! 정답은:',en:'So close! The answer is:'},
+];
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
 
 /* ═══════════════════════════════════════════════
    APP
 ═══════════════════════════════════════════════ */
 let LG='ko',CH=0;
 const DONE={};
+let XP=0,STREAK=0,BEST=0;
 
 function gps(ch){return ALL.filter(p=>p.ch===ch);}
 
 function rSB(){
   let tot=0,dn=0;
   ALL.forEach(p=>{tot++;if(DONE[p.id])dn++;});
-  document.getElementById('pgtx').textContent=`${dn}/${tot}`;
+  document.getElementById('pgtx')&&(document.getElementById('pgtx').textContent=`${dn}/${tot}`);
+  const pct=tot?Math.round(dn/tot*100):0;
+  const pbar=document.getElementById('pbar');if(pbar)pbar.style.width=pct+'%';
+  document.getElementById('xpv').textContent=XP;
+  document.getElementById('streakv').textContent=STREAK;
   const list=document.getElementById('chl');
-  list.innerHTML=CHS.map((c,i)=>{
+  let lastGrp=null,html='';
+  CHS.forEach((c,i)=>{
+    if(c.grp!==lastGrp){
+      const label=c.grp==='h3'?(LG==='ko'?'하모니 3':'Harmony 3'):(LG==='ko'?'하모니 1 & 2':'Harmony 1 & 2');
+      html+=`<div class="sbgrp ${c.grp==='h3'?'h3':''}">${label}</div>`;
+      lastGrp=c.grp;
+    }
     const ps=gps(i),done=ps.filter(p=>DONE[p.id]).length;
     const ttl=LG==='ko'?c.t.split('/')[0]:c.t.split('/')[1]||c.t;
-    return `<button class="cbtn${i===CH?' act':''}"onclick="A.gc(${i})">${ttl}<span class="pg">${LG==='ko'?c.d:c.de}</span><span class="cp">${done}/${ps.length}</span></button>`;
-  }).join('');
+    const full=done===ps.length&&ps.length>0;
+    html+=`<button class="cbtn${i===CH?' act '+(c.grp==='h3'?'h3':''):''}"onclick="A.gc(${i})">${ttl}${full?' <span class="badge100">🏅</span>':''}<span class="pg">${LG==='ko'?c.d:c.de}</span><span class="cp">${done}/${ps.length}</span></button>`;
+  });
+  list.innerHTML=html;
 }
 
 function rProbs(){
   const c=CHS[CH],ps=gps(CH);
   document.getElementById('cht').textContent=LG==='ko'?c.t.split('/')[0]:c.t.split('/')[1]||c.t;
   document.getElementById('chd').textContent=LG==='ko'?c.d:c.de;
+  const chdr=document.getElementById('chdr');
+  chdr.className='chdr'+(c.grp==='h3'?' h3':c.grp==='h4'?' h4':'');
   const done=ps.filter(p=>DONE[p.id]).length;
   document.getElementById('pct').textContent=`${done}/${ps.length} ${LG==='ko'?'완료':'done'}`;
+  // chapter-level quick links: pick most common terms among this chapter's problems
+  const termSet=new Set();ps.forEach(p=>(p.terms||[]).forEach(t=>termSet.add(t)));
+  document.getElementById('chlinks').innerHTML=termChips([...termSet].slice(0,3));
   if(!ps.length){document.getElementById('pbs').innerHTML='<div class="pb" style="color:var(--mut)">문제 없음</div>';return;}
   document.getElementById('pbs').innerHTML=ps.map(p=>rOne(p)).join('');
-  // init write problems
   const wps=ps.filter(p=>p.type==='write');
   wps.forEach(p=>{
     const cl=p.clef||'treble';
     if(!ST[p.id])ST[p.id]={pl:[],sa:'',cl};
     initIS(p.id,cl,p.given||[],p.givenX||80);
   });
-  // init select problems
   const sps=ps.filter(p=>p.type==='select');
   sps.forEach(p=>{
     const cl=p.clef||'treble';
@@ -788,6 +1104,7 @@ function rProbs(){
   });
   const ap=[...wps,...sps];
   if(ap.length){setTimeout(()=>setActive(ap[0].id),80);}
+  if(window.innerWidth<=820){document.getElementById('sb').classList.remove('open');document.getElementById('sbovl').classList.remove('open');}
 }
 
 function rOne(p){
@@ -801,7 +1118,9 @@ function rOne(p){
   else if(p.type==='write')body=rWR(p);
   else if(p.type==='select')body=rSL(p);
   else if(p.type==='analyze')body=rAZ(p);
-  return `<div class="pb"id="pb_${p.id}">${num}${qh}${body}<div class="ar">${playBtn}</div><div class="fb"id="fb_${p.id}"></div></div>`;
+  const chips=p.terms?`<div class="links">${termChips(p.terms)}</div>`:'';
+  const whyBox=(p.why&&DONE[p.id])?`<div class="why" id="why_${p.id}">💡 ${LG==='ko'?p.why.ko:p.why.en}</div>`:`<div class="why" id="why_${p.id}" style="display:none">💡 ${p.why?(LG==='ko'?p.why.ko:p.why.en):''}</div>`;
+  return `<div class="pb"id="pb_${p.id}">${num}${qh}${body}<div class="ar">${playBtn}</div>${chips}<div class="fb"id="fb_${p.id}"></div>${p.why?whyBox:''}</div>`;
 }
 
 function rID(p){
@@ -866,12 +1185,15 @@ function rAZ(p){
 }
 
 const A={
-  init(){mkPiano();rSB();rProbs();this.lp();},
+  init(){mkPiano();this.lp();rSB();rProbs();},
   gc(i){CH=i;rSB();rProbs();window.scrollTo(0,0);},
   prev(){if(CH>0){CH--;rSB();rProbs();window.scrollTo(0,0);}},
   next(){if(CH<CHS.length-1){CH++;rSB();rProbs();window.scrollTo(0,0);}},
   lang(){LG=LG==='ko'?'en':'ko';rSB();rProbs();},
-  toggleSB(){const sb=document.getElementById('sb');sb.style.display=sb.style.display==='none'?'block':'none';},
+  toggleSB(){
+    const sb=document.getElementById('sb'),ov=document.getElementById('sbovl');
+    sb.classList.toggle('open');ov.classList.toggle('open');
+  },
   pk(note){
     pnote(freq(note));
     const m=midi(note);
@@ -906,11 +1228,9 @@ const A={
     if(p.type==='write'&&ST[pid]){
       const placed=ST[pid].pl.map(n=>{const full=n.note.slice(0,-1)+(n.acc||'')+n.note.slice(-1);return full;});
       const all=[...(p.given||[]),...placed];
-      // 루트(given) 먼저 → 전체 순차
       if(p.given&&p.given.length){pnote(freq(p.given[0]),0,.7);setTimeout(()=>{play(all);flash(all);},500);}
       else{play(all);flash(all);}
     }else if((p.ch===7||p.ch===8||p.ch===9)&&p.type==='mc'&&p.audio.length>1){
-      // 루트음 먼저 → 화음 전체
       pnote(freq(p.audio[0]),0,.7);
       setTimeout(()=>{playchord(p.audio);flash(p.audio);},600);
     }else if(p.type==='write'&&p.given&&p.given.length&&p.audio.length>1){
@@ -937,6 +1257,22 @@ const A={
     setActive(pid);inp.value='';
   },
   cl(pid){if(ST[pid])ST[pid].pl=[];rProbs();},
+  _award(pid){
+    const wasNew=!DONE[pid];
+    DONE[pid]=true;
+    if(wasNew){XP+=10;STREAK++;if(STREAK>BEST)BEST=STREAK;this._toast();}
+    this.sp();rSB();
+  },
+  _miss(){STREAK=0;this.sp();rSB();},
+  _toast(){
+    if(STREAK>0&&STREAK%5===0){
+      const t=document.getElementById('streaktoast');
+      t.textContent=(LG==='ko'?`🔥 ${STREAK}연속 정답!`:`🔥 ${STREAK} in a row!`);
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'),1400);
+    }
+  },
+  _showWhy(pid){const w=document.getElementById('why_'+pid);if(w)w.style.display='block';},
   ck(pid){
     const p=ALL.find(x=>x.id===pid);if(!p)return;
     const el=document.getElementById('ai_'+pid);
@@ -946,10 +1282,14 @@ const A={
     if(p.check)ok=p.check(ans);
     else{const a=ans.toLowerCase(),b=(p.ans||'').toLowerCase();ok=a===b||a.includes(b)||b.includes(a);}
     if(ok){
-      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?'정답!':'Correct!');
-      DONE[pid]=true;this.sp();rSB();setTimeout(()=>this.next(),700);
+      const m=pick(CORRECT_MSGS);
+      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?m.ko:m.en);
+      this._award(pid);this._showWhy(pid);
+      setTimeout(()=>this.next(),750);
     }else{
-      fb.className='fb fno';fb.textContent=(LG==='ko'?'✗ 정답: ':'✗ Answer: ')+(p.showAns||p.ans||'');
+      const m=pick(INCORRECT_MSGS);
+      fb.className='fb fno';fb.textContent='✗ '+(LG==='ko'?m.ko:m.en)+' '+(p.showAns||p.ans||'');
+      this._miss();
     }
   },
   cm(pid,ans,btn){
@@ -959,10 +1299,14 @@ const A={
     btn.className='mo '+(ok?'ok':'bad');
     const fb=document.getElementById('fb_'+pid);
     if(ok){
-      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?'정답!':'Correct!');
-      DONE[pid]=true;this.sp();rSB();setTimeout(()=>this.next(),600);
+      const m=pick(CORRECT_MSGS);
+      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?m.ko:m.en);
+      this._award(pid);this._showWhy(pid);
+      setTimeout(()=>this.next(),650);
     }else{
-      fb.className='fb fno';fb.textContent=(LG==='ko'?'✗ 정답: ':'✗ Answer: ')+(p.lbl||p.ans||'');
+      const m=pick(INCORRECT_MSGS);
+      fb.className='fb fno';fb.textContent='✗ '+(LG==='ko'?m.ko:m.en)+' '+(p.lbl||p.ans||'');
+      this._miss();
     }
   },
   cw(pid){
@@ -975,16 +1319,19 @@ const A={
     const need=aMid.filter(m=>!gMid.includes(m));
     const ok=need.length>0&&need.every(m=>pMid.includes(m));
     if(ok){
-      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?'정답!':'Correct!');
+      const m=pick(CORRECT_MSGS);
+      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?m.ko:m.en);
       s.pl=s.pl.map(n=>({...n,color:'#16a34a'}));
       reIS(pid,s.cl,p.given,p.givenX);
-      DONE[pid]=true;this.sp();rSB();
+      this._award(pid);this._showWhy(pid);
       play(p.ans||[]);flash(p.ans||[]);
-      setTimeout(()=>this.next(),1800);
+      setTimeout(()=>this.next(),1700);
     }else{
-      fb.className='fb fno';fb.textContent=(LG==='ko'?'✗ 정답: ':'✗ Answer: ')+(p.ans||[]).join(', ');
+      const m=pick(INCORRECT_MSGS);
+      fb.className='fb fno';fb.textContent='✗ '+(LG==='ko'?m.ko:m.en)+' '+(p.ans||[]).join(', ');
       s.pl=s.pl.map(n=>({...n,color:'#dc2626'}));
       reIS(pid,s.cl,p.given,p.givenX);
+      this._miss();
     }
   },
   sh(pid){
@@ -1002,11 +1349,14 @@ const A={
     const ansMidi=(p.ansMidi||[]).slice().sort((a,b)=>a-b);
     const ok=selMidi.length===ansMidi.length&&selMidi.every((m,i)=>m===ansMidi[i]);
     if(ok){
-      fb.className='fb fok';fb.textContent='\u2713 '+(LG==='ko'?'정답!':'Correct!');
-      DONE[pid]=true;this.sp();rSB();
+      const m=pick(CORRECT_MSGS);
+      fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?m.ko:m.en);
+      this._award(pid);this._showWhy(pid);
       play(p.audio||[]);flash(p.audio||[]);
     }else{
-      fb.className='fb fno';fb.textContent=(LG==='ko'?'\u2717 정답: ':'\u2717 Answer: ')+(p.ans||'');
+      const m=pick(INCORRECT_MSGS);
+      fb.className='fb fno';fb.textContent='✗ '+(LG==='ko'?m.ko:m.en)+' '+(p.ans||'');
+      this._miss();
     }
   },
   clsl(pid){
@@ -1014,8 +1364,10 @@ const A={
     const p=ALL.find(x=>x.id===pid);
     if(p)reSL(pid,p.ns||ST[pid].ns||[],(ST[pid]&&ST[pid].cl)||'treble');
   },
-  sp(){try{localStorage.setItem('bhw2',JSON.stringify(DONE));}catch(e){}},
-  lp(){try{const d=JSON.parse(localStorage.getItem('bhw2')||'{}');Object.assign(DONE,d);rSB();}catch(e){}},
+  sp(){try{localStorage.setItem('bhw3',JSON.stringify({DONE,XP,STREAK,BEST}));}catch(e){}},
+  lp(){try{const d=JSON.parse(localStorage.getItem('bhw3')||localStorage.getItem('bhw2')||'{}');
+    if(d.DONE)Object.assign(DONE,d.DONE);else Object.assign(DONE,d);
+    XP=d.XP||0;STREAK=0;BEST=d.BEST||0;}catch(e){}},
 };
 
 document.addEventListener('DOMContentLoaded',()=>A.init());
