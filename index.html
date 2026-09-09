@@ -1223,6 +1223,89 @@ const CHAPTER_TERM_MAP={
 ALL.forEach(p=>{ if(!p.terms && CHAPTER_TERM_MAP[p.ch]) p.terms=CHAPTER_TERM_MAP[p.ch]; });
 
 /* ═══════════════════════════════════════════════
+   RETROFIT: friendly "why" explanations for Ch.0-14 (original content)
+   Generated from each problem's own data — not hand-authored per item.
+═══════════════════════════════════════════════ */
+function whyFor(p){
+  const noteLetter=n=>n.replace(/[\d#b]+$/,'').replace(/\d+$/,'').match(/^[A-G][#b]{0,2}/)[0];
+  if(p.ch===0){
+    const n=p.ans;
+    return {ko:`이 음은 ${n}입니다. 알파벳은 A-G까지 반복되니, 가온 도(C4)를 기준 삼아 위/아래로 몇 칸(도수)인지 세어보면 빠르게 읽을 수 있어요.`,
+            en:`This note is ${n}. Letter names cycle A-G, so counting lines/spaces up or down from middle C (C4) is the fastest way to read it.`};
+  }
+  if(p.ch===1){
+    const n=p.ans;
+    return {ko:`이명동음(enharmonic)은 실제 소리(피아노 건반)는 완전히 같지만 표기만 다른 음입니다. ${n}도 마찬가지로, 어느 조성·문맥에서 더 자연스럽게 읽히는지에 따라 표기를 고릅니다.`,
+            en:`Enharmonic notes sound identical (same piano key) but are spelled differently. ${n} is the same pitch spelled to fit whatever key or context reads more naturally.`};
+  }
+  if(p.ch===2){
+    const key=(p.q.ko.match(/^(\S+) maj/)||[])[1]||'';
+    return {ko:`장음계는 온음-온음-반음-온음-온음-온음-반음(W-W-H-W-W-W-H) 순서로 쌓입니다. ${key} 장음계도 이 패턴을 따라가면 틀리지 않고 쓸 수 있어요.`,
+            en:`A major scale always follows Whole-Whole-Half-Whole-Whole-Whole-Half. Applying that same pattern to ${key} gives you the correct notes every time.`};
+  }
+  if(p.ch===3){
+    const key=(p.q.ko.match(/^(\S+) /)||[])[1]||'';
+    const kind=p.q.ko.includes('화성')?'화성단조(harmonic minor, 7음을 반음 올림)':p.q.ko.includes('선율')?'선율단조(melodic minor, 올라갈 때 6·7음을 반음 올림)':'자연단조(natural minor, 장음계의 6번째 음부터 시작한 것과 같은 음)';
+    return {ko:`${kind}입니다. 어떤 장음계의 관계단조(relative minor)인지 먼저 떠올리면 음을 훨씬 쉽게 채울 수 있어요.`,
+            en:`This is the ${kind.split('(')[0].trim()}. Thinking of which major scale it's the relative minor of makes filling in the notes much easier.`};
+  }
+  if(p.ch===4){
+    const isMaj=p.q.ko.includes('maj pent');
+    return {ko:isMaj?'장5음음계는 장음계에서 4번째·7번째 음(반음 관계를 만드는 음)을 뺀 5개 음으로 이뤄집니다.':'단5음음계는 자연단조에서 2번째·6번째 음을 뺀 5개 음으로 이뤄집니다.',
+            en:isMaj?'A major pentatonic removes the 4th and 7th scale degrees (the ones that create half steps) from the major scale, leaving 5 notes.':'A minor pentatonic removes the 2nd and 6th scale degrees from the natural minor scale, leaving 5 notes.'};
+  }
+  if(p.ch===5){
+    return {ko:`조표에 있는 샵/플랫의 개수와 순서(샵: F-C-G-D-A-E-B, 플랫: B-E-A-D-G-C-F)를 알면, 5도권(circle of fifths) 위에서 어느 조인지 바로 찾을 수 있어요.`,
+            en:`Knowing the sharp order (F-C-G-D-A-E-B) or flat order (B-E-A-D-G-C-F) in a key signature lets you locate the key directly on the circle of fifths.`};
+  }
+  if(p.ch===6){
+    const notes=p.audio||[];
+    return {ko:`${notes.join('-')} 두 음 사이의 음정입니다. 먼저 알파벳 letter 개수(도수: 2도·3도...)를 세고, 그다음 실제 반음 개수로 장/단/완전 여부를 확인하면 정확합니다.`,
+            en:`This is the interval between ${notes.join(' and ')}. First count the letter-name distance (the numeral), then check the semitone count to confirm major/minor/perfect quality.`};
+  }
+  if(p.ch===7){
+    const ans=p.ans;
+    return {ko:`${ans} 화음입니다. 근음에서 3음까지의 음정(장3도면 장/증 계열, 단3도면 단/감 계열)과 3음에서 5음까지의 음정을 함께 보면 장/단/증/감을 구별할 수 있어요.`,
+            en:`This is ${ans}. Look at the interval from root to 3rd (major 3rd → major/augmented family, minor 3rd → minor/diminished family) together with 3rd-to-5th to tell the quality apart.`};
+  }
+  if(p.ch===8){
+    const ans=p.ans;
+    return {ko:`${ans}입니다. 아래에 깔린 3화음의 종류(장/단/감)에 7음이 장7도로 얹혔는지, 단7도로 얹혔는지를 보면 5가지 7화음 종류를 구별할 수 있어요.`,
+            en:`This is ${ans}. Identify the triad underneath (major/minor/diminished) and whether the 7th is major or minor above the root — that combination distinguishes the five 7th-chord types.`};
+  }
+  if(p.ch===9){
+    const ans=p.ans;
+    return {ko:`${ans}입니다. 자리바꿈은 가장 낮은 음(베이스)이 근음이 아니라 3음·5음·7음일 때를 말합니다 — 베이스에 어떤 화음음이 왔는지만 확인하면 됩니다.`,
+            en:`This is ${ans}. An inversion is simply when the lowest note (the bass) is the 3rd, 5th, or 7th instead of the root — just check which chord tone sits on the bottom.`};
+  }
+  if(p.ch===10){
+    const mode=(p.q.ko.match(/^(\S+ \S+)/)||[])[1]||'';
+    return {ko:`${mode}는 같은 흰 건반들을 다른 음에서 시작한 것뿐이라, 그 근원이 되는 장음계(관련 아이오니안)를 알면 조표 그대로 옮겨 쓸 수 있어요.`,
+            en:`${mode} uses the exact same notes as a major scale, just starting on a different degree — once you know its parent (relative Ionian) major scale, you can reuse its key signature directly.`};
+  }
+  if(p.ch===11){
+    return {ko:`안정음(트라이어드 구성음: 으뜸음·3음·5음)은 그 자체로 편안하게 들리고, 나머지 음(경과음·긴장음)은 안정음 쪽으로 해결되려는 성향을 가집니다.`,
+            en:`The stable tones (the tonic triad — root, 3rd, 5th) sound settled on their own, while the remaining scale tones carry a tendency to resolve toward one of them.`};
+  }
+  if(p.ch===12){
+    const rn=p.ans;
+    return {ko:`${rn}입니다. 장조를 다이아토닉하게 3도씩 쌓으면 순서대로 Imaj7-IIm7-IIIm7-IVmaj7-V7-VIm7-VIIm7(b5)가 되는데, 이 순서만 외워두면 어느 화음이든 로마숫자를 바로 알 수 있어요.`,
+            en:`This is ${rn}. Stacking the major scale diatonically in 3rds always gives Imaj7-IIm7-IIIm7-IVmaj7-V7-VIm7-VIIm7(b5), in that fixed order — memorize that sequence and any diatonic chord's Roman numeral follows immediately.`};
+  }
+  if(p.ch===13){
+    return {ko:`부속화음(secondary dominant)은 원래 조성에 없는 임시표를 빌려와서, 목표 화음의 '진짜 도미넌트'처럼 완전5도 위(또는 반음 아래)로 해결되도록 만든 화음입니다.`,
+            en:`A secondary dominant borrows an accidental from outside the key so it can resolve like a real dominant — down a perfect 5th — into its own temporary target chord.`};
+  }
+  if(p.ch===14){
+    return {ko:`모달 인터체인지는 같은 으뜸음을 가진 다른 선법(주로 평행단조 계열)에서 화음을 잠깐 빌려와 색채를 더하는 기법입니다. 장조 안에서 잠깐 단조스러운 화음이 들리면 대부분 이 경우예요.`,
+            en:`Modal interchange borrows a chord from a different mode sharing the same tonic (usually the parallel minor family) for color. When a major-key passage briefly sounds minor, this is almost always why.`};
+  }
+  return null;
+}
+ALL.forEach(p=>{ if(p.why===undefined && p.ch>=0 && p.ch<=14){ const w=whyFor(p); if(w)p.why=w; } });
+
+
+/* ═══════════════════════════════════════════════
    GLOSSARY / COURSE LINKING (Harmony course cross-reference)
 ═══════════════════════════════════════════════ */
 const HCOURSE='https://mowmau.github.io/harmony';
