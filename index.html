@@ -218,6 +218,18 @@ const ACC_LG=11;
 function accSVG(rEdge,cy,acc,color){
   const LG=ACC_LG,col=color||'#1a1a1a';
   const sw=Math.max(1.4,LG*0.13);
+  function flatPath(edge){
+    const stemTop=cy-LG*1.05;
+    const bx=edge-LG*0.52;
+    const bellMidY=cy+LG*0.10;
+    const bellTopY=cy-LG*0.30;
+    const bellBotY=cy+LG*0.50;
+    const bellRX=edge;
+    return `<path d="M ${bx} ${stemTop} L ${bx} ${bellBotY+LG*0.05} `
+      +`M ${bx} ${bellTopY} Q ${bellRX+LG*0.06} ${bellTopY+LG*0.04} ${bellRX-LG*0.02} ${bellMidY} `
+      +`Q ${bellRX-LG*0.10} ${bellBotY-LG*0.02} ${bx} ${bellBotY}" `
+      +`fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
   if(acc==='#'){
     const w=LG*0.62,h=LG*1.55;
     const xL=rEdge-w,xR=rEdge;
@@ -231,16 +243,18 @@ function accSVG(rEdge,cy,acc,color){
       +`<line x1="${xL}" y1="${hDn+LG*0.10}" x2="${xR}" y2="${hDn-LG*0.10}" stroke-width="${sw*1.7}"/></g>`;
   }
   if(acc==='b'){
-    const stemTop=cy-LG*1.05;
-    const bx=rEdge-LG*0.52;
-    const bellMidY=cy+LG*0.10;
-    const bellTopY=cy-LG*0.30;
-    const bellBotY=cy+LG*0.50;
-    const bellRX=rEdge;
-    return `<path d="M ${bx} ${stemTop} L ${bx} ${bellBotY+LG*0.05} `
-      +`M ${bx} ${bellTopY} Q ${bellRX+LG*0.06} ${bellTopY+LG*0.04} ${bellRX-LG*0.02} ${bellMidY} `
-      +`Q ${bellRX-LG*0.10} ${bellBotY-LG*0.02} ${bx} ${bellBotY}" `
-      +`fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`;
+    return flatPath(rEdge);
+  }
+  if(acc==='bb'){
+    // two flat bells, closely nested — the right one sits against the note, the left one just behind it
+    return flatPath(rEdge)+flatPath(rEdge-LG*0.66);
+  }
+  if(acc==='##'||acc==='x'){
+    // double-sharp: a bold "×" with small diamond accents, per common notation practice
+    const r=LG*0.42,cx2=rEdge-LG*0.55;
+    return `<g stroke="${col}" stroke-width="${sw*1.3}" stroke-linecap="round">`
+      +`<line x1="${cx2-r}" y1="${cy-r}" x2="${cx2+r}" y2="${cy+r}"/>`
+      +`<line x1="${cx2-r}" y1="${cy+r}" x2="${cx2+r}" y2="${cy-r}"/></g>`;
   }
   if(acc==='n'){
     const w=LG*0.5,h=LG*1.5;
