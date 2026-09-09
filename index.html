@@ -71,6 +71,8 @@ body{font-family:'Pretendard','Noto Sans KR',-apple-system,Georgia,serif;
 .chip.week{background:var(--h4l);color:var(--h4);border-color:#e0c3cd}
 .pb{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rad);
   padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(40,30,10,.04)}
+.pb.solved{border-left:4px solid var(--ok);background:linear-gradient(90deg,var(--okl) 0%,var(--surf) 3%)}
+.pb.solved .pnum::after{content:' ✓';color:var(--ok);font-weight:700}
 .pnum{font-size:.7rem;color:var(--mut);margin-bottom:4px;font-weight:600}
 .pq{display:block;font-size:1.0rem;margin-bottom:10px;line-height:1.5}
 .pq .en{display:block;font-size:.82rem;color:var(--mut);margin-top:2px}
@@ -1287,7 +1289,7 @@ function rOne(p){
   else if(p.type==='analyze')body=rAZ(p);
   const chips=p.terms?`<div class="links">${termChips(p.terms)}</div>`:'';
   const whyBox=(p.why&&DONE[p.id])?`<div class="why" id="why_${p.id}">💡 ${LG==='ko'?p.why.ko:p.why.en}</div>`:`<div class="why" id="why_${p.id}" style="display:none">💡 ${p.why?(LG==='ko'?p.why.ko:p.why.en):''}</div>`;
-  return `<div class="pb"id="pb_${p.id}">${num}${qh}${body}<div class="ar">${playBtn}</div>${chips}<div class="fb"id="fb_${p.id}"></div>${p.why?whyBox:''}</div>`;
+  return `<div class="pb${DONE[p.id]?' solved':''}"id="pb_${p.id}">${num}${qh}${body}<div class="ar">${playBtn}</div>${chips}<div class="fb"id="fb_${p.id}"></div>${p.why?whyBox:''}</div>`;
 }
 
 function rID(p){
@@ -1440,6 +1442,10 @@ const A={
     }
   },
   _showWhy(pid){const w=document.getElementById('why_'+pid);if(w)w.style.display='block';},
+  _markSolved(pid){
+    const box=document.getElementById('pb_'+pid);
+    if(box)box.classList.add('solved');
+  },
   ck(pid){
     const p=ALL.find(x=>x.id===pid);if(!p)return;
     const el=document.getElementById('ai_'+pid);
@@ -1452,7 +1458,7 @@ const A={
       const m=pick(CORRECT_MSGS);
       fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?m.ko:m.en);
       this._award(pid);this._showWhy(pid);
-      setTimeout(()=>this.next(),750);
+      this._markSolved(pid);
     }else{
       const m=pick(INCORRECT_MSGS);
       fb.className='fb fno';fb.textContent='✗ '+(LG==='ko'?m.ko:m.en)+' '+(p.showAns||p.ans||'');
@@ -1469,7 +1475,7 @@ const A={
       const m=pick(CORRECT_MSGS);
       fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?m.ko:m.en);
       this._award(pid);this._showWhy(pid);
-      setTimeout(()=>this.next(),650);
+      this._markSolved(pid);
     }else{
       const m=pick(INCORRECT_MSGS);
       fb.className='fb fno';fb.textContent='✗ '+(LG==='ko'?m.ko:m.en)+' '+(p.lbl||p.ans||'');
@@ -1492,7 +1498,7 @@ const A={
       reIS(pid,s.cl,p.given,p.givenX);
       this._award(pid);this._showWhy(pid);
       play(p.ans||[]);flash(p.ans||[]);
-      setTimeout(()=>this.next(),1700);
+      this._markSolved(pid);
     }else{
       const m=pick(INCORRECT_MSGS);
       fb.className='fb fno';fb.textContent='✗ '+(LG==='ko'?m.ko:m.en)+' '+(p.ans||[]).join(', ');
@@ -1520,6 +1526,7 @@ const A={
       fb.className='fb fok';fb.textContent='✓ '+(LG==='ko'?m.ko:m.en);
       this._award(pid);this._showWhy(pid);
       play(p.audio||[]);flash(p.audio||[]);
+      this._markSolved(pid);
     }else{
       const m=pick(INCORRECT_MSGS);
       fb.className='fb fno';fb.textContent='✗ '+(LG==='ko'?m.ko:m.en)+' '+(p.ans||'');
