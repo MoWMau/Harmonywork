@@ -139,8 +139,8 @@ svg.ssv{width:125%;height:auto;display:block}
 <div id="hdr">
   <h1>Harmony Workbook <small>화성학 워크북 인터랙티브</small></h1>
   <span class="xpwrap">⭐<b id="xpv">0</b> XP · 🔥<b id="streakv">0</b></span>
-  <a class="hbtn ext" href="https://mowmau.github.io/harmony/#glossary" target="_blank" rel="noopener">📖 용어사전</a>
-  <a class="hbtn ext" href="https://mowmau.github.io/harmony/#home" target="_blank" rel="noopener">🎓 강좌</a>
+  <a class="hbtn ext" id="glosslink" href="https://mowmau.github.io/harmony/#glossary" target="_blank" rel="noopener">📖 용어사전</a>
+  <a class="hbtn ext" id="courselink" href="https://mowmau.github.io/harmony/#home" target="_blank" rel="noopener">🎓 강좌</a>
   <button class="hbtn" onclick="A.lang()">한/EN</button>
   <button class="hbtn" onclick="A.toggleSB()">☰</button>
 </div>
@@ -155,9 +155,9 @@ svg.ssv{width:125%;height:auto;display:block}
     </div>
     <div id="pbs"></div>
     <div class="pnav">
-      <button class="btn bs" onclick="A.prev()">← 이전 챕터</button>
+      <button class="btn bs" id="prevbtn" onclick="A.prev()">← 이전 챕터</button>
       <span id="pct" style="color:var(--mut);font-size:.84rem"></span>
-      <button class="btn bs" onclick="A.next()">다음 챕터 →</button>
+      <button class="btn bs" id="nextbtn" onclick="A.next()">다음 챕터 →</button>
     </div>
   </main>
 </div>
@@ -2040,7 +2040,7 @@ ALL.forEach(p=>{ if(p.why===undefined && p.ch>=0 && p.ch<=14){ const w=whyFor(p)
    GLOSSARY / COURSE LINKING (Harmony course cross-reference)
 ═══════════════════════════════════════════════ */
 const HCOURSE='https://mowmau.github.io/harmony';
-const TERM_MAP={"chord_scale": {"ko": "코드 스케일", "week": 41}, "mode": {"ko": "선법", "week": 17}, "secondary_dominant": {"ko": "부속화음", "week": 23}, "extended_dominant": {"ko": "확장 도미넌트", "week": 31}, "substitute_dominant": {"ko": "대리도미넌트", "week": 55}, "tritone": {"ko": "트라이톤", "week": 7}, "lydian_b7": {"ko": "리디안 ♭7", "week": 64}, "related_ii7": {"ko": "관련 II−7", "week": 32}, "diminished_7th_chord": {"ko": "감7화음", "week": 35}, "diminished_chord": {"ko": "디미니시드 화음", "week": 34}, "passing_diminished": {"ko": "경과 감화음", "week": 35}, "modulation": {"ko": "전조", "week": 25}, "pivot_chord": {"ko": "피벗 화음", "week": 25}, "direct_modulation": {"ko": "직접 전조", "week": 73}, "dominant_chord_modulation": {"ko": "딸림7화음 전조", "week": 75}, "implied_modulation": {"ko": "암시된 전조", "week": 73}, "primary_key": {"ko": "원래 조", "week": 73}, "secondary_key": {"ko": "새 조", "week": 73}, "nondominant_dominant": {"ko": "비도미넌트 기능 화음", "week": 79}, "blue_note_dominant": {"ko": "블루노트 도미넌트", "week": 80}, "dual_function": {"ko": "이중 기능", "week": 78}, "contiguous_dominant": {"ko": "연속 도미넌트", "week": 81}, "relative_ionian": {"ko": "관련 아이오니안", "week": 88}, "characteristic_pitch": {"ko": "특성음", "week": 88}, "subdominant_minor": {"ko": "서브도미넌트 마이너", "week": 54}, "tonic_minor": {"ko": "토닉 마이너", "week": 77}, "pedal_point": {"ko": "페달 포인트", "week": 86}, "ostinato": {"ko": "오스티나토", "week": 87}, "layered_ostinato": {"ko": "레이어드 오스티나토", "week": 87}, "compound_chord": {"ko": "컴파운드 코드", "week": 92}, "compound_inversion": {"ko": "전위", "week": 92}, "hybrid_chord": {"ko": "하이브리드 화음", "week": 93}, "polychord": {"ko": "폴리코드", "week": 94}, "treble_clef": {"ko": "높은음자리표", "week": 1}, "bass_clef": {"ko": "낮은음자리표", "week": 1}, "accidental": {"ko": "임시표", "week": 2}, "enharmonic": {"ko": "이명동음", "week": 2}, "major_scale": {"ko": "장음계", "week": 3}, "scale_degree": {"ko": "음계 단계", "week": 3}, "natural_minor": {"ko": "자연단음계", "week": 4}, "harmonic_minor": {"ko": "화성단음계", "week": 4}, "pentatonic_scale": {"ko": "5음음계", "week": 4}, "key_signature": {"ko": "조표", "week": 5}, "cycle_of_fifths": {"ko": "5도권", "week": 5}, "interval": {"ko": "음정", "week": 6}, "triad": {"ko": "다이아토닉 3화음", "week": 8}, "root": {"ko": "근음", "week": 8}, "seventh_chord": {"ko": "7화음", "week": 9}, "dominant": {"ko": "도미넌트", "week": 9}, "chord_inversion": {"ko": "자리바꿈", "week": 7}, "slash_chord": {"ko": "분수코드", "week": 11}, "tendency_tone": {"ko": "경향음", "week": 22}, "avoid_note": {"ko": "피하는 음", "week": 13}, "roman_numerals": {"ko": "로마 숫자", "week": 14}, "cadence": {"ko": "종지", "week": 15}, "modal_interchange": {"ko": "모달 인터체인지", "week": 34}, "blue_note": {"ko": "블루 노트", "week": 51}, "symmetric_diminished_scale": {"ko": "대칭 디미니시드", "week": 72}, "picardy_third": {"ko": "피카르디 3도", "week": 85}, "tonic_substitute": {"ko": "토닉 대역", "week": 77}, "constant_structure": {"ko": "컨스턴트 스트럭처", "week": 95}, "symmetric_division": {"ko": "대칭 분할", "week": 95}, "deceptive_resolution": {"ko": "위장해결", "week": 76}, "ascending_diminished": {"ko": "어센딩 디미니시드", "week": 68}, "descending_diminished": {"ko": "디센딩 디미니시드", "week": 69}, "auxiliary_diminished": {"ko": "보조 감화음", "week": 69}, "sixth_chord": {"ko": "6화음", "week": 28}, "approach_chord": {"ko": "접근 화음", "week": 68}, "chameleon_chord": {"ko": "카멜레온 화음", "week": 66}, "altered_scale": {"ko": "얼터드 스케일", "week": 46}, "upper_structure_triad": {"ko": "상부 3화음", "week": 63}, "blues_12bar": {"ko": "12마디 블루스", "week": 29}, "borrowed_chord": {"ko": "차용 화음", "week": 34}, "characteristic_chord": {"ko": "특징 화음", "week": 18}, "modal_cadence_chord": {"ko": "모달 케이던스 화음", "week": 82}, "alternate_resolution": {"ko": "대체 해결", "week": 70}, "composite_minor": {"ko": "복합단음계", "week": 76}, "function": {"ko": "기능", "week": 14}, "tonic": {"ko": "으뜸", "week": 14}, "subdominant": {"ko": "버금딸림", "week": 14}, "modal_avoid_chord": {"ko": "회피 화음", "week": 89}, "ionian": {"ko": "이오니안", "week": 17}, "dorian": {"ko": "도리안", "week": 17}, "phrygian": {"ko": "프리지안", "week": 17}, "lydian": {"ko": "리디안", "week": 17}, "mixolydian": {"ko": "믹솔리디안", "week": 17}, "aeolian": {"ko": "에올리안", "week": 17}, "locrian": {"ko": "로크리안", "week": 17}, "authentic_cadence": {"ko": "정격 종지", "week": 15}, "plagal_cadence": {"ko": "변격 종지", "week": 15}, "half_cadence": {"ko": "반종지", "week": 15}, "deceptive_cadence": {"ko": "위장 종지", "week": 15}};
+const TERM_MAP={"chord_scale": {"ko": "코드 스케일", "week": 41, "en": "Chord Scale"}, "mode": {"ko": "선법", "week": 17, "en": "Mode"}, "secondary_dominant": {"ko": "부속화음", "week": 23, "en": "Secondary Dominant"}, "extended_dominant": {"ko": "확장 도미넌트", "week": 31, "en": "Extended Dominant"}, "substitute_dominant": {"ko": "대리도미넌트", "week": 55, "en": "Substitute Dominant (SubV7 / Tritone Substitution)"}, "tritone": {"ko": "트라이톤", "week": 7, "en": "Tritone"}, "lydian_b7": {"ko": "리디안 ♭7", "week": 64, "en": "Lydian ♭7 (Lydian dominant)"}, "related_ii7": {"ko": "관련 II−7", "week": 32, "en": "Related II-7"}, "diminished_7th_chord": {"ko": "감7화음", "week": 35, "en": "Diminished 7th Chord"}, "diminished_chord": {"ko": "디미니시드 화음", "week": 34, "en": "Diminished Chord"}, "passing_diminished": {"ko": "경과 감화음", "week": 35, "en": "Passing Diminished Chord"}, "modulation": {"ko": "전조", "week": 25, "en": "Modulation"}, "pivot_chord": {"ko": "피벗 화음", "week": 25, "en": "Pivot Chord"}, "direct_modulation": {"ko": "직접 전조", "week": 73, "en": "Direct Modulation"}, "dominant_chord_modulation": {"ko": "딸림7화음 전조", "week": 75, "en": "Dominant Chord Modulation"}, "implied_modulation": {"ko": "암시된 전조", "week": 73, "en": "Implied Modulation"}, "primary_key": {"ko": "원래 조", "week": 73, "en": "Primary Key"}, "secondary_key": {"ko": "새 조", "week": 73, "en": "Secondary Key"}, "nondominant_dominant": {"ko": "비도미넌트 기능 화음", "week": 79, "en": "Dominant Chord Without Dominant Function"}, "blue_note_dominant": {"ko": "블루노트 도미넌트", "week": 80, "en": "Blue-Note-Rooted Dominant"}, "dual_function": {"ko": "이중 기능", "week": 78, "en": "Dual Function"}, "contiguous_dominant": {"ko": "연속 도미넌트", "week": 81, "en": "Contiguous Dominant"}, "relative_ionian": {"ko": "관련 아이오니안", "week": 88, "en": "Relative Ionian"}, "characteristic_pitch": {"ko": "특성음", "week": 88, "en": "Characteristic Pitch"}, "subdominant_minor": {"ko": "서브도미넌트 마이너", "week": 54, "en": "Subdominant Minor"}, "tonic_minor": {"ko": "토닉 마이너", "week": 77, "en": "Tonic Minor"}, "pedal_point": {"ko": "페달 포인트", "week": 86, "en": "Pedal Point"}, "ostinato": {"ko": "오스티나토", "week": 87, "en": "Ostinato"}, "layered_ostinato": {"ko": "레이어드 오스티나토", "week": 87, "en": "Layered Ostinato"}, "compound_chord": {"ko": "컴파운드 코드", "week": 92, "en": "Compound Chord"}, "compound_inversion": {"ko": "전위", "week": 92, "en": "Inversion"}, "hybrid_chord": {"ko": "하이브리드 화음", "week": 93, "en": "Hybrid Chord"}, "polychord": {"ko": "폴리코드", "week": 94, "en": "Polychord"}, "treble_clef": {"ko": "높은음자리표", "week": 1, "en": "Treble Clef"}, "bass_clef": {"ko": "낮은음자리표", "week": 1, "en": "Bass Clef"}, "accidental": {"ko": "임시표", "week": 2, "en": "Accidental"}, "enharmonic": {"ko": "이명동음", "week": 2, "en": "Enharmonic"}, "major_scale": {"ko": "장음계", "week": 3, "en": "Major Scale"}, "scale_degree": {"ko": "음계 단계", "week": 3, "en": "Scale Degree"}, "natural_minor": {"ko": "자연단음계", "week": 4, "en": "Natural Minor Scale"}, "harmonic_minor": {"ko": "화성단음계", "week": 4, "en": "Harmonic Minor Scale"}, "pentatonic_scale": {"ko": "5음음계", "week": 4, "en": "Pentatonic Scale"}, "key_signature": {"ko": "조표", "week": 5, "en": "Key Signature"}, "cycle_of_fifths": {"ko": "5도권", "week": 5, "en": "Cycle of Fifths"}, "interval": {"ko": "음정", "week": 6, "en": "Interval"}, "triad": {"ko": "다이아토닉 3화음", "week": 8, "en": "Diatonic Triad"}, "root": {"ko": "근음", "week": 8, "en": "Root"}, "seventh_chord": {"ko": "7화음", "week": 9, "en": "Seventh Chord"}, "dominant": {"ko": "도미넌트", "week": 9, "en": "Dominant"}, "chord_inversion": {"ko": "자리바꿈", "week": 7, "en": "Inversion"}, "slash_chord": {"ko": "분수코드", "week": 11, "en": "Slash Chord"}, "tendency_tone": {"ko": "경향음", "week": 22, "en": "Tendency Tone"}, "avoid_note": {"ko": "피하는 음", "week": 13, "en": "Avoid Note"}, "roman_numerals": {"ko": "로마 숫자", "week": 14, "en": "Roman Numerals"}, "cadence": {"ko": "종지", "week": 15, "en": "Cadence"}, "modal_interchange": {"ko": "모달 인터체인지", "week": 34, "en": "Modal Interchange (Borrowed Chords)"}, "blue_note": {"ko": "블루 노트", "week": 51, "en": "Blue Note"}, "symmetric_diminished_scale": {"ko": "대칭 디미니시드", "week": 72, "en": "Symmetric Diminished Scale"}, "picardy_third": {"ko": "피카르디 3도", "week": 85, "en": "Picardy Third"}, "tonic_substitute": {"ko": "토닉 대역", "week": 77, "en": "Tonic Substitute"}, "constant_structure": {"ko": "컨스턴트 스트럭처", "week": 95, "en": "Constant Structure"}, "symmetric_division": {"ko": "대칭 분할", "week": 95, "en": "Symmetric Division"}, "deceptive_resolution": {"ko": "위장해결", "week": 76, "en": "Deceptive Resolution"}, "ascending_diminished": {"ko": "어센딩 디미니시드", "week": 68, "en": "Ascending Diminished Chord"}, "descending_diminished": {"ko": "디센딩 디미니시드", "week": 69, "en": "Descending Diminished Chord"}, "auxiliary_diminished": {"ko": "보조 감화음", "week": 69, "en": "Auxiliary Diminished Chord"}, "sixth_chord": {"ko": "6화음", "week": 28, "en": "Sixth Chord"}, "approach_chord": {"ko": "접근 화음", "week": 68, "en": "Approach Chord"}, "chameleon_chord": {"ko": "카멜레온 화음", "week": 66, "en": "Chameleon Chord"}, "altered_scale": {"ko": "얼터드 스케일", "week": 46, "en": "Altered Scale"}, "upper_structure_triad": {"ko": "상부 3화음", "week": 63, "en": "Upper Structure Triad"}, "blues_12bar": {"ko": "12마디 블루스", "week": 29, "en": "12-Bar Blues"}, "borrowed_chord": {"ko": "차용 화음", "week": 34, "en": "Borrowed Chord"}, "characteristic_chord": {"ko": "특징 화음", "week": 18, "en": "Characteristic Chord"}, "modal_cadence_chord": {"ko": "모달 케이던스 화음", "week": 82, "en": "Modal Cadence Chord"}, "alternate_resolution": {"ko": "대체 해결", "week": 70, "en": "Alternate Resolution"}, "composite_minor": {"ko": "복합단음계", "week": 76, "en": "Composite Minor Scale"}, "function": {"ko": "기능", "week": 14, "en": "Function"}, "tonic": {"ko": "으뜸", "week": 14, "en": "Tonic"}, "subdominant": {"ko": "버금딸림", "week": 14, "en": "Subdominant"}, "modal_avoid_chord": {"ko": "회피 화음", "week": 89, "en": "Avoid Chord"}, "ionian": {"ko": "이오니안", "week": 17, "en": "Ionian"}, "dorian": {"ko": "도리안", "week": 17, "en": "Dorian"}, "phrygian": {"ko": "프리지안", "week": 17, "en": "Phrygian"}, "lydian": {"ko": "리디안", "week": 17, "en": "Lydian"}, "mixolydian": {"ko": "믹솔리디안", "week": 17, "en": "Mixolydian"}, "aeolian": {"ko": "에올리안", "week": 17, "en": "Aeolian"}, "locrian": {"ko": "로크리안", "week": 17, "en": "Locrian"}, "authentic_cadence": {"ko": "정격 종지", "week": 15, "en": "Authentic Cadence (V→I)"}, "plagal_cadence": {"ko": "변격 종지", "week": 15, "en": "Plagal Cadence (IV→I)"}, "half_cadence": {"ko": "반종지", "week": 15, "en": "Half Cadence"}, "deceptive_cadence": {"ko": "위장 종지", "week": 15, "en": "Deceptive Cadence"}};
 function glossLink(id){return `${HCOURSE}/#glossary:${id}`;}
 function lessonLink(wk){return `${HCOURSE}/#lesson:${wk}`;}
 function termChips(ids){
@@ -2049,8 +2049,10 @@ function termChips(ids){
   return ids.filter(id=>{if(seen.has(id))return false;seen.add(id);return true;})
     .filter(id=>TERM_MAP[id]).map(id=>{
     const t=TERM_MAP[id];
-    return `<a class="chip term" href="${glossLink(id)}" target="_blank" rel="noopener">📖 ${t.ko}</a>`
-      + `<a class="chip week" href="${lessonLink(t.week)}" target="_blank" rel="noopener">🎓 ${t.week}주차 강의</a>`;
+    const label=LG==='ko'?t.ko:t.en;
+    const weekLabel=LG==='ko'?`${t.week}주차 강의`:`Week ${t.week} lesson`;
+    return `<a class="chip term" href="${glossLink(id)}" target="_blank" rel="noopener">📖 ${label}</a>`
+      + `<a class="chip week" href="${lessonLink(t.week)}" target="_blank" rel="noopener">🎓 ${weekLabel}</a>`;
   }).join('');
 }
 
@@ -2137,7 +2139,7 @@ function rOne(p){
   const q=p.q||{};
   const qh=`<div class="pq"><span class="ko">${q.ko||''}</span><span class="en">${q.en||''}</span></div>`;
   const num=`<div class="pnum">${p.id} · ch${p.ch+1}</div>`;
-  const playBtn=(p.audio&&p.audio.length)?`<button class="btn bpl"onclick="A.pp('${p.id}')">▶ 듣기</button>`:'';
+  const playBtn=(p.audio&&p.audio.length)?`<button class="btn bpl"onclick="A.pp('${p.id}')">▶ ${LG==='ko'?'듣기':'Listen'}</button>`:'';
   let body='';
   if(p.type==='id')body=rID(p);
   else if(p.type==='mc')body=rMC(p);
@@ -2153,8 +2155,8 @@ function rID(p){
   const sf=p.staff?`<div class="sw">${p.staff}</div>`:'';
   return sf+`<div class="ar"style="margin-top:8px">
     <input class="ai"id="ai_${p.id}"placeholder="${LG==='ko'?'답 입력...':'Answer...'}"onkeydown="if(event.key==='Enter')A.ck('${p.id}')"/>
-    <button class="btn bp"onclick="A.ck('${p.id}')">확인</button>
-    <button class="btn bs"onclick="A.sh('${p.id}')">힌트</button>
+    <button class="btn bp"onclick="A.ck('${p.id}')">${LG==='ko'?'확인':'Check'}</button>
+    <button class="btn bs"onclick="A.sh('${p.id}')">${LG==='ko'?'힌트':'Hint'}</button>
   </div>`;
 }
 function rMC(p){
@@ -2175,8 +2177,8 @@ function rWR(p){
   const micLbl=LG==='ko'?'🎤 노래·연주로 입력:':'🎤 Sing/play to enter:';
   return `<div class="sw">${svg}</div>
     <div class="abar"><span class="ahl">${LG==='ko'?'임시표:':'Acc:'}</span>${ab}
-    <button class="btn bc"style="margin-left:6px"onclick="A.cl('${p.id}')">지우기</button>
-    <button class="btn bp"onclick="A.cw('${p.id}')">확인/Check</button></div>
+    <button class="btn bc"style="margin-left:6px"onclick="A.cl('${p.id}')">${LG==='ko'?'지우기':'Clear'}</button>
+    <button class="btn bp"onclick="A.cw('${p.id}')">${LG==='ko'?'확인':'Check'}</button></div>
     <div class="abar"style="margin-top:4px;gap:6px">
       <span class="ahl">${lbni}:</span>
       <input class="nti"id="ni_${p.id}"placeholder="${ph}"onkeydown="if(event.key==='Enter'){A.nt('${p.id}');event.preventDefault();}"/>
@@ -2199,8 +2201,8 @@ function rSL(p){
   return `<div class="sw">${svg}</div>`
     +`<div class="abar" style="margin-top:4px;gap:6px">`
     +`<span class="ahl">${hint}</span>`
-    +`<button class="btn bc" onclick="A.clsl('${p.id}')">지우기</button>`
-    +`<button class="btn bp" onclick="A.csl('${p.id}')">확인/Check</button>`
+    +`<button class="btn bc" onclick="A.clsl('${p.id}')">${LG==='ko'?'지우기':'Clear'}</button>`
+    +`<button class="btn bp" onclick="A.csl('${p.id}')">${LG==='ko'?'확인':'Check'}</button>`
     +`</div>`;
 }
 function rAZ(p){
@@ -2211,8 +2213,8 @@ function rAZ(p){
   }
   return sf+`<div class="ar"style="margin-top:8px">
     <input class="ai"id="ai_${p.id}"placeholder="${LG==='ko'?'답 입력...':'Answer...'}"onkeydown="if(event.key==='Enter')A.ck('${p.id}')"/>
-    <button class="btn bp"onclick="A.ck('${p.id}')">확인</button>
-    <button class="btn bs"onclick="A.sh('${p.id}')">정답 보기</button>
+    <button class="btn bp"onclick="A.ck('${p.id}')">${LG==='ko'?'확인':'Check'}</button>
+    <button class="btn bs"onclick="A.sh('${p.id}')">${LG==='ko'?'정답 보기':'Show answer'}</button>
   </div>`;
 }
 
@@ -2221,7 +2223,15 @@ const A={
   gc(i){micStop();CH=i;rSB();rProbs();window.scrollTo(0,0);},
   prev(){if(CH>0){micStop();CH--;rSB();rProbs();window.scrollTo(0,0);}},
   next(){if(CH<CHS.length-1){micStop();CH++;rSB();rProbs();window.scrollTo(0,0);}},
-  lang(){LG=LG==='ko'?'en':'ko';rSB();rProbs();},
+  lang(){
+    LG=LG==='ko'?'en':'ko';
+    const gl=document.getElementById('glosslink'); if(gl)gl.textContent=LG==='ko'?'📖 용어사전':'📖 Glossary';
+    const cl=document.getElementById('courselink'); if(cl)cl.textContent=LG==='ko'?'🎓 강좌':'🎓 Course';
+    const pl=document.getElementById('pia_lbl'); if(pl)pl.textContent=LG==='ko'?'🎹 쓰기 문제의 오선을 클릭하면 건반 연동':'🎹 Click the staff on write-type questions to link the keyboard';
+    const pb=document.getElementById('prevbtn'); if(pb)pb.textContent=LG==='ko'?'← 이전 챕터':'← Previous';
+    const nb=document.getElementById('nextbtn'); if(nb)nb.textContent=LG==='ko'?'다음 챕터 →':'Next →';
+    rSB();rProbs();
+  },
   toggleSB(){
     const sb=document.getElementById('sb'),ov=document.getElementById('sbovl');
     sb.classList.toggle('open');ov.classList.toggle('open');
