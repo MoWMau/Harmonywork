@@ -2841,6 +2841,47 @@ ALL.forEach(p=>{ if(p.why===undefined && p.ch>=0 && p.ch<=14){ const w=whyFor(p)
   });
 })();
 
+/* RETROFIT: fill remaining missing 'why' explanations in CH20 and CH46 */
+(function(){
+  ALL.filter(p=>p.ch===20 && p.type==='write' && !p.why).forEach(p=>{
+    const m=p.q.ko.match(/^(\S+)°7/);
+    const root=m?m[1]:'이';
+    p.why={
+      ko:`감7화음은 단3도(반음 3개)씩 계속 쌓은 화음이라, 네 음이 옥타브를 정확히 4등분합니다. 그래서 ${root}°7은 사실 C°7, D#°7(Eb°7), F#°7, A°7과 완전히 같은 음들을 다른 이름으로 부른 것뿐이에요 — 감7화음은 근음마다 이름이 다를 뿐, 실제로는 딱 3가지 소리만 존재합니다.`,
+      en:`A diminished 7th chord stacks minor 3rds (3 semitones each) all the way around, so its four notes divide the octave into exactly 4 equal parts. This means ${root}°7 is actually the very same notes as three other diminished 7ths a minor 3rd apart, just named differently -- there are really only 3 distinct diminished-7 sounds in total, no matter which root you start from.`
+    };
+  });
+  const CH46_WHY={
+    '도리안(Dorian)':{ko:'도리안은 자연단조에서 6음만 반음 올린 선법입니다. 장조에 도리안의 IV7을 빌려오면, 재즈·보사노바에서 자주 들리는 특유의 부드러운 색채가 생깁니다.',en:'Dorian is natural minor with just the 6th raised a half step. Borrowing Dorian\'s IV7 into a major key creates the smooth, jazzy color often heard in bossa nova.'},
+    '프리지안(Phrygian)':{ko:'프리지안은 자연단조에서 2음까지 반음 낮춘, 가장 어두운 선법입니다. 그래서 프리지안에서 빌려온 bIImaj7은 장조 안에서 가장 강렬하고 이국적인 차용 화음으로 꼽힙니다.',en:'Phrygian lowers even the 2nd degree a half step below natural minor, making it the darkest mode. That\'s why its borrowed bIImaj7 is considered one of the most intense, exotic-sounding interchange chords in a major key.'},
+    '믹소리디안(Mixolydian)':{ko:'믹소리디안은 장음계에서 7음 하나만 낮춘 선법이라 원래 장조와 가장 가깝습니다. 그래서 믹소리디안에서 빌려온 bVIImaj7은 차용 화음 중 가장 온화하고 부드럽게 스며드는 색채를 냅니다.',en:'Mixolydian differs from the major scale by only one lowered note (the 7th), making it the closest relative of major. That\'s why its borrowed bVIImaj7 is the gentlest, most subtly blended of all the interchange colors.'},
+  };
+  ALL.filter(p=>p.ch===46 && !p.why).forEach(p=>{
+    const w=CH46_WHY[p.ans];
+    if(w)p.why=w;
+  });
+})();
+
+/* RETROFIT: fill remaining missing 'why' explanations in CH16 (roman-numeral function items) and CH19 (sub-dominant related II-7 items) */
+(function(){
+  ALL.filter(p=>p.ch===16 && !p.why).forEach(p=>{
+    const m=p.q.ko.match(/에서 ([A-G][#b]?)7의 로마숫자 기능은/);
+    if(!m)return;
+    p.why={
+      ko:`${m[1]}7의 근음에서 완전5도 아래로 내려가 보면 어느 다이아토닉 화음에 도착하는지가 이 화음의 로마숫자를 정합니다. 세컨더리 도미넌트는 항상 자기 목표의 완전5도 위에 있어요.`,
+      en:`Going down a perfect 5th from ${m[1]}7's root reveals which diatonic chord it targets, and that target is what names its Roman numeral. A secondary dominant always sits a perfect 5th above the chord it targets.`
+    };
+  });
+  ALL.filter(p=>p.ch===19 && !p.why).forEach(p=>{
+    const m=p.q.ko.match(/^대리도미넌트 ([A-G][#b]?)7에도/);
+    if(!m)return;
+    p.why={
+      ko:`대리도미넌트도 결국 하나의 도미넌트이기 때문에, 일반 도미넌트와 똑같이 완전5도 위에 자기만의 관련 II−7를 가질 수 있습니다. ${m[1]}7 앞에 그 II−7를 붙이면 매끄러운 ii−V 진행이 만들어져요.`,
+      en:`Since a substitute dominant is still a dominant at heart, it can have its own related II-7 a perfect 5th above it, just like any regular dominant. Placing that II-7 in front of ${m[1]}7 creates a smooth ii-V motion into it.`
+    };
+  });
+})();
+
 /* ═══════════════════════════════════════════════
    GLOSSARY / COURSE LINKING (Harmony course cross-reference)
 ═══════════════════════════════════════════════ */
