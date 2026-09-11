@@ -2462,6 +2462,78 @@ function mkProbs(){
   add({ch:1,type:'id',q:{ko:'이명동음을 쓰세요.',en:'Write the enharmonic equivalent:'},clef:'treble',staff:drawStaff({cl:'treble',ns:[{note:'Bb3',acc:'',color:'#1a1a1a',style:'whole',x:140}],w:220}),audio:['Bb3'],ans:'A#3'});
   add({ch:1,type:'id',q:{ko:'이명동음을 쓰세요.',en:'Write the enharmonic equivalent:'},clef:'treble',staff:drawStaff({cl:'treble',ns:[{note:'F#3',acc:'',color:'#1a1a1a',style:'whole',x:140}],w:220}),audio:['F#3'],ans:'Gb3'});
   add({ch:1,type:'id',q:{ko:'이명동음을 쓰세요.',en:'Write the enharmonic equivalent:'},clef:'treble',staff:drawStaff({cl:'treble',ns:[{note:'Gb3',acc:'',color:'#1a1a1a',style:'whole',x:140}],w:220}),audio:['Gb3'],ans:'F#3'});
+  /* -- CH 4 Expansion: full 12-key major & minor pentatonic scales -- */
+  add({ch:4,type:'write',q:{ko:'C 장5음음계(major pentatonic)를 쓰세요.',en:'Write the C major pentatonic scale:'},clef:'treble',given:['C4'],givenX:80,ans:["C4","D4","E4","G4","A4","C5"],audio:["C4","D4","E4","G4","A4","C5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'C 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the C minor pentatonic scale:'},clef:'treble',given:['C4'],givenX:80,ans:["C4","Eb4","F4","G4","Bb4","C5"],audio:["C4","Eb4","F4","G4","Bb4","C5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'Db 장5음음계(major pentatonic)를 쓰세요.',en:'Write the Db major pentatonic scale:'},clef:'treble',given:['Db4'],givenX:80,ans:["Db4","Eb4","F4","Ab4","Bb4","Db5"],audio:["Db4","Eb4","F4","Ab4","Bb4","Db5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'Db 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the Db minor pentatonic scale:'},clef:'treble',given:['Db4'],givenX:80,ans:["Db4","Fb4","Gb4","Ab4","Cb5","Db5"],audio:["Db4","Fb4","Gb4","Ab4","Cb5","Db5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'D 장5음음계(major pentatonic)를 쓰세요.',en:'Write the D major pentatonic scale:'},clef:'treble',given:['D4'],givenX:80,ans:["D4","E4","F#4","A4","B4","D5"],audio:["D4","E4","F#4","A4","B4","D5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'D 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the D minor pentatonic scale:'},clef:'treble',given:['D4'],givenX:80,ans:["D4","F4","G4","A4","C5","D5"],audio:["D4","F4","G4","A4","C5","D5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'Eb 장5음음계(major pentatonic)를 쓰세요.',en:'Write the Eb major pentatonic scale:'},clef:'treble',given:['Eb4'],givenX:80,ans:["Eb4","F4","G4","Bb4","C5","Eb5"],audio:["Eb4","F4","G4","Bb4","C5","Eb5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'Eb 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the Eb minor pentatonic scale:'},clef:'treble',given:['Eb4'],givenX:80,ans:["Eb4","Gb4","Ab4","Bb4","Db5","Eb5"],audio:["Eb4","Gb4","Ab4","Bb4","Db5","Eb5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'E 장5음음계(major pentatonic)를 쓰세요.',en:'Write the E major pentatonic scale:'},clef:'treble',given:['E4'],givenX:80,ans:["E4","F#4","G#4","B4","C#5","E5"],audio:["E4","F#4","G#4","B4","C#5","E5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'E 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the E minor pentatonic scale:'},clef:'treble',given:['E4'],givenX:80,ans:["E4","G4","A4","B4","D5","E5"],audio:["E4","G4","A4","B4","D5","E5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'F 장5음음계(major pentatonic)를 쓰세요.',en:'Write the F major pentatonic scale:'},clef:'treble',given:['F4'],givenX:80,ans:["F4","G4","A4","C5","D5","F5"],audio:["F4","G4","A4","C5","D5","F5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'F 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the F minor pentatonic scale:'},clef:'treble',given:['F4'],givenX:80,ans:["F4","Ab4","Bb4","C5","Eb5","F5"],audio:["F4","Ab4","Bb4","C5","Eb5","F5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'F# 장5음음계(major pentatonic)를 쓰세요.',en:'Write the F# major pentatonic scale:'},clef:'treble',given:['F#4'],givenX:80,ans:["F#4","G#4","A#4","C#5","D#5","F#5"],audio:["F#4","G#4","A#4","C#5","D#5","F#5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'F# 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the F# minor pentatonic scale:'},clef:'treble',given:['F#4'],givenX:80,ans:["F#4","A4","B4","C#5","E5","F#5"],audio:["F#4","A4","B4","C#5","E5","F#5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'G 장5음음계(major pentatonic)를 쓰세요.',en:'Write the G major pentatonic scale:'},clef:'treble',given:['G4'],givenX:80,ans:["G4","A4","B4","D5","E5","G5"],audio:["G4","A4","B4","D5","E5","G5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'G 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the G minor pentatonic scale:'},clef:'treble',given:['G4'],givenX:80,ans:["G4","Bb4","C5","D5","F5","G5"],audio:["G4","Bb4","C5","D5","F5","G5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'Ab 장5음음계(major pentatonic)를 쓰세요.',en:'Write the Ab major pentatonic scale:'},clef:'treble',given:['Ab4'],givenX:80,ans:["Ab4","Bb4","C5","Eb5","F5","Ab5"],audio:["Ab4","Bb4","C5","Eb5","F5","Ab5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'Ab 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the Ab minor pentatonic scale:'},clef:'treble',given:['Ab4'],givenX:80,ans:["Ab4","Cb5","Db5","Eb5","Gb5","Ab5"],audio:["Ab4","Cb5","Db5","Eb5","Gb5","Ab5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'A 장5음음계(major pentatonic)를 쓰세요.',en:'Write the A major pentatonic scale:'},clef:'treble',given:['A4'],givenX:80,ans:["A4","B4","C#5","E5","F#5","A5"],audio:["A4","B4","C#5","E5","F#5","A5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'A 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the A minor pentatonic scale:'},clef:'treble',given:['A4'],givenX:80,ans:["A4","C5","D5","E5","G5","A5"],audio:["A4","C5","D5","E5","G5","A5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'Bb 장5음음계(major pentatonic)를 쓰세요.',en:'Write the Bb major pentatonic scale:'},clef:'treble',given:['Bb4'],givenX:80,ans:["Bb4","C5","D5","F5","G5","Bb5"],audio:["Bb4","C5","D5","F5","G5","Bb5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'Bb 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the Bb minor pentatonic scale:'},clef:'treble',given:['Bb4'],givenX:80,ans:["Bb4","Db5","Eb5","F5","Ab5","Bb5"],audio:["Bb4","Db5","Eb5","F5","Ab5","Bb5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'B 장5음음계(major pentatonic)를 쓰세요.',en:'Write the B major pentatonic scale:'},clef:'treble',given:['B4'],givenX:80,ans:["B4","C#5","D#5","F#5","G#5","B5"],audio:["B4","C#5","D#5","F#5","G#5","B5"],terms:['pentatonic_scale']});
+  add({ch:4,type:'write',q:{ko:'B 단5음음계(minor pentatonic)를 쓰세요.',en:'Write the B minor pentatonic scale:'},clef:'treble',given:['B4'],givenX:80,ans:["B4","D5","E5","F#5","A5","B5"],audio:["B4","D5","E5","F#5","A5","B5"],terms:['pentatonic_scale']});
+
+  /* -- CH 13 Expansion: secondary dominants across all 12 keys x 5 targets -- */
+  add({ch:13,type:'analyze',q:{ko:'C major에서 C7의 기능?',en:'In C major, C7 functions as:'},ans:'V7/IV',staff:drawStaff({cl:'treble',ns:["C4","E4","G4","Bb4"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["C4","E4","G4","Bb4"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'Db major에서 F7의 기능?',en:'In Db major, F7 functions as:'},ans:'V7/VIm',staff:drawStaff({cl:'treble',ns:["F4","A4","C5","Eb5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["F4","A4","C5","Eb5"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'D major에서 C#7의 기능?',en:'In D major, C#7 functions as:'},ans:'V7/IIIm',staff:drawStaff({cl:'treble',ns:["C#4","E#4","G#4","B4"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["C#4","E#4","G#4","B4"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'Eb major에서 G7의 기능?',en:'In Eb major, G7 functions as:'},ans:'V7/VIm',staff:drawStaff({cl:'treble',ns:["G4","B4","D5","F5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["G4","B4","D5","F5"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'E major에서 E7의 기능?',en:'In E major, E7 functions as:'},ans:'V7/IV',staff:drawStaff({cl:'treble',ns:["E4","G#4","B4","D5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["E4","G#4","B4","D5"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'F major에서 F7의 기능?',en:'In F major, F7 functions as:'},ans:'V7/IV',staff:drawStaff({cl:'treble',ns:["F4","A4","C5","Eb5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["F4","A4","C5","Eb5"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'F# major에서 F7의 기능?',en:'In F# major, F7 functions as:'},ans:'V7/IIIm',staff:drawStaff({cl:'treble',ns:["F4","A4","C5","Eb5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["F4","A4","C5","Eb5"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'G major에서 A7의 기능?',en:'In G major, A7 functions as:'},ans:'V7/V',staff:drawStaff({cl:'treble',ns:["A4","C#5","E5","G5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["A4","C#5","E5","G5"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'Ab major에서 Ab7의 기능?',en:'In Ab major, Ab7 functions as:'},ans:'V7/IV',staff:drawStaff({cl:'treble',ns:["Ab4","C5","Eb5","Gb5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["Ab4","C5","Eb5","Gb5"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'A major에서 G#7의 기능?',en:'In A major, G#7 functions as:'},ans:'V7/IIIm',staff:drawStaff({cl:'treble',ns:["G#4","B#4","D#5","F#5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["G#4","B#4","D#5","F#5"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'Bb major에서 Bb7의 기능?',en:'In Bb major, Bb7 functions as:'},ans:'V7/IV',staff:drawStaff({cl:'treble',ns:["Bb4","D5","F5","Ab5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["Bb4","D5","F5","Ab5"],terms:['secondary_dominant']});
+  add({ch:13,type:'analyze',q:{ko:'B major에서 D#7의 기능?',en:'In B major, D#7 functions as:'},ans:'V7/VIm',staff:drawStaff({cl:'treble',ns:["D#4","F##4","A#4","C#5"].map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),audio:["D#4","F##4","A#4","C#5"],terms:['secondary_dominant']});
+  /* -- CH 14 Expansion: modal interchange borrowed chords across more keys -- */
+  [
+    {key:'G',chord:'Gm7',ans:'G aeolian (tonic minor)'},
+    {key:'G',chord:'Ebmaj7',ans:'G aeolian (bVI, subdominant minor)'},
+    {key:'F',chord:'Fm7',ans:'F aeolian (tonic minor)'},
+    {key:'F',chord:'Dbmaj7',ans:'F aeolian (bVI, subdominant minor)'},
+    {key:'D',chord:'Dm7',ans:'D aeolian (tonic minor)'},
+    {key:'D',chord:'Gm7',ans:'D aeolian (subdominant minor)'},
+    {key:'Bb',chord:'Bbm7',ans:'Bb aeolian (tonic minor)'},
+    {key:'Bb',chord:'Ebm7',ans:'Bb aeolian (subdominant minor)'},
+  ].forEach(({key,chord,ans})=>{
+    function spellChordSym(sym){
+      const m=sym.match(/^([A-G][#b]?)(m7|maj7|7)?$/);
+      const root=m[1], qual=m[2]||'';
+      const pc={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[root[0]]+(root[1]==='#'?1:root[1]==='b'?-1:0);
+      const CHS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+      const CHF=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+      const flats=root.includes('b')||qual==='m7'||['F','Bb','Eb','Ab','Db','Gb'].includes(root);
+      const third=qual==='m7'?3:4, seventh=qual==='m7'?10:qual==='7'?10:11;
+      const nm=(off)=>{
+        const rawPc=((pc+off)%12+12)%12;
+        const name=(flats?CHF:CHS)[rawPc];
+        const oct=(off>0&&rawPc<((pc%12+12)%12))?5:4;
+        return name+oct;
+      };
+      return [root+'4',nm(third),nm(7),nm(seventh)];
+    }
+    const chordNotes=spellChordSym(chord);
+    add({ch:14,type:'analyze',q:{ko:`${key} major에서 ${chord}은 어디서 빌려온 화음인가요?`,en:`Where is ${chord} borrowed from in ${key} major?`},ans,
+      staff:drawStaff({cl:'treble',ns:chordNotes.map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),
+      audio:chordNotes,terms:['modal_interchange']});
+  });
+
   return ps;
 }
 
