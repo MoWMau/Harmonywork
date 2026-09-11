@@ -652,16 +652,35 @@ function mkProbs(){
     {key:'E minor',ks:1,kf:0},{key:'B minor',ks:2,kf:0},{key:'D minor',ks:0,kf:1},
     {key:'G minor',ks:0,kf:2},{key:'C minor',ks:0,kf:3},{key:'F minor',ks:0,kf:4},
   ];
+  function keyTonicTriad(key){
+    const m=key.match(/^([A-G][#b]?) (major|minor)$/);
+    const root=m[1], isMin=m[2]==='minor';
+    const pc={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[root[0]]+(root[1]==='#'?1:root[1]==='b'?-1:0);
+    const CHS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+    const CHF=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+    const flats=root.includes('b')||['F','Bb','Eb','Ab','Db','Gb'].includes(root);
+    const third=isMin?3:4, fifth=7;
+    const nm=(off)=>{
+      const rawPc=((pc+off)%12+12)%12;
+      const name=(flats?CHF:CHS)[rawPc];
+      const oct=(off>0&&rawPc<((pc%12+12)%12))?5:4;
+      return name+oct;
+    };
+    return [root+'4',nm(third),nm(fifth)];
+  }
   ksSig.forEach(({key,ks,kf})=>{
     const s=drawStaff({cl:'treble',ns:[],w:180,ks,kf});
+    const triad=keyTonicTriad(key);
     add({ch:5,type:'mc',q:{ko:'이 조표는 어느 조?',en:'Identify this key signature:'},
-      staff:s,audio:[],ans:key,opts:shuf([key,...oKs(key,3)]).slice(0,4)});
+      staff:s,audio:triad,ans:key,opts:shuf([key,...oKs(key,3)]).slice(0,4)});
   });
   // Write how many sharps/flats
-  [{key:'A major',val:'3 sharps'},{key:'Bb major',val:'2 flats'},{key:'E major',val:'4 sharps'},
-   {key:'Eb major',val:'3 flats'},{key:'B major',val:'5 sharps'},{key:'Ab major',val:'4 flats'},
-  ].forEach(({key,val})=>{
-    add({ch:5,type:'analyze',q:{ko:`${key}: 조표에 #/b 몇 개?`,en:`${key}: how many sharps/flats?`},ans:val,audio:[]});
+  [{key:'A major',val:'3 sharps',ks:3,kf:0},{key:'Bb major',val:'2 flats',ks:0,kf:2},{key:'E major',val:'4 sharps',ks:4,kf:0},
+   {key:'Eb major',val:'3 flats',ks:0,kf:3},{key:'B major',val:'5 sharps',ks:5,kf:0},{key:'Ab major',val:'4 flats',ks:0,kf:4},
+  ].forEach(({key,val,ks,kf})=>{
+    const s=drawStaff({cl:'treble',ns:[],w:180,ks,kf});
+    const triad=keyTonicTriad(key);
+    add({ch:5,type:'analyze',q:{ko:`${key}: 조표에 #/b 몇 개?`,en:`${key}: how many sharps/flats?`},ans:val,staff:s,audio:triad});
   });
 
   /* ── CH 6: Intervals ── */
@@ -876,6 +895,22 @@ function mkProbs(){
     add({ch:13,type:'write',q:{ko:`${sym} — 루트음 주어짐, 나머지를 쓰세요.`,en:`${sym} — root given, write the rest:`},
       clef:'treble',given:[ns[0]],givenX:90,ans:ns,audio:ns});
   });
+  function spellDom7Sym(sym){
+    const m=sym.match(/^([A-G][#b]?)7$/);
+    if(!m)return null;
+    const root=m[1];
+    const pc={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[root[0]]+(root[1]==='#'?1:root[1]==='b'?-1:0);
+    const CHS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+    const CHF=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+    const flats=root.includes('b');
+    const nm=(off)=>{
+      const rawPc=((pc+off)%12+12)%12;
+      const name=(flats?CHF:CHS)[rawPc];
+      const oct=(off>0&&rawPc<((pc%12+12)%12))?5:4;
+      return name+oct;
+    };
+    return [root+'4',nm(4),nm(7),nm(10)];
+  }
   [{key:'C major',sec:'A7',res:'Dm7',rn:'V7/IIm'},
    {key:'C major',sec:'B7',res:'Em7',rn:'V7/IIIm'},
    {key:'C major',sec:'C7',res:'F',rn:'V7/IV'},
@@ -887,20 +922,44 @@ function mkProbs(){
    {key:'Bb major',sec:'C7',res:'Fm7',rn:'V7/IIm'},
    {key:'Eb major',sec:'F7',res:'Bbm7',rn:'V7/IIm'},
   ].forEach(p=>{
+    const chord=spellDom7Sym(p.sec);
     add({ch:13,type:'analyze',q:{ko:`${p.key}에서 ${p.sec}의 기능?`,en:`In ${p.key}, ${p.sec} functions as:`},
-      ans:p.rn,audio:[]});
+      ans:p.rn,staff:chord?drawStaff({cl:'treble',ns:chord.map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}):undefined,
+      audio:chord||[]});
   });
 
   /* ── CH 14: Modal Interchange & Blues ── */
-  [{q:{ko:'C major에서 Cm7: 어느 모드에서?',en:'Cm7 in C major is borrowed from:'},ans:'C dorian / C aeolian'},
-   {q:{ko:'C major에서 AbΔ7는?',en:'AbΔ7 in C major is borrowed from:'},ans:'C aeolian (parallel minor)'},
-   {q:{ko:'C major에서 Fm7은?',en:'Fm7 in C major comes from:'},ans:'C aeolian (subdominant minor)'},
-   {q:{ko:'12마디 블루스 기본 패턴 (I/IV/V)?',en:'Basic 12-bar blues pattern:'},ans:'I7 I7 I7 I7 / IV7 IV7 I7 I7 / V7 IV7 I7 V7'},
-   {q:{ko:'블루스 I7의 scale: mixolydian이라 b7이 포함됨. C blues의 IV7는?',en:'IV7 in C blues:'},ans:'F7'},
-   {q:{ko:'G blues의 V7은?',en:'V7 in G blues:'},ans:'D7'},
-   {q:{ko:'가장 일반적인 modal interchange minor IV는?',en:'Most common modal interchange minor IV:'},ans:'IVm7 (e.g. Fm7 in C major)'},
-   {q:{ko:'Mixolydian b6 (5th mode melodic minor): 특성음은?',en:'Mixolydian b6 characteristic tone:'},ans:'b6 (e.g. Ab in C mixolydian b6)'},
-  ].forEach(p=>add({ch:14,type:'analyze',q:p.q,ans:p.ans,audio:[]}));
+  function spellChordSym(sym){
+    const m=sym.match(/^([A-G][#b]?)(m7|Δ7|7)?$/);
+    if(!m)return null;
+    const root=m[1], qual=m[2]||'';
+    const pc={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[root[0]]+(root[1]==='#'?1:root[1]==='b'?-1:0);
+    const CHS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+    const CHF=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+    const flats=root.includes('b')||qual==='m7'||['F','Bb','Eb','Ab','Db','Gb'].includes(root);
+    const third=qual==='m7'?3:4, seventh=qual==='m7'?10:qual==='7'?10:11;
+    const nm=(off)=>{
+      const rawPc=((pc+off)%12+12)%12;
+      const name=(flats?CHF:CHS)[rawPc];
+      const oct=(off>0&&rawPc<((pc%12+12)%12))?5:4;
+      return name+oct;
+    };
+    return [root+'4',nm(third),nm(7),nm(seventh)];
+  }
+  [{q:{ko:'C major에서 Cm7: 어느 모드에서?',en:'Cm7 in C major is borrowed from:'},ans:'C dorian / C aeolian',sym:'Cm7'},
+   {q:{ko:'C major에서 AbΔ7는?',en:'AbΔ7 in C major is borrowed from:'},ans:'C aeolian (parallel minor)',sym:'AbΔ7'},
+   {q:{ko:'C major에서 Fm7은?',en:'Fm7 in C major comes from:'},ans:'C aeolian (subdominant minor)',sym:'Fm7'},
+   {q:{ko:'12마디 블루스 기본 패턴 (I/IV/V)?',en:'Basic 12-bar blues pattern:'},ans:'I7 I7 I7 I7 / IV7 IV7 I7 I7 / V7 IV7 I7 V7',sym:null},
+   {q:{ko:'블루스 I7의 scale: mixolydian이라 b7이 포함됨. C blues의 IV7는?',en:'IV7 in C blues:'},ans:'F7',sym:'F7'},
+   {q:{ko:'G blues의 V7은?',en:'V7 in G blues:'},ans:'D7',sym:'D7'},
+   {q:{ko:'가장 일반적인 modal interchange minor IV는?',en:'Most common modal interchange minor IV:'},ans:'IVm7 (e.g. Fm7 in C major)',sym:'Fm7'},
+   {q:{ko:'Mixolydian b6 (5th mode melodic minor): 특성음은?',en:'Mixolydian b6 characteristic tone:'},ans:'b6 (e.g. Ab in C mixolydian b6)',sym:null},
+  ].forEach(p=>{
+    const chord=p.sym?spellChordSym(p.sym):null;
+    add({ch:14,type:'analyze',q:p.q,ans:p.ans,
+      staff:chord?drawStaff({cl:'treble',ns:chord.map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}):undefined,
+      audio:chord||[]});
+  });
   ['C blues','G blues','F blues','A blues'].forEach(k=>{
     const ns=SD[k];if(!ns)return;
     add({ch:14,type:'write',q:{ko:`${k} 스케일을 쓰세요.`,en:`Write the ${k} blues scale:`},
