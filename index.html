@@ -531,6 +531,107 @@ function oCh(ex,n=4){return shuf(['C major','D minor','E minor','F major','G maj
 function oMo(ex,n=4){return mkOpts(ex,['D dorian','G mixolydian','E phrygian','A lydian','B locrian','C aeolian','F dorian','Bb mixolydian','A phrygian','D mixolydian','C ionian','F lydian'],n);}
 
 
+/* ═══════════════════════════════════════════════
+   MICROPHONE PITCH DETECTION — sing or play the answer
+═══════════════════════════════════════════════ */
+const MIDI_NAMES_SHARP=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+function midiToNoteName(m){
+  const oct=Math.floor(m/12)-1;
+  const name=MIDI_NAMES_SHARP[((m%12)+12)%12];
+  return name+oct;
+}
+function freqToMidi(f){ return 69+12*Math.log2(f/440); }
+function centsOff(detectedFreq,targetFreq){ return 1200*Math.log2(detectedFreq/targetFreq); }
+// Is the detected frequency within +/-25 cents of the given target note?
+// 25 cents = a quarter of a half step, so this requires real pitch accuracy,
+// not just "closest to the right semitone" (which would allow up to 49 cents off).
+function pitchMatchesNote(detectedFreq,targetNote,toleranceCents=25){
+  const targetFreq=freq(targetNote);
+  if(!targetFreq)return false;
+  const cents=centsOff(detectedFreq,targetFreq);
+  return Math.abs(cents)<=toleranceCents;
+}
+// Autocorrelation-based pitch detector (time-domain buffer -> frequency in Hz, or -1 if no clear pitch)
+function autoCorrelate(buf,sampleRate){
+  const SIZE=buf.length;
+  let rms=0;
+  for(let i=0;i<SIZE;i++){ rms+=buf[i]*buf[i]; }
+  rms=Math.sqrt(rms/SIZE);
+  if(rms<0.01) return -1; // too quiet
+  let r1=0,r2=SIZE-1;
+  const thres=0.2;
+  for(let i=0;i<SIZE/2;i++){ if(Math.abs(buf[i])<thres){ r1=i; break; } }
+  for(let i=1;i<SIZE/2;i++){ if(Math.abs(buf[SIZE-i])<thres){ r2=SIZE-i; break; } }
+  const trimmed=buf.slice(r1,r2);
+  const newSize=trimmed.length;
+  const c=new Array(newSize).fill(0);
+  for(let lag=0;lag<newSize;lag++){
+    let sum=0;
+    for(let i=0;i<newSize-lag;i++){ sum+=trimmed[i]*trimmed[i+lag]; }
+    c[lag]=sum;
+  }
+  let d=0; while(d<newSize-1 && c[d]>c[d+1]) d++;
+  let maxVal=-1,maxPos=-1;
+  for(let i=d;i<newSize;i++){ if(c[i]>maxVal){ maxVal=c[i]; maxPos=i; } }
+  let T0=maxPos;
+  if(T0<=0) return -1;
+  const x1=c[T0-1]||0,x2=c[T0],x3=c[T0+1]||0;
+  const a=(x1+x3-2*x2)/2, b=(x3-x1)/2;
+  if(a) T0=T0-b/(2*a);
+  return sampleRate/T0;
+}
+let MIC_STATE={active:false,stream:null,ctx:null,analyser:null,raf:null,pid:null,history:[]};
+async function micStop(){
+  if(MIC_STATE.raf) cancelAnimationFrame(MIC_STATE.raf);
+  if(MIC_STATE.stream) MIC_STATE.stream.getTracks().forEach(t=>t.stop());
+  if(MIC_STATE.ctx && MIC_STATE.ctx.state!=='closed') { try{await MIC_STATE.ctx.close();}catch(e){} }
+  MIC_STATE={active:false,stream:null,ctx:null,analyser:null,raf:null,pid:null,history:[]};
+}
+async function micStart(pid,onDetect,onLive){
+  await micStop();
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const src=ctx.createMediaStreamSource(stream);
+    const analyser=ctx.createAnalyser();
+    analyser.fftSize=2048;
+    src.connect(analyser);
+    MIC_STATE={active:true,stream,ctx,analyser,raf:null,pid,history:[]};
+    const buf=new Float32Array(analyser.fftSize);
+    let firedFor=null; // avoid re-firing onDetect repeatedly while a note is held
+    const loop=()=>{
+      if(!MIC_STATE.active)return;
+      analyser.getFloatTimeDomainData(buf);
+      const f=autoCorrelate(buf,ctx.sampleRate);
+      if(f>0 && f<2000){
+        const m=Math.round(freqToMidi(f));
+        const name=midiToNoteName(m);
+        MIC_STATE.history.push({name,freq:f});
+        if(MIC_STATE.history.length>60)MIC_STATE.history.shift();
+        if(onLive)onLive(name,f);
+        // stability check: same note held for ~15 consecutive frames (~0.25s at 60fps).
+        // Once stable, average the frequency across that window -- this smooths out
+        // natural vibrato/mic noise so the +/-25 cent accuracy check is meaningful
+        // rather than being tripped up by a single noisy instant.
+        const recent=MIC_STATE.history.slice(-15);
+        if(recent.length===15 && recent.every(x=>x.name===recent[0].name)){
+          if(firedFor!==recent[0].name){
+            firedFor=recent[0].name;
+            const avgFreq=recent.reduce((s,x)=>s+x.freq,0)/recent.length;
+            if(onDetect)onDetect(recent[0].name,avgFreq);
+          }
+        }else{
+          firedFor=null;
+        }
+      }else if(onLive){ onLive(null,0); firedFor=null; }
+      MIC_STATE.raf=requestAnimationFrame(loop);
+    };
+    loop();
+  }catch(e){
+    if(onLive)onLive('__ERROR__',0);
+  }
+}
+
 const CHS=[
   {t:'음이름 식별/Pitch Recognition',d:'p.1-2 | 높은·낮은음자리표 음이름',de:'p.1-2 | Treble & bass clef note names',grp:'h12'},
   {t:'임시표 & 이명동음/Accidentals',d:'p.3-6 | 임시표, 이명동음',de:'p.3-6 | Accidentals & enharmonics',grp:'h12'},
@@ -1937,6 +2038,7 @@ function rWR(p){
   const ph=LG==='ko'?'음표명 띄어쓰기로 입력이로... (C4 D4 E4)':'note names space-separated (C4 D4 E4)';
   const lbni=LG==='ko'?'✏️ 직접 입력':'✏️ Type notes';
   const lbset=LG==='ko'?'오선에 입력':'Set on staff';
+  const micLbl=LG==='ko'?'🎤 노래·연주로 입력:':'🎤 Sing/play to enter:';
   return `<div class="sw">${svg}</div>
     <div class="abar"><span class="ahl">${LG==='ko'?'임시표:':'Acc:'}</span>${ab}
     <button class="btn bc"style="margin-left:6px"onclick="A.cl('${p.id}')">지우기</button>
@@ -1945,6 +2047,11 @@ function rWR(p){
       <span class="ahl">${lbni}:</span>
       <input class="nti"id="ni_${p.id}"placeholder="${ph}"onkeydown="if(event.key==='Enter'){A.nt('${p.id}');event.preventDefault();}"/>
       <button class="btn bs"onclick="A.nt('${p.id}')">${lbset}</button>
+    </div>
+    <div class="abar"style="margin-top:4px;gap:6px">
+      <span class="ahl">${micLbl}</span>
+      <button class="btn bs"id="micbtn_${p.id}"onclick="A.micToggle('${p.id}')">🎤 ${LG==='ko'?'듣기 시작':'Start listening'}</button>
+      <span class="ahl"id="micstat_${p.id}"></span>
     </div>`;
 }
 function rSL(p){
@@ -1977,9 +2084,9 @@ function rAZ(p){
 
 const A={
   init(){mkPiano();this.lp();rSB();rProbs();},
-  gc(i){CH=i;rSB();rProbs();window.scrollTo(0,0);},
-  prev(){if(CH>0){CH--;rSB();rProbs();window.scrollTo(0,0);}},
-  next(){if(CH<CHS.length-1){CH++;rSB();rProbs();window.scrollTo(0,0);}},
+  gc(i){micStop();CH=i;rSB();rProbs();window.scrollTo(0,0);},
+  prev(){if(CH>0){micStop();CH--;rSB();rProbs();window.scrollTo(0,0);}},
+  next(){if(CH<CHS.length-1){micStop();CH++;rSB();rProbs();window.scrollTo(0,0);}},
   lang(){LG=LG==='ko'?'en':'ko';rSB();rProbs();},
   toggleSB(){
     const sb=document.getElementById('sb'),ov=document.getElementById('sbovl');
@@ -2163,6 +2270,44 @@ const A={
     if(ST[pid])ST[pid].sel=new Set();
     const p=ALL.find(x=>x.id===pid);
     if(p)reSL(pid,p.ns||ST[pid].ns||[],(ST[pid]&&ST[pid].cl)||'treble');
+  },
+  micToggle(pid){
+    const btn=document.getElementById('micbtn_'+pid);
+    const st=document.getElementById('micstat_'+pid);
+    if(MIC_STATE.active && MIC_STATE.pid===pid){
+      micStop();
+      if(btn)btn.textContent='🎤 '+(LG==='ko'?'듣기 시작':'Start listening');
+      if(st)st.textContent='';
+      return;
+    }
+    if(btn)btn.textContent='⏹ '+(LG==='ko'?'듣기 중지':'Stop listening');
+    if(st)st.textContent=LG==='ko'?'마이크 권한을 확인해 주세요...':'Requesting microphone access...';
+    micStart(pid,
+      (name,avgFreq)=>{
+        const p=ALL.find(x=>x.id===pid);if(!p)return;
+        const s=ST[pid];if(!s)return;
+        if(p.type==='write'){
+          const gx=(p.givenX||80),gc=(p.given||[]).length;
+          const nx=gx+gc*40+s.pl.length*40;
+          s.pl.push({note:name,acc:'',x:nx,color:'#7a3b52',style:'whole'});
+          reIS(pid,s.cl,p.given||[],p.givenX||80);
+        }
+        const stEl=document.getElementById('micstat_'+pid);
+        if(stEl)stEl.textContent=(LG==='ko'?'✓ 입력됨: ':'✓ entered: ')+name;
+        pnote(freq(name),0,.15);
+      },
+      (name,f)=>{
+        const stEl=document.getElementById('micstat_'+pid);
+        if(!stEl)return;
+        if(name==='__ERROR__'){
+          stEl.textContent=LG==='ko'?'⚠️ 마이크 접근 실패 (브라우저 권한을 확인하세요)':'⚠️ Mic access failed (check browser permissions)';
+          const btnEl=document.getElementById('micbtn_'+pid);
+          if(btnEl)btnEl.textContent='🎤 '+(LG==='ko'?'듣기 시작':'Start listening');
+          return;
+        }
+        stEl.textContent=name?`🎧 ${name} (${f.toFixed(0)}Hz)`:(LG==='ko'?'... 소리를 들어보고 있어요':'... listening for a pitch');
+      }
+    );
   },
   sp(){try{localStorage.setItem('bhw3',JSON.stringify({DONE,XP,STREAK,BEST}));}catch(e){}},
   lp(){try{const d=JSON.parse(localStorage.getItem('bhw3')||localStorage.getItem('bhw2')||'{}');
