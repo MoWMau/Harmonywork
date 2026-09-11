@@ -510,6 +510,34 @@ function reIS(pid,cl,given,gx){
 function shuf(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
 function oKs(ex,n=3){return shuf(['C major','G major','D major','A major','E major','F major','Bb major','Eb major','Ab major','Db major','F# major','A minor','E minor','B minor','D minor','G minor','C minor'].filter(k=>k!==ex)).slice(0,n);}
 function mkOpts(ans,pool,n=4){const distract=shuf(pool.filter(x=>x!==ans)).slice(0,n-1);return shuf([ans,...distract]);}
+/* ── Generic chord/scale spelling helpers (used by content retrofits) ── */
+function spellUpGeneric(rootStr,semis,letterSteps){
+  const p=pn(rootStr);if(!p)return null;
+  const letter=p.n,acc=p.a,oct=p.o;
+  let av=0;for(const c of acc)av+=c==='#'?1:-1;
+  const idx=NL.indexOf(letter);
+  const rawIdx=idx+letterSteps;
+  const nextIdx=((rawIdx%7)+7)%7;
+  const octBump=Math.floor(rawIdx/7);
+  const nextLetter=NL[nextIdx];
+  const nextOct=oct+octBump;
+  const rootAbs=SC[letter]+av+12*oct;
+  const targetAbs=rootAbs+semis;
+  const nextNatural=SC[nextLetter]+12*nextOct;
+  const diff=targetAbs-nextNatural;
+  let a2;
+  if(diff===0)a2='';else if(diff===1)a2='#';else if(diff===2)a2='##';
+  else if(diff===-1)a2='b';else if(diff===-2)a2='bb';
+  else if(diff>2)a2='#'.repeat(diff);else a2='b'.repeat(-diff);
+  return `${nextLetter}${a2}${nextOct}`;
+}
+function scaleFromPattern(rootStr,semisPattern){
+  return semisPattern.map((s,i)=>spellUpGeneric(rootStr,s,i)).concat([spellUpGeneric(rootStr,12,7)]);
+}
+function mixolydianScale(rootStr){return scaleFromPattern(rootStr,[0,2,4,5,7,9,10]);}
+function lydianB7Scale(rootStr){return scaleFromPattern(rootStr,[0,2,4,6,7,9,10]);}
+function dom7Chord(rootStr){return [rootStr,spellUpGeneric(rootStr,4,2),spellUpGeneric(rootStr,7,4),spellUpGeneric(rootStr,10,6)];}
+function minor7Chord(rootStr){return [rootStr,spellUpGeneric(rootStr,3,2),spellUpGeneric(rootStr,7,4),spellUpGeneric(rootStr,10,6)];}
 function sameRootOpts(ans,qualityList,maxDistract=999){
   // ans = "ROOT quality" (e.g. "D dorian","C aug"). Distractors share the SAME root,
   // differing only in quality — so the visible root on the staff can't give the answer away.
@@ -2720,6 +2748,98 @@ function whyFor(p){
 }
 ALL.forEach(p=>{ if(p.why===undefined && p.ch>=0 && p.ch<=14){ const w=whyFor(p); if(w)p.why=w; } });
 
+
+/* ═══════════════════════════════════════════════
+   RETROFIT: add missing staff+audio to CH16-19 (originally text-only)
+   by parsing the chord/root already named in each question's own text.
+═══════════════════════════════════════════════ */
+(function(){
+  function mkChordStaff(chord){
+    return drawStaff({cl:'treble',ns:chord.map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280});
+  }
+  function mkScaleStaff(scale){
+    return drawStaff({cl:'treble',ns:scale.map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:90+i*22})),w:90+scale.length*22+40});
+  }
+  // CH16: secondary dominant chord-scale questions -- show the Mixolydian scale of the named dominant
+  ALL.filter(p=>p.ch===16 && !p.staff).forEach(p=>{
+    const m=p.q.ko.match(/세컨더리 도미넌트는 ([A-G][#b]?)7입니다/);
+    if(!m)return;
+    const scale=mixolydianScale(m[1]+'4');
+    p.staff=mkScaleStaff(scale);
+    p.audio=scale;
+  });
+  // CH16: roman-numeral function ID questions -- show the dominant chord itself
+  ALL.filter(p=>p.ch===16 && !p.staff).forEach(p=>{
+    const m=p.q.ko.match(/에서 ([A-G][#b]?)7의 로마숫자 기능은/);
+    if(!m)return;
+    const chord=dom7Chord(m[1]+'4');
+    p.staff=mkChordStaff(chord);
+    p.audio=chord;
+  });
+  // CH17: extended dominant chain -- show the specific named chord as a dominant 7th
+  ALL.filter(p=>p.ch===17 && !p.staff).forEach(p=>{
+    const m=p.q.ko.match(/\. ([A-G][#b]?)7의 로마숫자 기능은/);
+    if(!m)return;
+    const chord=dom7Chord(m[1]+'4');
+    p.staff=mkChordStaff(chord);
+    p.audio=chord;
+  });
+  // CH18: tritone-sub identification -- show the GIVEN dominant chord
+  ALL.filter(p=>p.ch===18 && !p.staff).forEach(p=>{
+    const m=p.q.ko.match(/^([A-G][#b]?)7의 대리도미넌트/);
+    if(!m)return;
+    const chord=dom7Chord(m[1]+'4');
+    p.staff=mkChordStaff(chord);
+    p.audio=chord;
+  });
+  // CH18: substitute-dominant chord-scale -- show the Lydian b7 scale
+  ALL.filter(p=>p.ch===18 && !p.staff).forEach(p=>{
+    const m=p.q.ko.match(/^대리도미넌트 ([A-G][#b]?)7의 코드 스케일/);
+    if(!m)return;
+    const scale=lydianB7Scale(m[1]+'4');
+    p.staff=mkScaleStaff(scale);
+    p.audio=scale;
+  });
+  // CH19: related II-7 -- show the dominant chord being asked about
+  ALL.filter(p=>p.ch===19 && !p.staff).forEach(p=>{
+    const m=p.q.ko.match(/^([A-G][#b]?)7 앞에 붙는/);
+    if(!m)return;
+    const chord=dom7Chord(m[1]+'4');
+    p.staff=mkChordStaff(chord);
+    p.audio=chord;
+  });
+  ALL.filter(p=>p.ch===19 && !p.staff).forEach(p=>{
+    const m=p.q.ko.match(/^대리도미넌트 ([A-G][#b]?)7에도/);
+    if(!m)return;
+    const chord=dom7Chord(m[1]+'4');
+    p.staff=mkChordStaff(chord);
+    p.audio=chord;
+  });
+})();
+
+/* RETROFIT: add missing 'why' explanations to CH47 (was generated with 0 explanations) */
+(function(){
+  ALL.filter(p=>p.ch===47 && !p.why).forEach(p=>{
+    const m=p.q.ko.match(/^(\S+) (\S+?)에서 (\S+) 화음/);
+    if(!m)return;
+    const tonic=m[1], mode=m[2], rn=m[3];
+    let whyKo,whyEn;
+    if(p.ans.includes('토닉')){
+      whyKo=`${rn}는 이 선법의 으뜸화음(토닉) 자체입니다 — 다른 모든 화음이 여기로 귀결되는 안정의 중심이에요.`;
+      whyEn=`${rn} is the tonic chord of this mode itself -- the stable center that every other chord ultimately relates back to.`;
+    }else if(p.ans.includes('케이던스')){
+      whyKo=`${rn}는 선법의 특성음을 완전5도 관계로 담고 있어서, 으뜸화음으로 강하게 이어지는 케이던스 화음 역할을 합니다.`;
+      whyEn=`${rn} carries the mode's characteristic pitch in a perfect-5th relationship, so it functions as a cadence chord that pulls strongly back to the tonic.`;
+    }else if(p.ans.includes('회피')){
+      whyKo=`${rn}는 선법의 특성음을 근음으로 삼고 있는데, 그 화음 안에 감5도가 섞여 있어서 불안정하게 들립니다 — 그래서 회피 화음으로 분류됩니다.`;
+      whyEn=`${rn} has the mode's characteristic pitch as its own root, but a b5 inside the chord makes it sound unstable -- which is why it's classified as an avoid chord.`;
+    }else{
+      whyKo=`${rn}는 이 선법의 특성음을 포함하지 않아서, 선법의 색채를 뚜렷이 드러내지 못하고 스치듯 지나가는 용도로만 쓰입니다.`;
+      whyEn=`${rn} doesn't contain the mode's characteristic pitch, so it doesn't clearly project the mode's color and is used only in passing.`;
+    }
+    p.why={ko:whyKo,en:whyEn};
+  });
+})();
 
 /* ═══════════════════════════════════════════════
    GLOSSARY / COURSE LINKING (Harmony course cross-reference)
