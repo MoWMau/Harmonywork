@@ -582,6 +582,7 @@ const CHS=[
   {t:'선법별 7화음 전체 테스트/Testing All Seven Chords Per Mode',d:'Harmony 4 · wk89-91 | 토닉·케이던스·회피 화음 분류',de:'Harmony 4 · wk89-91 | Classifying tonic, cadence, avoid chords',grp:'h4'},
   {t:'협력형 vs 바이토널 폴리코드/Cooperative vs Bitonal Polychords',d:'Harmony 4 · wk94 | 깨끗한 텐션 vs 마찰이 남는 충돌',de:'Harmony 4 · wk94 | Clean tensions vs lingering friction',grp:'h4'},
   {t:'크로매틱 컨스턴트 스트럭처/Chromatic Constant Structure',d:'Harmony 4 · wk95-97 | 반음 슬라이드 & 온음음계 6등분',de:'Harmony 4 · wk95-97 | Half-step sliding & whole-tone 6-way division',grp:'h4'},
+  {t:'종지의 종류/Cadence Types',d:'Harmony 1&2 · wk15 | 정격·변격·반종지·위장 종지',de:'Harmony 1&2 · wk15 | Authentic, plagal, half & deceptive cadences',grp:'h12'},
 ];
 
 function mkProbs(){
@@ -826,6 +827,24 @@ function mkProbs(){
     ans:'nearest stable tone',audio:[]});
 
   /* ── CH 12: Diatonic Harmony ── */
+  function ch12ChordSpell(sym,key){
+    const m=sym.match(/^([A-G][#b]?)(maj7|m7b5|m7|7)$/);
+    if(!m)return null;
+    const root=m[1], qual=m[2];
+    const pc={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[root[0]]+(root[1]==='#'?1:root[1]==='b'?-1:0);
+    const CHS_=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+    const CHF_=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+    const flats=root.includes('b')||(key&&['F major','Bb major','Eb major','Ab major','Db major'].includes(key));
+    const third=qual==='maj7'||qual==='7'?4:3;
+    const fifth=qual==='m7b5'?6:7;
+    const seventh=qual==='maj7'?11:10;
+    return [0,third,fifth,seventh].map(off=>{
+      const rawPc=((pc+off)%12+12)%12;
+      const name=(flats?CHF_:CHS_)[rawPc];
+      const oct=(off>0 && rawPc<((pc%12+12)%12))?5:4;
+      return name+oct;
+    });
+  }
   [{key:'C major',sym:'Cmaj7',rn:'Imaj7'},{key:'C major',sym:'Dm7',rn:'IIm7'},
    {key:'C major',sym:'Em7',rn:'IIIm7'},{key:'C major',sym:'Fmaj7',rn:'IVmaj7'},
    {key:'C major',sym:'G7',rn:'V7'},{key:'C major',sym:'Am7',rn:'VIm7'},
@@ -838,8 +857,10 @@ function mkProbs(){
    {key:'Eb major',sym:'Ebmaj7',rn:'Imaj7'},{key:'Eb major',sym:'Bb7',rn:'V7'},
    {key:'A major',sym:'Amaj7',rn:'Imaj7'},
   ].forEach(p=>{
+    const chord=ch12ChordSpell(p.sym,p.key);
     add({ch:12,type:'mc',q:{ko:`${p.key}에서 ${p.sym}의 로마숫자?`,en:`In ${p.key}, Roman numeral for ${p.sym}?`},
-      ans:p.rn,audio:[],opts:mkOpts(p.rn,['Imaj7','IIm7','IIIm7','IVmaj7','V7','VIm7','VIIm7b5'],5)});
+      ans:p.rn,staff:chord?drawStaff({cl:'treble',ns:chord.map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}):undefined,
+      audio:chord||[],opts:mkOpts(p.rn,['Imaj7','IIm7','IIIm7','IVmaj7','V7','VIm7','VIIm7b5'],5)});
   });
 
   /* ── CH 13: Secondary Dominants ── */
@@ -1556,6 +1577,45 @@ function mkProbs(){
   add({ch:49,type:'write',q:{ko:'C부터 온음(장2도)씩 6등분한 컨스턴트 스트럭처 근음렬을 쓰세요 (=온음음계).',en:'Write the constant-structure root sequence dividing the octave into 6 equal whole-tone steps starting from C (this is the whole-tone scale):'},clef:'treble',given:['C4'],givenX:80,ans:["C4","D4","E4","F#4","G#4","A#4"],audio:["C4","D4","E4","F#4","G#4","A#4"],terms:['constant_structure','symmetric_division'],why:{ko:'장3도로 나누면 3등분(3개 근음), 단3도로 나누면 4등분(4개 근음), 온음으로 나누면 옥타브를 정확히 6등분합니다 — 이 여섯 근음이 바로 온음음계 자체예요.',en:'Dividing by major 3rds gives 3 equal parts, by minor 3rds gives 4, and by whole tones gives exactly 6 equal parts -- these six roots are the whole-tone scale itself.'}});
   add({ch:49,type:'write',q:{ko:'D부터 온음(장2도)씩 6등분한 컨스턴트 스트럭처 근음렬을 쓰세요 (=온음음계).',en:'Write the constant-structure root sequence dividing the octave into 6 equal whole-tone steps starting from D (this is the whole-tone scale):'},clef:'treble',given:['D4'],givenX:80,ans:["D4","E4","F#4","G#4","A#4","B#4"],audio:["D4","E4","F#4","G#4","A#4","B#4"],terms:['constant_structure','symmetric_division'],why:{ko:'장3도로 나누면 3등분(3개 근음), 단3도로 나누면 4등분(4개 근음), 온음으로 나누면 옥타브를 정확히 6등분합니다 — 이 여섯 근음이 바로 온음음계 자체예요.',en:'Dividing by major 3rds gives 3 equal parts, by minor 3rds gives 4, and by whole tones gives exactly 6 equal parts -- these six roots are the whole-tone scale itself.'}});
   add({ch:49,type:'write',q:{ko:'E부터 온음(장2도)씩 6등분한 컨스턴트 스트럭처 근음렬을 쓰세요 (=온음음계).',en:'Write the constant-structure root sequence dividing the octave into 6 equal whole-tone steps starting from E (this is the whole-tone scale):'},clef:'treble',given:['E4'],givenX:80,ans:["E4","F#4","G#4","A#4","B#4","C##5"],audio:["E4","F#4","G#4","A#4","B#4","C##5"],terms:['constant_structure','symmetric_division'],why:{ko:'장3도로 나누면 3등분(3개 근음), 단3도로 나누면 4등분(4개 근음), 온음으로 나누면 옥타브를 정확히 6등분합니다 — 이 여섯 근음이 바로 온음음계 자체예요.',en:'Dividing by major 3rds gives 3 equal parts, by minor 3rds gives 4, and by whole tones gives exactly 6 equal parts -- these six roots are the whole-tone scale itself.'}});
+  /* -- CH 50: Cadence Types -- Authentic, Plagal, Half, Deceptive -- */
+  [
+    {key:'C',ii7:'Dm7',v:'G7',target:'Cmaj7',ans:'정격 종지(authentic cadence)',opts:['정격 종지(authentic cadence)','변격 종지(plagal cadence)','반종지(half cadence)','위장 종지(deceptive cadence)'],
+     whyKo:'V7가 완전5도 아래 I로 곧장 해결되면 정격 종지입니다 — 가장 강하고 확실하게 "끝났다"는 느낌을 주는 종지예요.',
+     whyEn:'When V7 resolves down a perfect 5th directly to I, that\'s an authentic cadence -- the strongest, most conclusive-sounding way to end.'},
+    {key:'C',ii7:'Fmaj7',v:'Fmaj7',target:'Cmaj7',ans:'변격 종지(plagal cadence)',opts:['정격 종지(authentic cadence)','변격 종지(plagal cadence)','반종지(half cadence)','위장 종지(deceptive cadence)'],
+     whyKo:'IV에서 I로 가는 종지는 변격 종지입니다. "아멘 종지"라고도 불리며, 정격 종지보다 부드럽고 차분한 느낌을 줍니다.',
+     whyEn:'A cadence moving from IV to I is a plagal cadence -- often called the "Amen cadence," it feels gentler and calmer than an authentic cadence.'},
+    {key:'C',ii7:'Dm7',v:'G7',target:'G7',ans:'반종지(half cadence)',opts:['정격 종지(authentic cadence)','변격 종지(plagal cadence)','반종지(half cadence)','위장 종지(deceptive cadence)'],
+     whyKo:'V(딸림화음)에서 멈추는 종지는 반종지입니다. 완전히 끝난 게 아니라 "쉼표"처럼 들려서, 다음 구절을 계속 이어가고 싶게 만듭니다.',
+     whyEn:'A cadence that stops on V is a half cadence -- it sounds like a comma rather than a full stop, making the ear want the phrase to continue.'},
+    {key:'C',ii7:'Dm7',v:'G7',target:'Am7',ans:'위장 종지(deceptive cadence)',opts:['정격 종지(authentic cadence)','변격 종지(plagal cadence)','반종지(half cadence)','위장 종지(deceptive cadence)'],
+     whyKo:'V7가 예상되는 I 대신 다른 화음(대개 vi)으로 가면 위장 종지입니다. 끝날 것 같다가 예상을 깨서 곡을 이어가게 만드는 효과가 있어요.',
+     whyEn:'When V7 resolves to a different chord (usually vi) instead of the expected I, that\'s a deceptive cadence -- it subverts the expected ending to keep the music moving.'},
+  ].forEach(({key,ii7,v,target,ans,opts,whyKo,whyEn})=>{
+    function spellFromSym(sym){
+      const m=sym.match(/^([A-G][#b]?)(maj7|m7b5|m7|7)$/);
+      const root=m[1],qual=m[2];
+      const pc={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[root[0]]+(root[1]==='#'?1:root[1]==='b'?-1:0);
+      const CHS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+      const CHF=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+      const flats=root.includes('b');
+      const third=qual==='maj7'||qual==='7'?4:3, fifth=qual==='m7b5'?6:7, seventh=qual==='maj7'?11:10;
+      return [0,third,fifth,seventh].map(off=>{
+        const rawPc=((pc+off)%12+12)%12;
+        const nm=(flats?CHF:CHS)[rawPc];
+        const oct=(off>0&&rawPc<((pc%12+12)%12))?5:4;
+        return nm+oct;
+      });
+    }
+    const vChord=spellFromSym(v);
+    const targetChord=spellFromSym(target);
+    const termFor=ans.includes('정격')?'authentic_cadence':ans.includes('변격')?'plagal_cadence':ans.includes('반종지')?'half_cadence':'deceptive_cadence';
+    add({ch:50,type:'mc',q:{ko:`${key} 장조에서 ${ii7} → ${v} → ${target} 진행입니다. 이 종지는 어떤 종류인가요?`,en:`In ${key} major: ${ii7} -> ${v} -> ${target}. What type of cadence is this?`},
+      staff:drawStaff({cl:'treble',ns:targetChord.map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:140+i*4})),w:280}),
+      audio:[...vChord,...targetChord],ans,opts,terms:[termFor],
+      why:{ko:whyKo,en:whyEn}});
+  });
+
   return ps;
 }
 
@@ -1573,6 +1633,19 @@ const CHAPTER_TERM_MAP={
   12:['roman_numerals','cadence'],13:['secondary_dominant','related_ii7'],14:['modal_interchange','borrowed_chord','blue_note'],
 };
 ALL.forEach(p=>{ if(!p.terms && CHAPTER_TERM_MAP[p.ch]) p.terms=CHAPTER_TERM_MAP[p.ch]; });
+
+// CH10 override: tag each mode-writing/identification question with its OWN specific mode term
+// (rather than the generic 'mode' fallback), by reading the mode name out of the question text.
+const MODE_TERM_MATCH=[
+  [/ionian|아이오니안/i,'ionian'],[/dorian|도리안/i,'dorian'],[/phryg|프리지안/i,'phrygian'],
+  [/lydian|리디안/i,'lydian'],[/mixo|믹소/i,'mixolydian'],[/aeolian|에올리안/i,'aeolian'],[/locrian|로크리안/i,'locrian'],
+];
+ALL.filter(p=>p.ch===10).forEach(p=>{
+  const text=(p.q.ko||'')+' '+(p.q.en||'')+' '+(p.ans||'');
+  for(const [re,term] of MODE_TERM_MATCH){
+    if(re.test(text)){ p.terms=[term,'mode']; break; }
+  }
+});
 
 /* ═══════════════════════════════════════════════
    RETROFIT: friendly "why" explanations for Ch.0-14 (original content)
@@ -1661,7 +1734,7 @@ ALL.forEach(p=>{ if(p.why===undefined && p.ch>=0 && p.ch<=14){ const w=whyFor(p)
    GLOSSARY / COURSE LINKING (Harmony course cross-reference)
 ═══════════════════════════════════════════════ */
 const HCOURSE='https://mowmau.github.io/harmony';
-const TERM_MAP={"chord_scale": {"ko": "코드 스케일", "week": 41}, "mode": {"ko": "선법", "week": 17}, "secondary_dominant": {"ko": "부속화음", "week": 23}, "extended_dominant": {"ko": "확장 도미넌트", "week": 31}, "substitute_dominant": {"ko": "대리도미넌트", "week": 55}, "tritone": {"ko": "트라이톤", "week": 7}, "lydian_b7": {"ko": "리디안 ♭7", "week": 64}, "related_ii7": {"ko": "관련 II−7", "week": 32}, "diminished_7th_chord": {"ko": "감7화음", "week": 35}, "diminished_chord": {"ko": "디미니시드 화음", "week": 34}, "passing_diminished": {"ko": "경과 감화음", "week": 35}, "modulation": {"ko": "전조", "week": 25}, "pivot_chord": {"ko": "피벗 화음", "week": 25}, "direct_modulation": {"ko": "직접 전조", "week": 73}, "dominant_chord_modulation": {"ko": "딸림7화음 전조", "week": 75}, "implied_modulation": {"ko": "암시된 전조", "week": 73}, "primary_key": {"ko": "원래 조", "week": 73}, "secondary_key": {"ko": "새 조", "week": 73}, "nondominant_dominant": {"ko": "비도미넌트 기능 화음", "week": 79}, "blue_note_dominant": {"ko": "블루노트 도미넌트", "week": 80}, "dual_function": {"ko": "이중 기능", "week": 78}, "contiguous_dominant": {"ko": "연속 도미넌트", "week": 81}, "relative_ionian": {"ko": "관련 아이오니안", "week": 88}, "characteristic_pitch": {"ko": "특성음", "week": 88}, "subdominant_minor": {"ko": "서브도미넌트 마이너", "week": 54}, "tonic_minor": {"ko": "토닉 마이너", "week": 77}, "pedal_point": {"ko": "페달 포인트", "week": 86}, "ostinato": {"ko": "오스티나토", "week": 87}, "layered_ostinato": {"ko": "레이어드 오스티나토", "week": 87}, "compound_chord": {"ko": "컴파운드 코드", "week": 92}, "compound_inversion": {"ko": "전위", "week": 92}, "hybrid_chord": {"ko": "하이브리드 화음", "week": 93}, "polychord": {"ko": "폴리코드", "week": 94}, "treble_clef": {"ko": "높은음자리표", "week": 1}, "bass_clef": {"ko": "낮은음자리표", "week": 1}, "accidental": {"ko": "임시표", "week": 2}, "enharmonic": {"ko": "이명동음", "week": 2}, "major_scale": {"ko": "장음계", "week": 3}, "scale_degree": {"ko": "음계 단계", "week": 3}, "natural_minor": {"ko": "자연단음계", "week": 4}, "harmonic_minor": {"ko": "화성단음계", "week": 4}, "pentatonic_scale": {"ko": "5음음계", "week": 4}, "key_signature": {"ko": "조표", "week": 5}, "cycle_of_fifths": {"ko": "5도권", "week": 5}, "interval": {"ko": "음정", "week": 6}, "triad": {"ko": "다이아토닉 3화음", "week": 8}, "root": {"ko": "근음", "week": 8}, "seventh_chord": {"ko": "7화음", "week": 9}, "dominant": {"ko": "도미넌트", "week": 9}, "chord_inversion": {"ko": "자리바꿈", "week": 7}, "slash_chord": {"ko": "분수코드", "week": 11}, "tendency_tone": {"ko": "경향음", "week": 22}, "avoid_note": {"ko": "피하는 음", "week": 13}, "roman_numerals": {"ko": "로마 숫자", "week": 14}, "cadence": {"ko": "종지", "week": 15}, "modal_interchange": {"ko": "모달 인터체인지", "week": 34}, "blue_note": {"ko": "블루 노트", "week": 51}, "symmetric_diminished_scale": {"ko": "대칭 디미니시드", "week": 72}, "picardy_third": {"ko": "피카르디 3도", "week": 85}, "tonic_substitute": {"ko": "토닉 대역", "week": 77}, "constant_structure": {"ko": "컨스턴트 스트럭처", "week": 95}, "symmetric_division": {"ko": "대칭 분할", "week": 95}, "deceptive_resolution": {"ko": "위장해결", "week": 76}, "ascending_diminished": {"ko": "어센딩 디미니시드", "week": 68}, "descending_diminished": {"ko": "디센딩 디미니시드", "week": 69}, "auxiliary_diminished": {"ko": "보조 감화음", "week": 69}, "sixth_chord": {"ko": "6화음", "week": 28}, "approach_chord": {"ko": "접근 화음", "week": 68}, "chameleon_chord": {"ko": "카멜레온 화음", "week": 66}, "altered_scale": {"ko": "얼터드 스케일", "week": 46}, "upper_structure_triad": {"ko": "상부 3화음", "week": 63}, "blues_12bar": {"ko": "12마디 블루스", "week": 29}, "borrowed_chord": {"ko": "차용 화음", "week": 34}, "characteristic_chord": {"ko": "특징 화음", "week": 18}, "modal_cadence_chord": {"ko": "모달 케이던스 화음", "week": 82}, "alternate_resolution": {"ko": "대체 해결", "week": 70}, "composite_minor": {"ko": "복합단음계", "week": 76}, "function": {"ko": "기능", "week": 14}, "tonic": {"ko": "으뜸", "week": 14}, "subdominant": {"ko": "버금딸림", "week": 14}, "modal_avoid_chord": {"ko": "회피 화음", "week": 89}};
+const TERM_MAP={"chord_scale": {"ko": "코드 스케일", "week": 41}, "mode": {"ko": "선법", "week": 17}, "secondary_dominant": {"ko": "부속화음", "week": 23}, "extended_dominant": {"ko": "확장 도미넌트", "week": 31}, "substitute_dominant": {"ko": "대리도미넌트", "week": 55}, "tritone": {"ko": "트라이톤", "week": 7}, "lydian_b7": {"ko": "리디안 ♭7", "week": 64}, "related_ii7": {"ko": "관련 II−7", "week": 32}, "diminished_7th_chord": {"ko": "감7화음", "week": 35}, "diminished_chord": {"ko": "디미니시드 화음", "week": 34}, "passing_diminished": {"ko": "경과 감화음", "week": 35}, "modulation": {"ko": "전조", "week": 25}, "pivot_chord": {"ko": "피벗 화음", "week": 25}, "direct_modulation": {"ko": "직접 전조", "week": 73}, "dominant_chord_modulation": {"ko": "딸림7화음 전조", "week": 75}, "implied_modulation": {"ko": "암시된 전조", "week": 73}, "primary_key": {"ko": "원래 조", "week": 73}, "secondary_key": {"ko": "새 조", "week": 73}, "nondominant_dominant": {"ko": "비도미넌트 기능 화음", "week": 79}, "blue_note_dominant": {"ko": "블루노트 도미넌트", "week": 80}, "dual_function": {"ko": "이중 기능", "week": 78}, "contiguous_dominant": {"ko": "연속 도미넌트", "week": 81}, "relative_ionian": {"ko": "관련 아이오니안", "week": 88}, "characteristic_pitch": {"ko": "특성음", "week": 88}, "subdominant_minor": {"ko": "서브도미넌트 마이너", "week": 54}, "tonic_minor": {"ko": "토닉 마이너", "week": 77}, "pedal_point": {"ko": "페달 포인트", "week": 86}, "ostinato": {"ko": "오스티나토", "week": 87}, "layered_ostinato": {"ko": "레이어드 오스티나토", "week": 87}, "compound_chord": {"ko": "컴파운드 코드", "week": 92}, "compound_inversion": {"ko": "전위", "week": 92}, "hybrid_chord": {"ko": "하이브리드 화음", "week": 93}, "polychord": {"ko": "폴리코드", "week": 94}, "treble_clef": {"ko": "높은음자리표", "week": 1}, "bass_clef": {"ko": "낮은음자리표", "week": 1}, "accidental": {"ko": "임시표", "week": 2}, "enharmonic": {"ko": "이명동음", "week": 2}, "major_scale": {"ko": "장음계", "week": 3}, "scale_degree": {"ko": "음계 단계", "week": 3}, "natural_minor": {"ko": "자연단음계", "week": 4}, "harmonic_minor": {"ko": "화성단음계", "week": 4}, "pentatonic_scale": {"ko": "5음음계", "week": 4}, "key_signature": {"ko": "조표", "week": 5}, "cycle_of_fifths": {"ko": "5도권", "week": 5}, "interval": {"ko": "음정", "week": 6}, "triad": {"ko": "다이아토닉 3화음", "week": 8}, "root": {"ko": "근음", "week": 8}, "seventh_chord": {"ko": "7화음", "week": 9}, "dominant": {"ko": "도미넌트", "week": 9}, "chord_inversion": {"ko": "자리바꿈", "week": 7}, "slash_chord": {"ko": "분수코드", "week": 11}, "tendency_tone": {"ko": "경향음", "week": 22}, "avoid_note": {"ko": "피하는 음", "week": 13}, "roman_numerals": {"ko": "로마 숫자", "week": 14}, "cadence": {"ko": "종지", "week": 15}, "modal_interchange": {"ko": "모달 인터체인지", "week": 34}, "blue_note": {"ko": "블루 노트", "week": 51}, "symmetric_diminished_scale": {"ko": "대칭 디미니시드", "week": 72}, "picardy_third": {"ko": "피카르디 3도", "week": 85}, "tonic_substitute": {"ko": "토닉 대역", "week": 77}, "constant_structure": {"ko": "컨스턴트 스트럭처", "week": 95}, "symmetric_division": {"ko": "대칭 분할", "week": 95}, "deceptive_resolution": {"ko": "위장해결", "week": 76}, "ascending_diminished": {"ko": "어센딩 디미니시드", "week": 68}, "descending_diminished": {"ko": "디센딩 디미니시드", "week": 69}, "auxiliary_diminished": {"ko": "보조 감화음", "week": 69}, "sixth_chord": {"ko": "6화음", "week": 28}, "approach_chord": {"ko": "접근 화음", "week": 68}, "chameleon_chord": {"ko": "카멜레온 화음", "week": 66}, "altered_scale": {"ko": "얼터드 스케일", "week": 46}, "upper_structure_triad": {"ko": "상부 3화음", "week": 63}, "blues_12bar": {"ko": "12마디 블루스", "week": 29}, "borrowed_chord": {"ko": "차용 화음", "week": 34}, "characteristic_chord": {"ko": "특징 화음", "week": 18}, "modal_cadence_chord": {"ko": "모달 케이던스 화음", "week": 82}, "alternate_resolution": {"ko": "대체 해결", "week": 70}, "composite_minor": {"ko": "복합단음계", "week": 76}, "function": {"ko": "기능", "week": 14}, "tonic": {"ko": "으뜸", "week": 14}, "subdominant": {"ko": "버금딸림", "week": 14}, "modal_avoid_chord": {"ko": "회피 화음", "week": 89}, "ionian": {"ko": "이오니안", "week": 17}, "dorian": {"ko": "도리안", "week": 17}, "phrygian": {"ko": "프리지안", "week": 17}, "lydian": {"ko": "리디안", "week": 17}, "mixolydian": {"ko": "믹솔리디안", "week": 17}, "aeolian": {"ko": "에올리안", "week": 17}, "locrian": {"ko": "로크리안", "week": 17}, "authentic_cadence": {"ko": "정격 종지", "week": 15}, "plagal_cadence": {"ko": "변격 종지", "week": 15}, "half_cadence": {"ko": "반종지", "week": 15}, "deceptive_cadence": {"ko": "위장 종지", "week": 15}};
 function glossLink(id){return `${HCOURSE}/#glossary:${id}`;}
 function lessonLink(wk){return `${HCOURSE}/#lesson:${wk}`;}
 function termChips(ids){
