@@ -3299,7 +3299,15 @@ const A={
       }
     );
   },
-  sp(){try{localStorage.setItem('bhw3',JSON.stringify({DONE,XP,STREAK,BEST}));}catch(e){}},
+  sp(){
+    try{localStorage.setItem('bhw3',JSON.stringify({DONE,XP,STREAK,BEST}));}catch(e){}
+    try{
+      const total=ALL.length, done=Object.keys(DONE).filter(k=>DONE[k]).length;
+      localStorage.setItem('harmony_workbook_progress',JSON.stringify({
+        done,total,xp:XP,streak:STREAK,best:BEST,updatedAt:new Date().toISOString()
+      }));
+    }catch(e){}
+  },
   lp(){try{const d=JSON.parse(localStorage.getItem('bhw3')||localStorage.getItem('bhw2')||'{}');
     if(d.DONE)Object.assign(DONE,d.DONE);else Object.assign(DONE,d);
     XP=d.XP||0;STREAK=0;BEST=d.BEST||0;}catch(e){}},
