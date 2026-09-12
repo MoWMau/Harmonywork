@@ -41,7 +41,9 @@ body{font-family:'Pretendard','Noto Sans KR',-apple-system,Georgia,serif;
   transition:width .4s ease}
 #lay{display:flex;margin-top:calc(var(--hh) + 4px);margin-bottom:var(--ph);min-height:calc(100vh - var(--hh) - var(--ph) - 4px)}
 #sb{width:var(--sw);background:var(--surf2);border-right:1px solid var(--brd);overflow-y:auto;
-  position:fixed;top:calc(var(--hh) + 4px);bottom:var(--ph);left:0;z-index:150;padding:8px 0}
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  position:fixed;top:calc(var(--hh) + 4px);bottom:var(--ph);left:0;z-index:195;padding:8px 0}
+#chl{padding-bottom:24px}
 .sbgrp{font-size:.68rem;font-weight:700;letter-spacing:.08em;color:var(--mut);
   padding:14px 14px 4px;text-transform:uppercase}
 .sbgrp.h3{color:var(--h3)}
@@ -128,6 +130,7 @@ svg.ssv{width:125%;height:auto;display:block}
   #hdr h1{font-size:.82rem}
   #hdr h1 small{font-size:.64rem}
   .hbtn{padding:5px 8px;font-size:.72rem}
+  .menubtn{min-width:40px;min-height:36px;padding:6px 10px;font-size:1.05rem}
   .xpwrap{font-size:.68rem;padding:3px 7px}
   .chdr h2{font-size:1.04rem}
   .mo{padding:8px 12px;font-size:.84rem}
@@ -142,7 +145,7 @@ svg.ssv{width:125%;height:auto;display:block}
   <a class="hbtn ext" id="glosslink" href="https://mowmau.github.io/harmony/#glossary" target="_blank" rel="noopener">📖 용어사전</a>
   <a class="hbtn ext" id="courselink" href="https://mowmau.github.io/harmony/#home" target="_blank" rel="noopener">🎓 강좌</a>
   <button class="hbtn" onclick="A.lang()">한/EN</button>
-  <button class="hbtn" onclick="A.toggleSB()">☰</button>
+  <button class="hbtn menubtn" onclick="A.toggleSB()">☰</button>
 </div>
 <div id="pbarwrap"><div id="pbar"></div></div>
 <div id="sbovl" onclick="A.toggleSB()"></div>
