@@ -201,7 +201,12 @@ function pnote(f,when=0,dur=0.65,vol=0.38){
   g.gain.exponentialRampToValueAtTime(vol*.45,t+.1);g.gain.exponentialRampToValueAtTime(.001,t+dur);
   o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur);}catch(e){}
 }
-function play(ns,dl=0.18){ns.forEach((n,i)=>setTimeout(()=>pnote(freq(n),0,.6),i*dl*1000));}
+function play(ns,dl=0.18){
+  if(!ns.length)return;
+  pnote(freq(ns[0]),0,.6); // first note fires synchronously -- keeps this call inside
+                            // the user-gesture chain on strict mobile browsers
+  ns.slice(1).forEach((n,i)=>setTimeout(()=>pnote(freq(n),0,.6),(i+1)*dl*1000));
+}
 function playchord(ns){ns.forEach(n=>pnote(freq(n),0,.9,.28));}
 function flash(ns){ns.forEach((n,i)=>{setTimeout(()=>{
   const m=midi(n);if(!m)return;
@@ -3024,7 +3029,7 @@ function rWR(p){
   const ph=LG==='ko'?'음표명 띄어쓰기로 입력이로... (C4 D4 E4)':'note names space-separated (C4 D4 E4)';
   const lbni=LG==='ko'?'✏️ 직접 입력':'✏️ Type notes';
   const lbset=LG==='ko'?'오선에 입력':'Set on staff';
-  const micLbl=LG==='ko'?'🎤 노래·연주로 입력:':'🎤 Sing/play to enter:';
+  const micLbl=LG==='ko'?'🎤 목소리로 입력하기:':'🎤 Answer by voice:';
   return `<div class="sw">${svg}</div>
     <div class="abar"><span class="ahl">${LG==='ko'?'임시표:':'Acc:'}</span>${ab}
     <button class="btn bc"style="margin-left:6px"onclick="A.cl('${p.id}')">${LG==='ko'?'지우기':'Clear'}</button>
@@ -3318,6 +3323,31 @@ const A={
 };
 
 document.addEventListener('DOMContentLoaded',()=>A.init());
+
+/* ── Mobile audio unlock ──
+   iOS Safari (and some Android browsers) only allow an AudioContext to start
+   producing sound if it is created/resumed directly inside a user-gesture's
+   synchronous call stack. If that first unlock is missed or delayed even by a
+   setTimeout(0), every future scheduled note can end up silent. To make this
+   robust regardless of which button is tapped first, we prime the shared
+   AudioContext (and play one inaudible tick to fully wake it) on the very
+   first touch/click anywhere on the page. */
+(function(){
+  let unlocked=false;
+  function unlockAudio(){
+    if(unlocked)return;
+    unlocked=true;
+    try{
+      const c=ax();
+      const o=c.createOscillator(), g=c.createGain();
+      g.gain.value=0; // inaudible -- this call exists purely to fully wake the context
+      o.connect(g);g.connect(c.destination);
+      o.start(c.currentTime);o.stop(c.currentTime+0.01);
+    }catch(e){}
+    ['touchstart','touchend','mousedown','click','keydown'].forEach(ev=>document.removeEventListener(ev,unlockAudio));
+  }
+  ['touchstart','touchend','mousedown','click','keydown'].forEach(ev=>document.addEventListener(ev,unlockAudio,{once:false,passive:true}));
+})();
 </script>
 </body>
 </html>
