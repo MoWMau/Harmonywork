@@ -278,8 +278,15 @@ function accSVG(rEdge,cy,acc,color){
 function drawStaff(opt){
   const{cl='treble',ns=[],w=520,inter=false,id='',ks=0,kf=0}=opt;
   const H=200;let sx=54;
+  // SIZE_SCALE enlarges the rendered SVG uniformly (bigger width/height HTML
+  // attributes) while the viewBox stays at the ORIGINAL native coordinate
+  // system -- this is the standard, zero-risk way to zoom an SVG: every
+  // internal x/y/font-size/radius number below is untouched, only the final
+  // on-screen pixel size grows.
+  const SIZE_SCALE=1.1;
+  const rw=Math.round(w*SIZE_SCALE), rh=Math.round(H*SIZE_SCALE);
   // width+height 명시 → 브라우저 크기0 버그 방지
-  let o=`<svg ${id?`id="${id}" `:''}width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" class="ssv${inter?' ck':''}" xmlns="http://www.w3.org/2000/svg"${inter?` data-cl="${cl}" data-i="1"`:''}>`;
+  let o=`<svg ${id?`id="${id}" `:''}width="${rw}" height="${rh}" viewBox="0 0 ${w} ${H}" class="ssv${inter?' ck':''}" xmlns="http://www.w3.org/2000/svg"${inter?` data-cl="${cl}" data-i="1"`:''}>`;
   o+=`<rect width="${w}" height="${H}" fill="white"/>`;
   for(let i=0;i<5;i++){const y=60+i*10;o+=`<line x1="8" y1="${y}" x2="${w-8}" y2="${y}" stroke="#1a1a1a" stroke-width="1.4"/>`;}
   if(cl==='treble'){
@@ -698,21 +705,21 @@ async function micStart(pid,onDetect,onLive){
 }
 
 const CHS=[
-  {t:'음이름 식별/Pitch Recognition',d:'p.1-2 | 높은·낮은음자리표 음이름',de:'p.1-2 | Treble & bass clef note names',grp:'h12'},
-  {t:'임시표 & 이명동음/Accidentals',d:'p.3-6 | 임시표, 이명동음',de:'p.3-6 | Accidentals & enharmonics',grp:'h12'},
-  {t:'장음계/Major Scales',d:'p.7-10 | 12개 장음계',de:'p.7-10 | All 12 major scales',grp:'h12'},
-  {t:'단음계/Minor Scales',d:'p.10-12 | 자연·화성·선율 단음계',de:'p.10-12 | Natural, harmonic, melodic minor',grp:'h12'},
-  {t:'5음음계/Pentatonic',d:'p.13 | 장·단 5음음계',de:'p.13 | Major & minor pentatonic',grp:'h12'},
-  {t:'조표/Key Signatures',d:'p.15-17 | 조표 식별 & 분석',de:'p.15-17 | Identify & analyze key signatures',grp:'h12'},
-  {t:'음정/Intervals',d:'p.18-24 | 음정 식별 & 쓰기',de:'p.18-24 | Identify & write intervals',grp:'h12'},
-  {t:'3화음/Triads',d:'p.27-30 | 3화음 식별 & 쓰기',de:'p.27-30 | Identify & write triads',grp:'h12'},
-  {t:'7화음/7th Chords',d:'p.32-37 | 7화음 식별 & 쓰기',de:'p.32-37 | Identify & write 7th chords',grp:'h12'},
-  {t:'자리바꿈/Inversions',d:'p.38-42 | 화음 자리바꿈',de:'p.38-42 | Chord inversions',grp:'h12'},
-  {t:'선법/Modes',d:'p.46-54 | 교회선법',de:'p.46-54 | Church modes',grp:'h12'},
-  {t:'음계 성향/Scale Tendencies',d:'p.55-56 | 성향 & 성부진행',de:'p.55-56 | Scale tendencies & voice leading',grp:'h12'},
-  {t:'다이아토닉 화성/Diatonic Harmony',d:'p.57-65 | 다이아토닉 분석',de:'p.57-65 | Diatonic harmony',grp:'h12'},
-  {t:'부속화음/Secondary Dominants',d:'p.69-84 | 부속화음',de:'p.69-84 | Secondary dominants',grp:'h12'},
-  {t:'모달 인터체인지/Modal Interchange',d:'p.92-99 | 모달 인터체인지 & 블루스',de:'p.92-99 | Modal interchange & blues',grp:'h12'},
+  {t:'음이름 식별/Pitch Recognition',d:'p.1-2 | 높은·낮은음자리표 음이름',de:'p.1-2 | Treble & bass clef note names',grp:'h1'},
+  {t:'임시표 & 이명동음/Accidentals',d:'p.3-6 | 임시표, 이명동음',de:'p.3-6 | Accidentals & enharmonics',grp:'h1'},
+  {t:'장음계/Major Scales',d:'p.7-10 | 12개 장음계',de:'p.7-10 | All 12 major scales',grp:'h1'},
+  {t:'단음계/Minor Scales',d:'p.10-12 | 자연·화성·선율 단음계',de:'p.10-12 | Natural, harmonic, melodic minor',grp:'h1'},
+  {t:'5음음계/Pentatonic',d:'p.13 | 장·단 5음음계',de:'p.13 | Major & minor pentatonic',grp:'h1'},
+  {t:'조표/Key Signatures',d:'p.15-17 | 조표 식별 & 분석',de:'p.15-17 | Identify & analyze key signatures',grp:'h1'},
+  {t:'음정/Intervals',d:'p.18-24 | 음정 식별 & 쓰기',de:'p.18-24 | Identify & write intervals',grp:'h1'},
+  {t:'3화음/Triads',d:'p.27-30 | 3화음 식별 & 쓰기',de:'p.27-30 | Identify & write triads',grp:'h1'},
+  {t:'7화음/7th Chords',d:'p.32-37 | 7화음 식별 & 쓰기',de:'p.32-37 | Identify & write 7th chords',grp:'h2'},
+  {t:'자리바꿈/Inversions',d:'p.38-42 | 화음 자리바꿈',de:'p.38-42 | Chord inversions',grp:'h2'},
+  {t:'선법/Modes',d:'p.46-54 | 교회선법',de:'p.46-54 | Church modes',grp:'h2'},
+  {t:'음계 성향/Scale Tendencies',d:'p.55-56 | 성향 & 성부진행',de:'p.55-56 | Scale tendencies & voice leading',grp:'h2'},
+  {t:'다이아토닉 화성/Diatonic Harmony',d:'p.57-65 | 다이아토닉 분석',de:'p.57-65 | Diatonic harmony',grp:'h2'},
+  {t:'부속화음/Secondary Dominants',d:'p.69-84 | 부속화음',de:'p.69-84 | Secondary dominants',grp:'h2'},
+  {t:'모달 인터체인지/Modal Interchange',d:'p.92-99 | 모달 인터체인지 & 블루스',de:'p.92-99 | Modal interchange & blues',grp:'h2'},
   {t:'다이아토닉 코드 스케일/Diatonic Chord Scales',d:'Harmony 3 · p.7-11 | 로마숫자별 코드 스케일',de:'Harmony 3 · p.7-11 | Chord scale per Roman numeral',grp:'h3'},
   {t:'세컨더리 도미넌트 스케일/Secondary Dom. Scales',d:'Harmony 3 · p.13-14 | 세컨더리 도미넌트의 코드 스케일',de:'Harmony 3 · p.13-14 | Chord scales for secondary dominants',grp:'h3'},
   {t:'확장 도미넌트/Extended Dominants',d:'Harmony 3 · p.29-31 | 5도권 사슬',de:'Harmony 3 · p.29-31 | Dominant chains around the cycle of 5ths',grp:'h3'},
@@ -748,7 +755,7 @@ const CHS=[
   {t:'선법별 7화음 전체 테스트/Testing All Seven Chords Per Mode',d:'Harmony 4 · wk89-91 | 토닉·케이던스·회피 화음 분류',de:'Harmony 4 · wk89-91 | Classifying tonic, cadence, avoid chords',grp:'h4'},
   {t:'협력형 vs 바이토널 폴리코드/Cooperative vs Bitonal Polychords',d:'Harmony 4 · wk94 | 깨끗한 텐션 vs 마찰이 남는 충돌',de:'Harmony 4 · wk94 | Clean tensions vs lingering friction',grp:'h4'},
   {t:'크로매틱 컨스턴트 스트럭처/Chromatic Constant Structure',d:'Harmony 4 · wk95-97 | 반음 슬라이드 & 온음음계 6등분',de:'Harmony 4 · wk95-97 | Half-step sliding & whole-tone 6-way division',grp:'h4'},
-  {t:'종지의 종류/Cadence Types',d:'Harmony 1&2 · wk15 | 정격·변격·반종지·위장 종지',de:'Harmony 1&2 · wk15 | Authentic, plagal, half & deceptive cadences',grp:'h12'},
+  {t:'종지의 종류/Cadence Types',d:'Harmony 2 · wk15 | 정격·변격·반종지·위장 종지',de:'Harmony 2 · wk15 | Authentic, plagal, half & deceptive cadences',grp:'h2'},
   {t:'연속 도미넌트 심화/Contiguous Dominants Deep Dive',d:'Harmony 4 · wk81 | 3가지 근음 이동 패턴 & 전이적 전조',de:'Harmony 4 · wk81 | Three root-motion patterns & transitional modulation',grp:'h4'},
 ];
 
@@ -5087,17 +5094,30 @@ function rSB(){
   document.getElementById('xpv').textContent=XP;
   document.getElementById('streakv').textContent=STREAK;
   const list=document.getElementById('chl');
-  let lastGrp=null,html='';
-  CHS.forEach((c,i)=>{
-    if(c.grp!==lastGrp){
-      const label=c.grp==='h4'?(LG==='ko'?'하모니 4':'Harmony 4'):c.grp==='h3'?(LG==='ko'?'하모니 3':'Harmony 3'):(LG==='ko'?'하모니 1 & 2':'Harmony 1 & 2');
-      html+=`<div class="sbgrp ${c.grp!=='h12'?c.grp:''}">${label}</div>`;
-      lastGrp=c.grp;
-    }
-    const ps=gps(i),done=ps.filter(p=>DONE[p.id]).length;
-    const ttl=LG==='ko'?c.t.split('/')[0]:c.t.split('/')[1]||c.t;
-    const full=done===ps.length&&ps.length>0;
-    html+=`<button class="cbtn${i===CH?' act '+(c.grp==='h3'?'h3':''):''}" onclick="A.gc(${i})">${ttl}${full?' <span class="badge100">🏅</span>':''}<span class="pg">${LG==='ko'?c.d:c.de}</span><span class="cp">${done}/${ps.length}</span></button>`;
+  // Render by GROUP bucket (in a fixed curriculum order: 1&2, 3, 4) rather than by
+  // raw array order, so a chapter that's grp:'h12' but happens to sit physically
+  // between two grp:'h4' entries (e.g. Cadence Types, added mid-session) doesn't
+  // split the "Harmony 4" heading into two separate sections. Each chapter's
+  // original index i is preserved for A.gc(i) and gps(i), since that index is
+  // the actual chapter number baked into every question -- only the ORDER we
+  // walk through indices when building the sidebar HTML changes, never the
+  // indices themselves.
+  const order=['h1','h2','h3','h4'];
+  const buckets={h1:[],h2:[],h3:[],h4:[]};
+  CHS.forEach((c,i)=>{ (buckets[c.grp]||buckets.h1).push(i); });
+  let html='';
+  order.forEach(grp=>{
+    const idxs=buckets[grp];
+    if(!idxs.length)return;
+    const label=grp==='h4'?(LG==='ko'?'하모니 4':'Harmony 4'):grp==='h3'?(LG==='ko'?'하모니 3':'Harmony 3'):grp==='h2'?(LG==='ko'?'하모니 2':'Harmony 2'):(LG==='ko'?'하모니 1':'Harmony 1');
+    html+=`<div class="sbgrp ${grp}">${label}</div>`;
+    idxs.forEach(i=>{
+      const c=CHS[i];
+      const ps=gps(i),done=ps.filter(p=>DONE[p.id]).length;
+      const ttl=LG==='ko'?c.t.split('/')[0]:c.t.split('/')[1]||c.t;
+      const full=done===ps.length&&ps.length>0;
+      html+=`<button class="cbtn${i===CH?' act '+(c.grp==='h3'?'h3':''):''}" onclick="A.gc(${i})">${ttl}${full?' <span class="badge100">🏅</span>':''}<span class="pg">${LG==='ko'?c.d:c.de}</span><span class="cp">${done}/${ps.length}</span></button>`;
+    });
   });
   list.innerHTML=html;
 }
