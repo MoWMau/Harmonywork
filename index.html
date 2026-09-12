@@ -309,14 +309,14 @@ function drawNote(n,cl){
   const{note,acc,color='#1a1a1a',style='whole',x=140}=typeof n==='object'?n:{note:n,acc:'',color:'#1a1a1a',style:'whole',x:140};
   const step=ds(note);const y=sy(step,cl);let o='';
   const ls=leg(step,cl);
-  for(const l of ls){const ly=sy(l,cl);o+=`<line x1="${x-13}"y1="${ly}"x2="${x+13}"y2="${ly}"stroke="#1a1a1a"stroke-width="1.2"/>`;}
+  for(const l of ls){const ly=sy(l,cl);o+=`<line x1="${x-13}" y1="${ly}" x2="${x+13}" y2="${ly}" stroke="#1a1a1a" stroke-width="1.2"/>`;}
   const ra=acc||(pn(note)?.a||'');
   if(ra){o+=accSVG(x-6.5-0.6,y,ra,color);}
   const mid=cl==='treble'?6:-4;const up=step<mid;
   // 모든 음표: 검정 채움 타원 (온음표도 포함)
-  o+=`<ellipse cx="${x}"cy="${y}"rx="6.5"ry="4.5"fill="${color}"transform="rotate(-18,${x},${y})"/>`;
+  o+=`<ellipse cx="${x}" cy="${y}" rx="6.5" ry="4.5" fill="${color}" transform="rotate(-18,${x},${y})"/>`;
   if(style!=='whole'){
-    const ex=up?x+6:x-6;o+=`<line x1="${ex}"y1="${y}"x2="${ex}"y2="${y+(up?-30:30)}"stroke="${color}"stroke-width="1.5"/>`;
+    const ex=up?x+6:x-6;o+=`<line x1="${ex}" y1="${y}" x2="${ex}" y2="${y+(up?-30:30)}" stroke="${color}" stroke-width="1.5"/>`;
   }
   return o;
 }
@@ -336,8 +336,8 @@ function mkPiano(){
   for(const oct of OCTS){
     for(let d=0;d<7;d++){
       const note=NL[d]+oct,m=midi(note),x=wi*WW;
-      whites.push(`<rect data-m="${m}"class="pkw"x="${x+1}"y="2"width="${WW-2}"height="${WH}"rx="2"fill="#fefefe"stroke="#888"stroke-width="1"style="cursor:pointer"onclick="A.pk('${note}')"/>`);
-      if(d===0)whites.push(`<text x="${x+WW/2}"y="${WH-4}"text-anchor="middle"font-size="7"fill="#888"pointer-events="none">C${oct}</text>`);
+      whites.push(`<rect data-m="${m}" class="pkw" x="${x+1}" y="2" width="${WW-2}" height="${WH}" rx="2" fill="#fefefe" stroke="#888" stroke-width="1" style="cursor:pointer" onclick="A.pk('${note}')"/>`);
+      if(d===0)whites.push(`<text x="${x+WW/2}" y="${WH-4}" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">C${oct}</text>`);
       wi++;
     }
   }
@@ -345,12 +345,12 @@ function mkPiano(){
   for(const oct of OCTS){
     const hb=[1,1,0,1,1,1,0],bn=['C#','D#','','F#','G#','A#',''];
     for(let d=0;d<7;d++){
-      if(hb[d]){const note=bn[d]+oct,m=midi(note),x=wi*WW+WW*.62;blacks.push(`<rect data-m="${m}"class="pkb"x="${x}"y="2"width="${BW}"height="${BH}"rx="2"fill="#1a1a1a"stroke="#333"stroke-width="1"style="cursor:pointer"onclick="A.pk('${note}')"/>`);}
+      if(hb[d]){const note=bn[d]+oct,m=midi(note),x=wi*WW+WW*.62;blacks.push(`<rect data-m="${m}" class="pkb" x="${x}" y="2" width="${BW}" height="${BH}" rx="2" fill="#1a1a1a" stroke="#333" stroke-width="1" style="cursor:pointer" onclick="A.pk('${note}')"/>`);}
       wi++;
     }
   }
   const tot=OCTS.length*7*WW+4;
-  document.getElementById('psvg').innerHTML=`<svg width="${tot}"height="${WH+10}"xmlns="http://www.w3.org/2000/svg"style="display:block"><style>.pkw:hover{fill:#e8f4ff}.pk{fill:#93c5fd!important}.pkb:hover{fill:#334}.pkb.pk{fill:#1d4ed8!important}</style>${whites.join('')}${blacks.join('')}</svg>`;
+  document.getElementById('psvg').innerHTML=`<svg width="${tot}" height="${WH+10}" xmlns="http://www.w3.org/2000/svg" style="display:block"><style>.pkw:hover{fill:#e8f4ff}.pk{fill:#93c5fd!important}.pkb:hover{fill:#334}.pkb.pk{fill:#1d4ed8!important}</style>${whites.join('')}${blacks.join('')}</svg>`;
 }
 
 /* ═══════════════════════════════════════════════
@@ -4974,7 +4974,7 @@ function rSB(){
     const ps=gps(i),done=ps.filter(p=>DONE[p.id]).length;
     const ttl=LG==='ko'?c.t.split('/')[0]:c.t.split('/')[1]||c.t;
     const full=done===ps.length&&ps.length>0;
-    html+=`<button class="cbtn${i===CH?' act '+(c.grp==='h3'?'h3':''):''}"onclick="A.gc(${i})">${ttl}${full?' <span class="badge100">🏅</span>':''}<span class="pg">${LG==='ko'?c.d:c.de}</span><span class="cp">${done}/${ps.length}</span></button>`;
+    html+=`<button class="cbtn${i===CH?' act '+(c.grp==='h3'?'h3':''):''}" onclick="A.gc(${i})">${ttl}${full?' <span class="badge100">🏅</span>':''}<span class="pg">${LG==='ko'?c.d:c.de}</span><span class="cp">${done}/${ps.length}</span></button>`;
   });
   list.innerHTML=html;
 }
@@ -5012,7 +5012,7 @@ function rOne(p){
   const q=p.q||{};
   const qh=`<div class="pq"><span class="ko">${q.ko||''}</span><span class="en">${q.en||''}</span></div>`;
   const num=`<div class="pnum">${p.id} · ch${p.ch+1}</div>`;
-  const playBtn=(p.audio&&p.audio.length)?`<button class="btn bpl"onclick="A.pp('${p.id}')">▶ ${LG==='ko'?'듣기':'Listen'}</button>`:'';
+  const playBtn=(p.audio&&p.audio.length)?`<button class="btn bpl" onclick="A.pp('${p.id}')">▶ ${LG==='ko'?'듣기':'Listen'}</button>`:'';
   let body='';
   if(p.type==='id')body=rID(p);
   else if(p.type==='mc')body=rMC(p);
@@ -5021,20 +5021,20 @@ function rOne(p){
   else if(p.type==='analyze')body=rAZ(p);
   const chips=p.terms?`<div class="links">${termChips(p.terms)}</div>`:'';
   const whyBox=(p.why&&DONE[p.id])?`<div class="why" id="why_${p.id}">💡 ${LG==='ko'?p.why.ko:p.why.en}</div>`:`<div class="why" id="why_${p.id}" style="display:none">💡 ${p.why?(LG==='ko'?p.why.ko:p.why.en):''}</div>`;
-  return `<div class="pb${DONE[p.id]?' solved':''}"id="pb_${p.id}">${num}${qh}${body}<div class="ar">${playBtn}</div>${chips}<div class="fb"id="fb_${p.id}"></div>${p.why?whyBox:''}</div>`;
+  return `<div class="pb${DONE[p.id]?' solved':''}" id="pb_${p.id}">${num}${qh}${body}<div class="ar">${playBtn}</div>${chips}<div class="fb" id="fb_${p.id}"></div>${p.why?whyBox:''}</div>`;
 }
 
 function rID(p){
   const sf=p.staff?`<div class="sw">${p.staff}</div>`:'';
-  return sf+`<div class="ar"style="margin-top:8px">
-    <input class="ai"id="ai_${p.id}"placeholder="${LG==='ko'?'답 입력...':'Answer...'}"onkeydown="if(event.key==='Enter')A.ck('${p.id}')"/>
-    <button class="btn bp"onclick="A.ck('${p.id}')">${LG==='ko'?'확인':'Check'}</button>
-    <button class="btn bs"onclick="A.sh('${p.id}')">${LG==='ko'?'힌트':'Hint'}</button>
+  return sf+`<div class="ar" style="margin-top:8px">
+    <input class="ai" id="ai_${p.id}" placeholder="${LG==='ko'?'답 입력...':'Answer...'}" onkeydown="if(event.key==='Enter')A.ck('${p.id}')"/>
+    <button class="btn bp" onclick="A.ck('${p.id}')">${LG==='ko'?'확인':'Check'}</button>
+    <button class="btn bs" onclick="A.sh('${p.id}')">${LG==='ko'?'힌트':'Hint'}</button>
   </div>`;
 }
 function rMC(p){
   const sf=p.staff?`<div class="sw">${p.staff}</div>`:'';
-  const opts=(p.opts||[]).map(o=>`<button class="mo"onclick="A.cm('${p.id}','${o.replace(/'/g,"\\'").replace(/"/g,'&quot;')}',this)">${o}</button>`).join('');
+  const opts=(p.opts||[]).map(o=>`<button class="mo" onclick="A.cm('${p.id}','${o.replace(/'/g,"\\'").replace(/"/g,'&quot;')}',this)">${o}</button>`).join('');
   return sf+`<div class="mco">${opts}</div>`;
 }
 function rWR(p){
@@ -5043,24 +5043,24 @@ function rWR(p){
   const s=ST[p.id];
   const gNs=giv.map((n,i)=>({note:n,acc:'',color:'#1a1a1a',style:'whole',x:gx+i*40}));
   const svg=drawStaff({cl,ns:[...gNs,...s.pl],w:600,inter:true,id:'is_'+p.id});
-  const ab=['','#','b','##','bb','n'].map(a=>`<button class="ab${s.sa===a?' sl':''}"onclick="A.sa('${p.id}','${a}')"title="${a||'♮'}">${ACC[a]||'♮'}</button>`).join('');
+  const ab=['','#','b','##','bb','n'].map(a=>`<button class="ab${s.sa===a?' sl':''}" onclick="A.sa('${p.id}','${a}')" title="${a||'♮'}">${ACC[a]||'♮'}</button>`).join('');
   const ph=LG==='ko'?'음표명 띄어쓰기로 입력이로... (C4 D4 E4)':'note names space-separated (C4 D4 E4)';
   const lbni=LG==='ko'?'✏️ 직접 입력':'✏️ Type notes';
   const lbset=LG==='ko'?'오선에 입력':'Set on staff';
   const micLbl=LG==='ko'?'🎤 목소리로 입력하기:':'🎤 Answer by voice:';
   return `<div class="sw">${svg}</div>
     <div class="abar"><span class="ahl">${LG==='ko'?'임시표:':'Acc:'}</span>${ab}
-    <button class="btn bc"style="margin-left:6px"onclick="A.cl('${p.id}')">${LG==='ko'?'지우기':'Clear'}</button>
-    <button class="btn bp"onclick="A.cw('${p.id}')">${LG==='ko'?'확인':'Check'}</button></div>
-    <div class="abar"style="margin-top:4px;gap:6px">
+    <button class="btn bc" style="margin-left:6px" onclick="A.cl('${p.id}')">${LG==='ko'?'지우기':'Clear'}</button>
+    <button class="btn bp" onclick="A.cw('${p.id}')">${LG==='ko'?'확인':'Check'}</button></div>
+    <div class="abar" style="margin-top:4px;gap:6px">
       <span class="ahl">${lbni}:</span>
-      <input class="nti"id="ni_${p.id}"placeholder="${ph}"onkeydown="if(event.key==='Enter'){A.nt('${p.id}');event.preventDefault();}"/>
-      <button class="btn bs"onclick="A.nt('${p.id}')">${lbset}</button>
+      <input class="nti" id="ni_${p.id}" placeholder="${ph}" onkeydown="if(event.key==='Enter'){A.nt('${p.id}');event.preventDefault();}"/>
+      <button class="btn bs" onclick="A.nt('${p.id}')">${lbset}</button>
     </div>
-    <div class="abar"style="margin-top:4px;gap:6px">
+    <div class="abar" style="margin-top:4px;gap:6px">
       <span class="ahl">${micLbl}</span>
-      <button class="btn bs"id="micbtn_${p.id}"onclick="A.micToggle('${p.id}')">🎤 ${LG==='ko'?'듣기 시작':'Start listening'}</button>
-      <span class="ahl"id="micstat_${p.id}"></span>
+      <button class="btn bs" id="micbtn_${p.id}" onclick="A.micToggle('${p.id}')">🎤 ${LG==='ko'?'녹음':'Record'}</button>
+      <span class="ahl" id="micstat_${p.id}"></span>
     </div>`;
 }
 function rSL(p){
@@ -5081,13 +5081,13 @@ function rSL(p){
 function rAZ(p){
   const sf=p.staff?`<div class="sw">${p.staff}</div>`:'';
   if(p.opts&&p.opts.length){
-    const opts=p.opts.map(o=>`<button class="mo"onclick="A.cm('${p.id}','${o.replace(/'/g,"\\'")}',this)">${o}</button>`).join('');
+    const opts=p.opts.map(o=>`<button class="mo" onclick="A.cm('${p.id}','${o.replace(/'/g,"\\'")}',this)">${o}</button>`).join('');
     return sf+`<div class="mco">${opts}</div>`;
   }
-  return sf+`<div class="ar"style="margin-top:8px">
-    <input class="ai"id="ai_${p.id}"placeholder="${LG==='ko'?'답 입력...':'Answer...'}"onkeydown="if(event.key==='Enter')A.ck('${p.id}')"/>
-    <button class="btn bp"onclick="A.ck('${p.id}')">${LG==='ko'?'확인':'Check'}</button>
-    <button class="btn bs"onclick="A.sh('${p.id}')">${LG==='ko'?'정답 보기':'Show answer'}</button>
+  return sf+`<div class="ar" style="margin-top:8px">
+    <input class="ai" id="ai_${p.id}" placeholder="${LG==='ko'?'답 입력...':'Answer...'}" onkeydown="if(event.key==='Enter')A.ck('${p.id}')"/>
+    <button class="btn bp" onclick="A.ck('${p.id}')">${LG==='ko'?'확인':'Check'}</button>
+    <button class="btn bs" onclick="A.sh('${p.id}')">${LG==='ko'?'정답 보기':'Show answer'}</button>
   </div>`;
 }
 
