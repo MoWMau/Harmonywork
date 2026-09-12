@@ -862,7 +862,7 @@ function mkProbs(){
     {ns:['D4','C5'],ans:'m7'},{ns:['F4','E5'],ans:'M7'},{ns:['Bb3','A4'],ans:'M7'},
   ];
   intPairs.forEach(({ns,ans})=>{
-    const s=drawStaff({cl:'treble',ns:[{note:ns[0],acc:'',color:'#1a1a1a',style:'whole',x:110},{note:ns[1],acc:'',color:'#1a1a1a',style:'whole',x:170}],w:300});
+    const s=drawStaff({cl:'treble',ns:[{note:ns[0],acc:'',color:'#1a1a1a',style:'whole',x:130},{note:ns[1],acc:'',color:'#1a1a1a',style:'whole',x:170}],w:230});
     add({ch:6,type:'mc',q:{ko:'이 음정의 이름은?',en:'Name this interval:'},staff:s,audio:ns,ans,opts:oIn(ans)});
   });
   // Write interval above
