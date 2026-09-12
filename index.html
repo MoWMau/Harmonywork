@@ -24,10 +24,10 @@ body{font-family:'Pretendard','Noto Sans KR',-apple-system,Georgia,serif;
 #hdr{position:fixed;top:0;left:0;right:0;height:var(--hh);
   background:#20263a;color:#f4f1ea;
   display:flex;align-items:center;padding:0 12px;gap:8px;z-index:200;
-  box-shadow:0 2px 10px rgba(0,0,0,.18)}
-#hdr h1{font-size:.96rem;flex:1;line-height:1.25;min-width:0;font-weight:600;letter-spacing:.01em}
+  box-shadow:0 2px 10px rgba(0,0,0,.18);overflow:hidden}
+#hdr h1{font-size:.96rem;flex:1;line-height:1.25;min-width:0;font-weight:600;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #hdr h1 small{font-size:.72rem;opacity:.6;font-weight:400;display:block}
-.hbtn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#f4f1ea;
+#hdr .menubtn{order:99;flex-shrink:0}.hbtn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#f4f1ea;
   padding:6px 11px;border-radius:8px;cursor:pointer;font-size:.8rem;white-space:nowrap;
   transition:background .12s}
 .hbtn:hover{background:rgba(255,255,255,.16)}
@@ -130,7 +130,8 @@ svg.ssv{width:125%;height:auto;display:block}
   #hdr h1{font-size:.82rem}
   #hdr h1 small{font-size:.64rem}
   .hbtn{padding:5px 8px;font-size:.72rem}
-  .menubtn{min-width:40px;min-height:36px;padding:6px 10px;font-size:1.05rem}
+  .menubtn{min-width:40px;min-height:36px;padding:6px 10px;font-size:1.05rem;order:99}
+  .hbtn.ext .lbltxt{display:none}
   .xpwrap{font-size:.68rem;padding:3px 7px}
   .chdr h2{font-size:1.04rem}
   .mo{padding:8px 12px;font-size:.84rem}
@@ -142,8 +143,8 @@ svg.ssv{width:125%;height:auto;display:block}
 <div id="hdr">
   <h1>Harmony Workbook <small>화성학 워크북 인터랙티브</small></h1>
   <span class="xpwrap">⭐<b id="xpv">0</b> XP · 🔥<b id="streakv">0</b></span>
-  <a class="hbtn ext" id="glosslink" href="https://mowmau.github.io/harmony/#glossary" target="_blank" rel="noopener">📖 용어사전</a>
-  <a class="hbtn ext" id="courselink" href="https://mowmau.github.io/harmony/#home" target="_blank" rel="noopener">🎓 강좌</a>
+  <a class="hbtn ext" id="glosslink" href="https://mowmau.github.io/harmony/#glossary" target="_blank" rel="noopener">📖<span class="lbltxt"> 용어사전</span></a>
+  <a class="hbtn ext" id="courselink" href="https://mowmau.github.io/harmony/#home" target="_blank" rel="noopener">🎓<span class="lbltxt"> 강좌</span></a>
   <button class="hbtn" onclick="A.lang()">한/EN</button>
   <button class="hbtn menubtn" onclick="A.toggleSB()">☰</button>
 </div>
@@ -3074,8 +3075,8 @@ const A={
   next(){if(CH<CHS.length-1){micStop();CH++;rSB();rProbs();window.scrollTo(0,0);}},
   lang(){
     LG=LG==='ko'?'en':'ko';
-    const gl=document.getElementById('glosslink'); if(gl)gl.textContent=LG==='ko'?'📖 용어사전':'📖 Glossary';
-    const cl=document.getElementById('courselink'); if(cl)cl.textContent=LG==='ko'?'🎓 강좌':'🎓 Course';
+    const gl=document.getElementById('glosslink'); if(gl)gl.innerHTML=LG==='ko'?'📖<span class="lbltxt"> 용어사전</span>':'📖<span class="lbltxt"> Glossary</span>';
+    const cl=document.getElementById('courselink'); if(cl)cl.innerHTML=LG==='ko'?'🎓<span class="lbltxt"> 강좌</span>':'🎓<span class="lbltxt"> Course</span>';
     const pl=document.getElementById('pia_lbl'); if(pl)pl.textContent=LG==='ko'?'🎹 쓰기 문제의 오선을 클릭하면 건반 연동':'🎹 Click the staff on write-type questions to link the keyboard';
     const pb=document.getElementById('prevbtn'); if(pb)pb.textContent=LG==='ko'?'← 이전 챕터':'← Previous';
     const nb=document.getElementById('nextbtn'); if(nb)nb.textContent=LG==='ko'?'다음 챕터 →':'Next →';
