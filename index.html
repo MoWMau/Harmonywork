@@ -5139,6 +5139,10 @@ const A={
     }
   },
   pp(pid){
+    ax(); // make sure the shared AudioContext is created/resumed directly
+          // inside THIS click's own call stack too, not only via the separate
+          // global first-touch unlock listener -- extra safety net for the
+          // "Listen makes no sound" reports.
     const p=ALL.find(x=>x.id===pid);if(!p||!p.audio)return;
     if(p.type==='write'&&ST[pid]){
       const placed=ST[pid].pl.map(n=>{const full=n.note.slice(0,-1)+(n.acc||'')+n.note.slice(-1);return full;});
@@ -5299,11 +5303,11 @@ const A={
     const st=document.getElementById('micstat_'+pid);
     if(MIC_STATE.active && MIC_STATE.pid===pid){
       micStop();
-      if(btn)btn.textContent='🎤 '+(LG==='ko'?'노래 시작':'Start singing');
+      if(btn)btn.textContent='🎤 '+(LG==='ko'?'녹음':'Record');
       if(st)st.textContent='';
       return;
     }
-    if(btn)btn.textContent='⏹ '+(LG==='ko'?'노래 중지':'Stop singing');
+    if(btn)btn.textContent='⏹ '+(LG==='ko'?'녹음 중지':'Stop recording');
     if(st)st.textContent=LG==='ko'?'마이크 권한을 확인해 주세요...':'Requesting microphone access...';
     micStart(pid,
       (name,avgFreq)=>{
@@ -5325,7 +5329,7 @@ const A={
         if(name==='__ERROR__'){
           stEl.textContent=LG==='ko'?'⚠️ 마이크 접근 실패 (브라우저 권한을 확인하세요)':'⚠️ Mic access failed (check browser permissions)';
           const btnEl=document.getElementById('micbtn_'+pid);
-          if(btnEl)btnEl.textContent='🎤 '+(LG==='ko'?'노래 시작':'Start singing');
+          if(btnEl)btnEl.textContent='🎤 '+(LG==='ko'?'녹음':'Record');
           return;
         }
         stEl.textContent=name?`🎧 ${name} (${f.toFixed(0)}Hz)`:(LG==='ko'?'... 소리를 들어보고 있어요':'... listening for a pitch');
