@@ -202,12 +202,7 @@ function pnote(f,when=0,dur=0.65,vol=0.38){
   g.gain.exponentialRampToValueAtTime(vol*.45,t+.1);g.gain.exponentialRampToValueAtTime(.001,t+dur);
   o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+dur);}catch(e){}
 }
-function play(ns,dl=0.18){
-  if(!ns.length)return;
-  pnote(freq(ns[0]),0,.6); // first note fires synchronously -- keeps this call inside
-                            // the user-gesture chain on strict mobile browsers
-  ns.slice(1).forEach((n,i)=>setTimeout(()=>pnote(freq(n),0,.6),(i+1)*dl*1000));
-}
+function play(ns,dl=0.18){ns.forEach((n,i)=>setTimeout(()=>pnote(freq(n),0,.6),i*dl*1000));}
 function playchord(ns){ns.forEach(n=>pnote(freq(n),0,.9,.28));}
 function flash(ns){ns.forEach((n,i)=>{setTimeout(()=>{
   const m=midi(n);if(!m)return;
@@ -520,7 +515,7 @@ function reIS(pid,cl,given,gx){
 function shuf(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
 function oKs(ex,n=3){return shuf(['C major','G major','D major','A major','E major','F major','Bb major','Eb major','Ab major','Db major','F# major','A minor','E minor','B minor','D minor','G minor','C minor'].filter(k=>k!==ex)).slice(0,n);}
 function mkOpts(ans,pool,n=4){const distract=shuf(pool.filter(x=>x!==ans)).slice(0,n-1);return shuf([ans,...distract]);}
-/* ── Generic chord/scale spelling helpers (used by content retrofits) ── */
+/* ── Generic chord/scale spelling helpers (used by content retrofits in app_logic.js) ── */
 function spellUpGeneric(rootStr,semis,letterSteps){
   const p=pn(rootStr);if(!p)return null;
   const letter=p.n,acc=p.a,oct=p.o;
@@ -613,6 +608,22 @@ function autoCorrelate(buf,sampleRate){
   for(let i=d;i<newSize;i++){ if(c[i]>maxVal){ maxVal=c[i]; maxPos=i; } }
   let T0=maxPos;
   if(T0<=0) return -1;
+  // ── Octave-error correction ──
+  // Autocorrelation frequently locks onto a SUBHARMONIC (a period ~2x too long,
+  // i.e. a pitch reported one octave TOO LOW) whenever the singer's voice has
+  // strong 2nd-harmonic energy, which is very common. Before trusting T0, check
+  // whether the correlation near half that period (T0/2, i.e. one octave up)
+  // is nearly as strong as the peak we found -- if so, that shorter period is
+  // almost certainly the true fundamental, and T0 was a false octave-down peak.
+  const halfT=Math.round(T0/2);
+  if(halfT>=1){
+    let halfMax=-1, halfPos=halfT;
+    const lo=Math.max(1,halfT-3), hi=Math.min(newSize-1,halfT+3);
+    for(let i=lo;i<=hi;i++){ if(c[i]>halfMax){ halfMax=c[i]; halfPos=i; } }
+    if(halfMax > 0.35*maxVal){ // comparably strong correlation an octave up
+      T0=halfPos;
+    }
+  }
   const x1=c[T0-1]||0,x2=c[T0],x3=c[T0+1]||0;
   const a=(x1+x3-2*x2)/2, b=(x3-x1)/2;
   if(a) T0=T0-b/(2*a);
@@ -636,32 +647,48 @@ async function micStart(pid,onDetect,onLive){
     src.connect(analyser);
     MIC_STATE={active:true,stream,ctx,analyser,raf:null,pid,history:[]};
     const buf=new Float32Array(analyser.fftSize);
-    let firedFor=null; // avoid re-firing onDetect repeatedly while a note is held
+    let firedFor=null; // which note we've already fired onDetect for during this held tone
+    let silenceRun=0;   // consecutive frames with no detectable pitch
     const loop=()=>{
       if(!MIC_STATE.active)return;
       analyser.getFloatTimeDomainData(buf);
       const f=autoCorrelate(buf,ctx.sampleRate);
       if(f>0 && f<2000){
+        silenceRun=0;
         const m=Math.round(freqToMidi(f));
         const name=midiToNoteName(m);
         MIC_STATE.history.push({name,freq:f});
         if(MIC_STATE.history.length>60)MIC_STATE.history.shift();
         if(onLive)onLive(name,f);
-        // stability check: same note held for ~15 consecutive frames (~0.25s at 60fps).
-        // Once stable, average the frequency across that window -- this smooths out
-        // natural vibrato/mic noise so the +/-25 cent accuracy check is meaningful
-        // rather than being tripped up by a single noisy instant.
+        // Stability check uses a MAJORITY VOTE over the last 15 frames (~0.25s)
+        // rather than requiring every single frame to agree. A single noisy
+        // frame (common when a note is held for a while, e.g. singing slowly)
+        // no longer breaks the streak and cause a duplicate re-trigger --
+        // only a genuine change of note (a new note becoming the majority)
+        // or a real pause (sustained silence) clears `firedFor`.
         const recent=MIC_STATE.history.slice(-15);
-        if(recent.length===15 && recent.every(x=>x.name===recent[0].name)){
-          if(firedFor!==recent[0].name){
-            firedFor=recent[0].name;
-            const avgFreq=recent.reduce((s,x)=>s+x.freq,0)/recent.length;
-            if(onDetect)onDetect(recent[0].name,avgFreq);
+        if(recent.length===15){
+          const counts={};
+          recent.forEach(x=>{ counts[x.name]=(counts[x.name]||0)+1; });
+          let modeName=null, modeCount=0;
+          Object.keys(counts).forEach(k=>{ if(counts[k]>modeCount){ modeCount=counts[k]; modeName=k; } });
+          if(modeCount>=12){ // at least 12/15 frames agree -- stable
+            if(firedFor!==modeName){
+              firedFor=modeName;
+              const matching=recent.filter(x=>x.name===modeName);
+              const avgFreq=matching.reduce((s,x)=>s+x.freq,0)/matching.length;
+              if(onDetect)onDetect(modeName,avgFreq);
+            }
           }
-        }else{
-          firedFor=null;
         }
-      }else if(onLive){ onLive(null,0); firedFor=null; }
+      }else{
+        silenceRun++;
+        if(onLive)onLive(null,0);
+        // A real pause (about 0.3s of silence) means the singer has stopped --
+        // clear firedFor so the SAME note can be detected again as a fresh note
+        // next time (e.g. repeated notes in a melody).
+        if(silenceRun>18) firedFor=null;
+      }
       MIC_STATE.raf=requestAnimationFrame(loop);
     };
     loop();
