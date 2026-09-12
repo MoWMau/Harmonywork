@@ -4593,6 +4593,75 @@ function mkProbs(){
   add({ch:5,type:'mc',q:{ko:'A 장조의 조표를 듣고(스케일로 재생), 샵/플랫 개수를 맞히세요.',en:'Listen to the A major scale (representing its key signature) and identify the number of sharps/flats.'},audio:["A4","B4","C#5","D5","E5","F#5","G#5","A5"],ans:'샵 3개',opts:["샵 3개","샵 1개","조표 없음","플랫 1개"]});
   add({ch:5,type:'mc',q:{ko:'Bb 장조의 조표를 듣고(스케일로 재생), 샵/플랫 개수를 맞히세요.',en:'Listen to the Bb major scale (representing its key signature) and identify the number of sharps/flats.'},audio:["Bb4","C5","D5","Eb5","F5","G5","A5","Bb5"],ans:'플랫 2개',opts:["플랫 1개","조표 없음","플랫 2개","샵 1개"]});
   add({ch:5,type:'mc',q:{ko:'B 장조의 조표를 듣고(스케일로 재생), 샵/플랫 개수를 맞히세요.',en:'Listen to the B major scale (representing its key signature) and identify the number of sharps/flats.'},audio:["B4","C#5","D#5","E5","F#5","G#5","A#5","B5"],ans:'샵 5개',opts:["플랫 1개","조표 없음","샵 1개","샵 5개"]});
+  /* -- New (H3/4 Oral): Sing/Play the Substitute Dominant -- given original dominant root, sing its tritone sub -- */
+  add({ch:18,type:'write',q:{ko:'🎤 C7을 듣고, 그 대리도미넌트(트라이톤 관계, F#7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to C7, then sing or play the four notes of its tritone substitute (F#7).'},clef:'treble',given:[],givenX:80,ans:["F#4","A#4","C#5","E5"],audio:["C4","E4","G4","Bb4"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 Db7을 듣고, 그 대리도미넌트(트라이톤 관계, G7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to Db7, then sing or play the four notes of its tritone substitute (G7).'},clef:'treble',given:[],givenX:80,ans:["G4","B4","D5","F5"],audio:["Db4","F4","Ab4","Cb5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 D7을 듣고, 그 대리도미넌트(트라이톤 관계, G#7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to D7, then sing or play the four notes of its tritone substitute (G#7).'},clef:'treble',given:[],givenX:80,ans:["G#4","B#4","D#5","F#5"],audio:["D4","F#4","A4","C5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 Eb7을 듣고, 그 대리도미넌트(트라이톤 관계, A7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to Eb7, then sing or play the four notes of its tritone substitute (A7).'},clef:'treble',given:[],givenX:80,ans:["A4","C#5","E5","G5"],audio:["Eb4","G4","Bb4","Db5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 E7을 듣고, 그 대리도미넌트(트라이톤 관계, A#7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to E7, then sing or play the four notes of its tritone substitute (A#7).'},clef:'treble',given:[],givenX:80,ans:["A#4","C##5","E#5","G#5"],audio:["E4","G#4","B4","D5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 F7을 듣고, 그 대리도미넌트(트라이톤 관계, B7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to F7, then sing or play the four notes of its tritone substitute (B7).'},clef:'treble',given:[],givenX:80,ans:["B4","D#5","F#5","A5"],audio:["F4","A4","C5","Eb5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 F#7을 듣고, 그 대리도미넌트(트라이톤 관계, B#7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to F#7, then sing or play the four notes of its tritone substitute (B#7).'},clef:'treble',given:[],givenX:80,ans:["B#4","D##5","F##5","A#5"],audio:["F#4","A#4","C#5","E5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 G7을 듣고, 그 대리도미넌트(트라이톤 관계, C#7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to G7, then sing or play the four notes of its tritone substitute (C#7).'},clef:'treble',given:[],givenX:80,ans:["C#4","E#4","G#4","B4"],audio:["G4","B4","D5","F5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 Ab7을 듣고, 그 대리도미넌트(트라이톤 관계, D7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to Ab7, then sing or play the four notes of its tritone substitute (D7).'},clef:'treble',given:[],givenX:80,ans:["D4","F#4","A4","C5"],audio:["Ab4","C5","Eb5","Gb5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 A7을 듣고, 그 대리도미넌트(트라이톤 관계, D#7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to A7, then sing or play the four notes of its tritone substitute (D#7).'},clef:'treble',given:[],givenX:80,ans:["D#4","F##4","A#4","C#5"],audio:["A4","C#5","E5","G5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 Bb7을 듣고, 그 대리도미넌트(트라이톤 관계, E7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to Bb7, then sing or play the four notes of its tritone substitute (E7).'},clef:'treble',given:[],givenX:80,ans:["E4","G#4","B4","D5"],audio:["Bb4","D5","F5","Ab5"],terms:['substitute_dominant']});
+  add({ch:18,type:'write',q:{ko:'🎤 B7을 듣고, 그 대리도미넌트(트라이톤 관계, E#7)의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to B7, then sing or play the four notes of its tritone substitute (E#7).'},clef:'treble',given:[],givenX:80,ans:["E#4","G##4","B#4","D#5"],audio:["B4","D#5","F#5","A5"],terms:['substitute_dominant']});
+
+  /* -- New (H3/4 Oral): Sing/Play Modal Interchange Chords -- bVIImaj7, bIIImaj7, IVm7, given tonic -- */
+  add({ch:25,type:'write',q:{ko:'🎤 C 장조의 으뜸음을 듣고, 차용 화음 IVm7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of C major, then sing or play the four notes of the borrowed IVm7.'},clef:'treble',given:[],givenX:80,ans:["F4","Ab4","C5","Eb5"],audio:['C4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 Db 장조의 으뜸음을 듣고, 차용 화음 bIIImaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of Db major, then sing or play the four notes of the borrowed bIIImaj7.'},clef:'treble',given:[],givenX:80,ans:["Fb4","Ab4","Cb5","Eb5"],audio:['Db4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 D 장조의 으뜸음을 듣고, 차용 화음 IVm7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of D major, then sing or play the four notes of the borrowed IVm7.'},clef:'treble',given:[],givenX:80,ans:["G4","Bb4","D5","F5"],audio:['D4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 Eb 장조의 으뜸음을 듣고, 차용 화음 bVIImaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of Eb major, then sing or play the four notes of the borrowed bVIImaj7.'},clef:'treble',given:[],givenX:80,ans:["Db4","F4","Ab4","C5"],audio:['Eb4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 E 장조의 으뜸음을 듣고, 차용 화음 bVIImaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of E major, then sing or play the four notes of the borrowed bVIImaj7.'},clef:'treble',given:[],givenX:80,ans:["D4","F#4","A4","C#5"],audio:['E4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 F 장조의 으뜸음을 듣고, 차용 화음 IVm7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of F major, then sing or play the four notes of the borrowed IVm7.'},clef:'treble',given:[],givenX:80,ans:["Bb4","Db5","F5","Ab5"],audio:['F4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 F# 장조의 으뜸음을 듣고, 차용 화음 bIIImaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of F# major, then sing or play the four notes of the borrowed bIIImaj7.'},clef:'treble',given:[],givenX:80,ans:["A4","C#5","E5","G#5"],audio:['F#4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 G 장조의 으뜸음을 듣고, 차용 화음 IVm7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of G major, then sing or play the four notes of the borrowed IVm7.'},clef:'treble',given:[],givenX:80,ans:["C4","Eb4","G4","Bb4"],audio:['G4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 Ab 장조의 으뜸음을 듣고, 차용 화음 bIIImaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of Ab major, then sing or play the four notes of the borrowed bIIImaj7.'},clef:'treble',given:[],givenX:80,ans:["Cb4","Eb4","Gb4","Bb4"],audio:['Ab4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 A 장조의 으뜸음을 듣고, 차용 화음 IVm7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of A major, then sing or play the four notes of the borrowed IVm7.'},clef:'treble',given:[],givenX:80,ans:["D4","F4","A4","C5"],audio:['A4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 Bb 장조의 으뜸음을 듣고, 차용 화음 bVIImaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of Bb major, then sing or play the four notes of the borrowed bVIImaj7.'},clef:'treble',given:[],givenX:80,ans:["Ab4","C5","Eb5","G5"],audio:['Bb4'],terms:['modal_interchange']});
+  add({ch:25,type:'write',q:{ko:'🎤 B 장조의 으뜸음을 듣고, 차용 화음 bIIImaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the tonic of B major, then sing or play the four notes of the borrowed bIIImaj7.'},clef:'treble',given:[],givenX:80,ans:["D4","F#4","A4","C#5"],audio:['B4'],terms:['modal_interchange']});
+
+  /* -- New (H3/4 Oral): Sing/Play a Dominant Chord WITH a Tension -- 12-root, 9/#11/13 -- */
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, C7(13) — 3음·5음·7음·13 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play C7(13) -- 3rd, 5th, 7th, and the 13 tension.'},clef:'treble',given:['C4'],givenX:80,ans:["C4","E4","G4","Bb4","A5"],audio:['C4'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, Db7(#11) — 3음·5음·7음·#11 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play Db7(#11) -- 3rd, 5th, 7th, and the #11 tension.'},clef:'treble',given:['Db4'],givenX:80,ans:["Db4","F4","Ab4","Cb5","G5"],audio:['Db4'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, D7(13) — 3음·5음·7음·13 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play D7(13) -- 3rd, 5th, 7th, and the 13 tension.'},clef:'treble',given:['D4'],givenX:80,ans:["D4","F#4","A4","C5","B5"],audio:['D4'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, Eb7(13) — 3음·5음·7음·13 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play Eb7(13) -- 3rd, 5th, 7th, and the 13 tension.'},clef:'treble',given:['Eb3'],givenX:80,ans:["Eb3","G3","Bb3","Db4","C5"],audio:['Eb3'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, E7(9) — 3음·5음·7음·9 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play E7(9) -- 3rd, 5th, 7th, and the 9 tension.'},clef:'treble',given:['E4'],givenX:80,ans:["E4","G#4","B4","D5","F#5"],audio:['E4'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, F7(#11) — 3음·5음·7음·#11 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play F7(#11) -- 3rd, 5th, 7th, and the #11 tension.'},clef:'treble',given:['F4'],givenX:80,ans:["F4","A4","C5","Eb5","B5"],audio:['F4'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, F#7(9) — 3음·5음·7음·9 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play F#7(9) -- 3rd, 5th, 7th, and the 9 tension.'},clef:'treble',given:['F#4'],givenX:80,ans:["F#4","A#4","C#5","E5","G#5"],audio:['F#4'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, G7(9) — 3음·5음·7음·9 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play G7(9) -- 3rd, 5th, 7th, and the 9 tension.'},clef:'treble',given:['G4'],givenX:80,ans:["G4","B4","D5","F5","A5"],audio:['G4'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, Ab7(13) — 3음·5음·7음·13 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play Ab7(13) -- 3rd, 5th, 7th, and the 13 tension.'},clef:'treble',given:['Ab3'],givenX:80,ans:["Ab3","C4","Eb4","Gb4","F5"],audio:['Ab3'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, A7(9) — 3음·5음·7음·9 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play A7(9) -- 3rd, 5th, 7th, and the 9 tension.'},clef:'treble',given:['A4'],givenX:80,ans:["A4","C#5","E5","G5","B5"],audio:['A4'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, Bb7(9) — 3음·5음·7음·9 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play Bb7(9) -- 3rd, 5th, 7th, and the 9 tension.'},clef:'treble',given:['Bb3'],givenX:80,ans:["Bb3","D4","F4","Ab4","C5"],audio:['Bb3'],terms:['tension']});
+  add({ch:16,type:'write',q:{ko:'🎤 근음을 듣고, B7(13) — 3음·5음·7음·13 텐션까지 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play B7(13) -- 3rd, 5th, 7th, and the 13 tension.'},clef:'treble',given:['B3'],givenX:80,ans:["B3","D#4","F#4","A4","G#5"],audio:['B3'],terms:['tension']});
+
+  /* -- New (H3/4 Oral): Sing/Play the Altered Scale -- full 12-root -- */
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, C 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the C altered scale one note at a time.'},clef:'treble',given:['C4'],givenX:80,ans:["C4","Db4","D#4","E4","F#4","G#4","A#4","C5"],audio:['C4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, Db 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the Db altered scale one note at a time.'},clef:'treble',given:['Db4'],givenX:80,ans:["Db4","Ebb4","E4","F4","G4","A4","B4","Db5"],audio:['Db4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, D 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the D altered scale one note at a time.'},clef:'treble',given:['D4'],givenX:80,ans:["D4","Eb4","E#4","F#4","G#4","A#4","B#4","D5"],audio:['D4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, Eb 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the Eb altered scale one note at a time.'},clef:'treble',given:['Eb4'],givenX:80,ans:["Eb4","Fb4","F#4","G4","A4","B4","C#5","Eb5"],audio:['Eb4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, E 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the E altered scale one note at a time.'},clef:'treble',given:['E4'],givenX:80,ans:["E4","F4","F##4","G#4","A#4","B#4","C##5","E5"],audio:['E4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, F 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the F altered scale one note at a time.'},clef:'treble',given:['F4'],givenX:80,ans:["F4","Gb4","G#4","A4","B4","C#5","D#5","F5"],audio:['F4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, F# 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the F# altered scale one note at a time.'},clef:'treble',given:['F#4'],givenX:80,ans:["F#4","G4","G##4","A#4","B#4","C##5","D##5","F#5"],audio:['F#4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, G 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the G altered scale one note at a time.'},clef:'treble',given:['G4'],givenX:80,ans:["G4","Ab4","A#4","B4","C#5","D#5","E#5","G5"],audio:['G4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, Ab 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the Ab altered scale one note at a time.'},clef:'treble',given:['Ab4'],givenX:80,ans:["Ab4","Bbb4","B4","C5","D5","E5","F#5","Ab5"],audio:['Ab4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, A 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the A altered scale one note at a time.'},clef:'treble',given:['A4'],givenX:80,ans:["A4","Bb4","B#4","C#5","D#5","E#5","F##5","A5"],audio:['A4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, Bb 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the Bb altered scale one note at a time.'},clef:'treble',given:['Bb4'],givenX:80,ans:["Bb4","Cb5","C#5","D5","E5","F#5","G#5","Bb5"],audio:['Bb4'],terms:['chord_scale']});
+  add({ch:52,type:'write',q:{ko:'🎤 근음을 듣고, B 얼터드 스케일(altered scale)을 한 음씩 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the root, then sing or play the B altered scale one note at a time.'},clef:'treble',given:['B4'],givenX:80,ans:["B4","C5","C##5","D#5","E#5","F##5","G##5","B5"],audio:['B4'],terms:['chord_scale']});
+
+  /* -- New (H3/4 Oral): Sing/Play the Target After a Chromatic Approach Chord -- full 12-key -- */
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Cmaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Cmaj7.'},clef:'treble',given:[],givenX:80,ans:["C4","E4","G4","B4"],audio:["Db4","F4","Ab4","Cb5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Dbmaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Dbmaj7.'},clef:'treble',given:[],givenX:80,ans:["Db4","F4","Ab4","C5"],audio:["Ebb4","Gb4","Bbb4","Dbb5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Dmaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Dmaj7.'},clef:'treble',given:[],givenX:80,ans:["D4","F#4","A4","C#5"],audio:["Eb4","G4","Bb4","Db5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Ebmaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Ebmaj7.'},clef:'treble',given:[],givenX:80,ans:["Eb4","G4","Bb4","D5"],audio:["Fb4","Ab4","Cb5","Ebb5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Emaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Emaj7.'},clef:'treble',given:[],givenX:80,ans:["E4","G#4","B4","D#5"],audio:["F4","A4","C5","Eb5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Fmaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Fmaj7.'},clef:'treble',given:[],givenX:80,ans:["F4","A4","C5","E5"],audio:["Gb4","Bb4","Db5","Fb5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 F#maj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, F#maj7.'},clef:'treble',given:[],givenX:80,ans:["F#4","A#4","C#5","E#5"],audio:["G4","B4","D5","F5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Gmaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Gmaj7.'},clef:'treble',given:[],givenX:80,ans:["G4","B4","D5","F#5"],audio:["Ab4","C5","Eb5","Gb5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Abmaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Abmaj7.'},clef:'treble',given:[],givenX:80,ans:["Ab4","C5","Eb5","G5"],audio:["Bbb4","Db5","Fb5","Abb5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Amaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Amaj7.'},clef:'treble',given:[],givenX:80,ans:["A4","C#5","E5","G#5"],audio:["Bb4","D5","F5","Ab5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Bbmaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Bbmaj7.'},clef:'treble',given:[],givenX:80,ans:["Bb4","D5","F5","A5"],audio:["Cb5","Eb5","Gb5","Bbb5"],terms:['approach_chord']});
+  add({ch:34,type:'write',q:{ko:'🎤 접근 화음(반음 위 딸림7화음)을 듣고, 목표인 Bmaj7의 네 음을 노래하거나 연주해서 답하세요.',en:'🎤 Listen to the approach chord (dominant 7th a half step above), then sing or play the four notes of the target, Bmaj7.'},clef:'treble',given:[],givenX:80,ans:["B4","D#5","F#5","A#5"],audio:["C5","E5","G5","Bb5"],terms:['approach_chord']});
   return ps;
 }
 
@@ -5075,7 +5144,13 @@ const A={
       const placed=ST[pid].pl.map(n=>{const full=n.note.slice(0,-1)+(n.acc||'')+n.note.slice(-1);return full;});
       const all=[...(p.given||[]),...placed];
       if(p.given&&p.given.length){pnote(freq(p.given[0]),0,.7);setTimeout(()=>{play(all);flash(all);},500);}
-      else{play(all);flash(all);}
+      else if(all.length){play(all);flash(all);}
+      else{
+        // Nothing given and nothing placed yet (e.g. a dictation/sing-back
+        // question where the student hasn't answered at all): fall back to
+        // the question's own reference audio so Listen isn't silent.
+        play(p.audio);flash(p.audio);
+      }
     }else if((p.ch===7||p.ch===8||p.ch===9)&&p.type==='mc'&&p.audio.length>1){
       pnote(freq(p.audio[0]),0,.7);
       setTimeout(()=>{playchord(p.audio);flash(p.audio);},600);
@@ -5224,11 +5299,11 @@ const A={
     const st=document.getElementById('micstat_'+pid);
     if(MIC_STATE.active && MIC_STATE.pid===pid){
       micStop();
-      if(btn)btn.textContent='🎤 '+(LG==='ko'?'듣기 시작':'Start listening');
+      if(btn)btn.textContent='🎤 '+(LG==='ko'?'노래 시작':'Start singing');
       if(st)st.textContent='';
       return;
     }
-    if(btn)btn.textContent='⏹ '+(LG==='ko'?'듣기 중지':'Stop listening');
+    if(btn)btn.textContent='⏹ '+(LG==='ko'?'노래 중지':'Stop singing');
     if(st)st.textContent=LG==='ko'?'마이크 권한을 확인해 주세요...':'Requesting microphone access...';
     micStart(pid,
       (name,avgFreq)=>{
@@ -5250,7 +5325,7 @@ const A={
         if(name==='__ERROR__'){
           stEl.textContent=LG==='ko'?'⚠️ 마이크 접근 실패 (브라우저 권한을 확인하세요)':'⚠️ Mic access failed (check browser permissions)';
           const btnEl=document.getElementById('micbtn_'+pid);
-          if(btnEl)btnEl.textContent='🎤 '+(LG==='ko'?'듣기 시작':'Start listening');
+          if(btnEl)btnEl.textContent='🎤 '+(LG==='ko'?'노래 시작':'Start singing');
           return;
         }
         stEl.textContent=name?`🎧 ${name} (${f.toFixed(0)}Hz)`:(LG==='ko'?'... 소리를 들어보고 있어요':'... listening for a pitch');
