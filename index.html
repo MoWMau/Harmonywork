@@ -581,6 +581,42 @@ function midiToNoteName(m){
   return name+oct;
 }
 function freqToMidi(f){ return 69+12*Math.log2(f/440); }
+function midiToFreq(m){ return 440*Math.pow(2,(m-69)/12); }
+// Given a raw (possibly octave-wrong) detected frequency, re-derive the most
+// plausible octave. Two different situations call for two different
+// strategies:
+//  - For the FIRST note of a phrase, the only "reference" available is
+//    whatever tonic/context tone was played before singing began -- but that
+//    tone can sit a wide interval away from the actual target (e.g. hear C4,
+//    then sing a chord built on A), so "closest octave to the reference" is
+//    NOT a safe assumption here. Instead we trust the autocorrelation's own
+//    octave choice and only nudge it if it falls outside a plausible singing
+//    range (E2-C6), which catches genuine subharmonic/overtone errors without
+//    fighting legitimate wide intervals.
+//  - For every note AFTER the first, the anchor is the PREVIOUSLY CAPTURED
+//    note in the same phrase -- and consecutive sung notes in a short
+//    exercise really do stay close in register, so "closest octave to the
+//    previous note" is a reliable, safe assumption there.
+function clampToVocalRange(rawFreq){
+  const LOW=40, HIGH=84; // E2..C6, comfortably covering typical sung ranges
+  let m=freqToMidi(rawFreq);
+  while(m<LOW) m+=12;
+  while(m>HIGH) m-=12;
+  return midiToFreq(m);
+}
+function reconcileOctave(rawFreq, referenceMidi){
+  if(referenceMidi==null) return clampToVocalRange(rawFreq);
+  const rawMidi=freqToMidi(rawFreq);
+  const pitchClass=((Math.round(rawMidi)%12)+12)%12;
+  const refOctBase=Math.floor(referenceMidi/12)*12;
+  let best=null,bestDist=Infinity;
+  for(let oct=-2;oct<=2;oct++){
+    const candidate=refOctBase+pitchClass+oct*12;
+    const dist=Math.abs(candidate-referenceMidi);
+    if(dist<bestDist){ bestDist=dist; best=candidate; }
+  }
+  return midiToFreq(best);
+}
 function centsOff(detectedFreq,targetFreq){ return 1200*Math.log2(detectedFreq/targetFreq); }
 // Is the detected frequency within +/-25 cents of the given target note?
 // 25 cents = a quarter of a half step, so this requires real pitch accuracy,
@@ -615,21 +651,18 @@ function autoCorrelate(buf,sampleRate){
   for(let i=d;i<newSize;i++){ if(c[i]>maxVal){ maxVal=c[i]; maxPos=i; } }
   let T0=maxPos;
   if(T0<=0) return -1;
-  // ── Octave-error correction ──
-  // Autocorrelation frequently locks onto a SUBHARMONIC (a period ~2x too long,
-  // i.e. a pitch reported one octave TOO LOW) whenever the singer's voice has
-  // strong 2nd-harmonic energy, which is very common. Before trusting T0, check
-  // whether the correlation near half that period (T0/2, i.e. one octave up)
-  // is nearly as strong as the peak we found -- if so, that shorter period is
-  // almost certainly the true fundamental, and T0 was a false octave-down peak.
+  // A conservative octave-down check: autocorrelation can lock onto a
+  // subharmonic (a period ~2x too long) when a voice's 2nd harmonic is
+  // strong, which is a common failure mode. Only correct when the evidence
+  // is clear (the half-period correlation is at least 55% as strong as the
+  // peak) -- testing showed a looser threshold here flips plenty of already-
+  // correct readings into new errors in the opposite direction.
   const halfT=Math.round(T0/2);
   if(halfT>=1){
     let halfMax=-1, halfPos=halfT;
     const lo=Math.max(1,halfT-3), hi=Math.min(newSize-1,halfT+3);
     for(let i=lo;i<=hi;i++){ if(c[i]>halfMax){ halfMax=c[i]; halfPos=i; } }
-    if(halfMax > 0.35*maxVal){ // comparably strong correlation an octave up
-      T0=halfPos;
-    }
+    if(halfMax > 0.55*maxVal){ T0=halfPos; }
   }
   const x1=c[T0-1]||0,x2=c[T0],x3=c[T0+1]||0;
   const a=(x1+x3-2*x2)/2, b=(x3-x1)/2;
@@ -643,7 +676,7 @@ async function micStop(){
   if(MIC_STATE.ctx && MIC_STATE.ctx.state!=='closed') { try{await MIC_STATE.ctx.close();}catch(e){} }
   MIC_STATE={active:false,stream:null,ctx:null,analyser:null,raf:null,pid:null,history:[]};
 }
-async function micStart(pid,onDetect,onLive){
+async function micStart(pid,onDetect,onLive,opts={}){
   await micStop();
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
@@ -656,17 +689,28 @@ async function micStart(pid,onDetect,onLive){
     const buf=new Float32Array(analyser.fftSize);
     let firedFor=null; // which note we've already fired onDetect for during this held tone
     let silenceRun=0;   // consecutive frames with no detectable pitch
+    // Reference pitch used to resolve octave ambiguity -- starts at the given/
+    // expected first note if one was supplied, and updates to the last
+    // successfully captured note after that (singers tend to stay in roughly
+    // the same register across a short phrase).
+    // Deliberately starts at null -- see reconcileOctave's comment for why
+    // the first note uses vocal-range clamping instead of anchoring to the
+    // given/reference tone, which can sit far from the actual target.
+    let referenceMidi = null;
+    const expectedCount = opts.expectedCount || 0;
+    let capturedCount = 0;
     const loop=()=>{
       if(!MIC_STATE.active)return;
       analyser.getFloatTimeDomainData(buf);
-      const f=autoCorrelate(buf,ctx.sampleRate);
-      if(f>0 && f<2000){
+      const raw=autoCorrelate(buf,ctx.sampleRate);
+      if(raw>0 && raw<2000){
+        const f=reconcileOctave(raw,referenceMidi);
         silenceRun=0;
         const m=Math.round(freqToMidi(f));
         const name=midiToNoteName(m);
         MIC_STATE.history.push({name,freq:f});
         if(MIC_STATE.history.length>60)MIC_STATE.history.shift();
-        if(onLive)onLive(name,f);
+        if(onLive)onLive(name,f,{captured:capturedCount,expected:expectedCount});
         // Stability check uses a MAJORITY VOTE over the last 15 frames (~0.25s)
         // rather than requiring every single frame to agree. A single noisy
         // frame (common when a note is held for a while, e.g. singing slowly)
@@ -684,17 +728,31 @@ async function micStart(pid,onDetect,onLive){
               firedFor=modeName;
               const matching=recent.filter(x=>x.name===modeName);
               const avgFreq=matching.reduce((s,x)=>s+x.freq,0)/matching.length;
-              if(onDetect)onDetect(modeName,avgFreq);
+              referenceMidi=Math.round(freqToMidi(avgFreq)); // anchor the next note to this one
+              capturedCount++;
+              if(onDetect)onDetect(modeName,avgFreq,{captured:capturedCount,expected:expectedCount});
+              // Auto-stop once we have as many notes as the question expects,
+              // so the mic doesn't keep listening (and risk picking up extra
+              // sound) past the point where the answer is already complete.
+              if(expectedCount>0 && capturedCount>=expectedCount){
+                micStop();
+                if(opts.onComplete)opts.onComplete();
+                return;
+              }
             }
           }
         }
       }else{
         silenceRun++;
-        if(onLive)onLive(null,0);
+        if(onLive)onLive(null,0,{captured:capturedCount,expected:expectedCount});
         // A real pause (about 0.3s of silence) means the singer has stopped --
         // clear firedFor so the SAME note can be detected again as a fresh note
         // next time (e.g. repeated notes in a melody).
-        if(silenceRun>18) firedFor=null;
+        // Clear the stability history too, not just firedFor -- otherwise the
+        // stale tail end of the PREVIOUS note's frames can still dominate the
+        // "recent 15" window for the first instant after a pause, causing a
+        // bogus re-fire of that old note the moment the new one starts.
+        if(silenceRun>18){ firedFor=null; MIC_STATE.history.length=0; }
       }
       MIC_STATE.raf=requestAnimationFrame(loop);
     };
@@ -5560,10 +5618,16 @@ const A={
       if(st)st.textContent='';
       return;
     }
+    const p=ALL.find(x=>x.id===pid);
+    const s=ST[pid];
+    const alreadyPlaced=(s&&s.pl)?s.pl.length:0;
+    const totalNeeded=p&&p.ans?p.ans.length-(p.given||[]).length:0;
+    const remaining=Math.max(0,totalNeeded-alreadyPlaced);
+    const referenceNote=(p&&p.given&&p.given.length)?p.given[0]:(p&&p.audio&&p.audio.length?p.audio[0]:'C4');
     if(btn)btn.textContent='⏹ '+(LG==='ko'?'녹음 중지':'Stop recording');
     if(st)st.textContent=LG==='ko'?'마이크 권한을 확인해 주세요...':'Requesting microphone access...';
     micStart(pid,
-      (name,avgFreq)=>{
+      (name,avgFreq,prog)=>{
         const p=ALL.find(x=>x.id===pid);if(!p)return;
         const s=ST[pid];if(!s)return;
         if(p.type==='write'){
@@ -5573,10 +5637,13 @@ const A={
           reIS(pid,s.cl,p.given||[],p.givenX||80);
         }
         const stEl=document.getElementById('micstat_'+pid);
-        if(stEl)stEl.textContent=(LG==='ko'?'✓ 입력됨: ':'✓ entered: ')+name;
+        if(stEl){
+          const progTxt=(remaining>1)?` (${prog.captured}/${remaining})`:'';
+          stEl.textContent=(LG==='ko'?'✓ 입력됨: ':'✓ entered: ')+name+progTxt;
+        }
         pnote(freq(name),0,.15);
       },
-      (name,f)=>{
+      (name,f,prog)=>{
         const stEl=document.getElementById('micstat_'+pid);
         if(!stEl)return;
         if(name==='__ERROR__'){
@@ -5585,7 +5652,18 @@ const A={
           if(btnEl)btnEl.textContent='🎤 '+(LG==='ko'?'녹음':'Record');
           return;
         }
-        stEl.textContent=name?`🎧 ${name} (${f.toFixed(0)}Hz)`:(LG==='ko'?'... 소리를 들어보고 있어요':'... listening for a pitch');
+        const progTxt=(remaining>1)?` · ${prog.captured}/${remaining}`:'';
+        stEl.textContent=name?`🎧 ${name} (${f.toFixed(0)}Hz)${progTxt}`:(LG==='ko'?`... 소리를 들어보고 있어요${progTxt}`:`... listening for a pitch${progTxt}`);
+      },
+      {
+        referenceNote,
+        expectedCount:remaining,
+        onComplete:()=>{
+          const btnEl=document.getElementById('micbtn_'+pid);
+          const stEl=document.getElementById('micstat_'+pid);
+          if(btnEl)btnEl.textContent='🎤 '+(LG==='ko'?'녹음':'Record');
+          if(stEl)stEl.textContent=LG==='ko'?`✓ ${remaining}개 음 전부 입력 완료 — 자동으로 멈췄어요`:`✓ All ${remaining} notes entered -- stopped automatically`;
+        }
       }
     );
   },
